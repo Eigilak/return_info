@@ -3,11 +3,11 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       http://example.com
+ * @link       EigilAK
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Woocommerce_Return_Manager
+ * @subpackage Woocommerce_Return_Manager/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    Woocommerce_Return_Manager
+ * @subpackage Woocommerce_Return_Manager/includes
+ * @author     Eigilak <hello@eigil>
  */
-class Plugin_Name_Deactivator {
+class Woocommerce_Return_Manager_Deactivator {
 
 	/**
 	 * Short Description. (use period)

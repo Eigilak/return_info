@@ -5,11 +5,11 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       http://example.com
+ * @link       EigilAK
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/admin/partials
+ * @package    Woocommerce_Return_Manager
+ * @subpackage Woocommerce_Return_Manager/admin/partials
  */
 ?>
 

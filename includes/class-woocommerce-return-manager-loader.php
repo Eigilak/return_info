@@ -3,11 +3,11 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       http://example.com
+ * @link       EigilAK
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Woocommerce_Return_Manager
+ * @subpackage Woocommerce_Return_Manager/includes
  */
 
 /**
@@ -17,11 +17,11 @@
  * the plugin, and register them with the WordPress API. Call the
  * run function to execute the list of actions and filters.
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
- * @author     Your Name <email@example.com>
+ * @package    Woocommerce_Return_Manager
+ * @subpackage Woocommerce_Return_Manager/includes
+ * @author     Eigilak <hello@eigil>
  */
-class Plugin_Name_Loader {
+class Woocommerce_Return_Manager_Loader {
 
 	/**
 	 * The array of actions registered with WordPress.
