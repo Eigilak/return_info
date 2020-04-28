@@ -38,8 +38,9 @@ class WRM_Public{
 
 	}
 	//Get popup markup
-	public function get_return_form(){
-		wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
+	function get_return_form(){
+	    echo 'asd';
+		    wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
 	}
 
 	function load_ajax_method(){

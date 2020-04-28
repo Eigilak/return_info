@@ -31,13 +31,7 @@ include_once WRM_PATH.'/admin/wrm-admin.php';
 //Init plugin
 function init_WRM(){
 	global $WRM_atcem_value;
-	
-	//If mobile
-	if(!$WRM_atcem_value){
-		if(wp_is_mobile()){
-			return;
-		}
-	}
+
 	require_once WRM_PATH.'/includes/class-wrm-init.php';
 
 	//Start the plugin
