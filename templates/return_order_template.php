@@ -13,7 +13,7 @@ $order = wc_get_order(16950);
             <h3><?=  get_the_title() ?> - <?php _e('Return your order','wrm')  ?></h3>
 
 
-            <form class="return_step_1" action="" @submit.prevent="" >
+            <form class="return_step_1 hide" action="" @submit.prevent="" >
                 <div class="input">
                     <div>
                         <label for="email"><?php _e('Email','wrm'); ?></label>
@@ -26,7 +26,7 @@ $order = wc_get_order(16950);
                 <button type="submit"><?php _e('Find my order','wrm'); ?></button>
             </form>
 
-            <form class="return_step_2 hide" action="" @submit.prevent="" >
+            <form class="return_step_2 " action="" @submit.prevent="" >
                 <p><?php _e('Order number') ?>: {{order_number}}</p>
                 <div class="input">
                     <table class="order_item">
