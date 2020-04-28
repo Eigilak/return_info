@@ -7,7 +7,7 @@ $order = wc_get_order(16950);
 ?>
 
 
-<div class="woocommerce_return_manager">
+<div class="woocommerce_return_manager" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="wrm_overlay wrm_app">
         <div class="content">
             <h3><?=  get_the_title() ?> - <?php _e('Return your order','wrm')  ?></h3>
