@@ -8,7 +8,7 @@
  * Author URI:        EigilAK
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       woocommerce-return-manager
+ * Text Domain:       wrm
  * Domain Path:       /languages
  */
 

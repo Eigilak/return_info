@@ -3,7 +3,49 @@
 .woocommerce_return_manager{
   padding: 1rem;
 
+  .content{
+    padding: 2rem;
+    border: 1px solid black;
+
+    .return_step_1{
+      display: none;
+    }
+
+    .input{
+      display: flex;
+      justify-content: space-between;
+      padding-bottom: 4rem;
+      flex-wrap: wrap;
+      div{
+        justify-content: space-between;
+        display: flex;
+        width: 100%;
+        padding-bottom: 1rem;
+        label{
+          width: 48%;
+        }
+      }
+      input{
+        width: 48%;
+      }
+    }
+
+    /*Table*/
+    img{
+      width: 4rem;
+      height: 4rem;
+    }
+    tr,td,th,table{
+      border: 1px solid black!important;
+      background: white;
+      &:hover{
+        background: white ;
+      }
+    }
+
+  }
   button{
+    padding: 0.5rem 1rem;
     width: 100%;
   }
 }

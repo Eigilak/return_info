@@ -3,7 +3,45 @@
   .woocommerce_return_manager {
     padding: 1rem;
   }
+  .woocommerce_return_manager .content {
+    padding: 2rem;
+    border: 1px solid black;
+    /*Table*/
+  }
+  .woocommerce_return_manager .content .return_step_1 {
+    display: none;
+  }
+  .woocommerce_return_manager .content .input {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 4rem;
+    flex-wrap: wrap;
+  }
+  .woocommerce_return_manager .content .input div {
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    padding-bottom: 1rem;
+  }
+  .woocommerce_return_manager .content .input div label {
+    width: 48%;
+  }
+  .woocommerce_return_manager .content .input input {
+    width: 48%;
+  }
+  .woocommerce_return_manager .content img {
+    width: 4rem;
+    height: 4rem;
+  }
+  .woocommerce_return_manager .content tr, .woocommerce_return_manager .content td, .woocommerce_return_manager .content th, .woocommerce_return_manager .content table {
+    border: 1px solid black !important;
+    background: white;
+  }
+  .woocommerce_return_manager .content tr:hover, .woocommerce_return_manager .content td:hover, .woocommerce_return_manager .content th:hover, .woocommerce_return_manager .content table:hover {
+    background: white;
+  }
   .woocommerce_return_manager button {
+    padding: 0.5rem 1rem;
     width: 100%;
   }
 }
