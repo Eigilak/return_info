@@ -8,9 +8,6 @@
     border: 1px solid black;
     /*Table*/
   }
-  .woocommerce_return_manager .content .return_step_1 {
-    display: none;
-  }
   .woocommerce_return_manager .content .input {
     display: flex;
     justify-content: space-between;
