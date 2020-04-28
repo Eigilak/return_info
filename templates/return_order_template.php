@@ -26,28 +26,34 @@ $order = wc_get_order(17050);
 
             <form class="return_step_2" action="" @submit.prevent="" >
                 <div class="input">
-                    <?php foreach ( $order->get_items() as $item_id => $item ) : ?>
-                    <?php
-                        /*Get all of the info for the order_item*/
-                        $product = $item->get_product();
-                        /*Hent billede*/
-                    ?>
                     <table class="order_item">
                         <!--Head-->
                         <thead>
-                            <tr>
-                                <th><?php _e('Return','wrm') ?></th>
-                                <th><?php _e('Product name','wrm')?></th>
-                                <th><?php _e('Return Type','wrm') ?></th>
-                            </tr>
+                        <tr>
+                            <th><?php _e('Return','wrm') ?></th>
+                            <th><?php _e('Product name','wrm')?></th>
+                            <th><?php _e('Return Type','wrm') ?></th>
+                            <th><?php _e('Return cause','wrm') ?></th>
+                            <th><?php _e('Return action','wrm') ?></th>
+                        </tr>
                         </thead>
+                    <?php foreach ( $order->get_items() as $item_id => $item ) : ?>
+                        <?php
+                            /*Get all of the info for the order_item*/
+                            $product = $item->get_product();
+                            $product_id = $item->get_product_id();
+                            /*Hent billede*/
+                        ?>
                         <tbody>
                             <tr>
                                 <td>
                                     <input id="return_checkBox" type="checkbox" >
                                 </td>
                                 <td>
-                                    <?= $item->get_name() ?>
+                                    <a href="<?= get_permalink( $product_id ) ?> " target="_blank">
+                                        <?= $item->get_name() ?>
+                                    </a>
+
                                 </td>
                                 <td>
                                     <select name="" id="">
@@ -56,14 +62,17 @@ $order = wc_get_order(17050);
                                         <option value="<?php _e('Wrong size','wrm') ?>"><?php _e('Wrong size','wrm') ?></option>
                                     </select>
                                 </td>
+                                <td>
+                                    <textarea placeholder="<?php _e('Explain why you want to return','wrm') ?>"></textarea>
+                                </td>
+
+                                <td>
+                                    <textarea placeholder="<?php _e('Explain why you want to return','wrm') ?>"></textarea>
+                                </td>
                             </tr>
                         </tbody>
-
-
-
-                    </table>
-
                     <?php endforeach ?>
+                    </table>
                 </div>
                 <button type="submit"><?php _e('Find my order','wrm'); ?></button>
             </form>
