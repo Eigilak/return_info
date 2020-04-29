@@ -11,23 +11,26 @@
 
     }
 
+    .return_step_1{
     .input{
       display: flex;
       justify-content: space-between;
       padding-bottom: 4rem;
       flex-wrap: wrap;
-      div{
-        justify-content: space-between;
-        display: flex;
-        width: 100%;
-        padding-bottom: 1rem;
-        label{
+        div{
+          justify-content: space-between;
+          display: flex;
+          width: 100%;
+          padding-bottom: 1rem;
+          label{
+            width: 48%;
+          }
+        }
+        input{
           width: 48%;
         }
       }
-      input{
-        width: 48%;
-      }
+
     }
 
     /*Table*/
@@ -35,6 +38,18 @@
       width: 4rem;
       height: 4rem;
     }
+    .action_check{
+      width: 3rem;
+    }
+
+    td .action_check{
+      padding: 2rem;
+    }
+
+    .action_checkbox{
+      padding: 2rem;
+    }
+
     tr,td,th,table{
       border: 1px solid black!important;
       background: white;
@@ -48,5 +63,13 @@
     padding: 0.5rem 1rem;
     width: 100%;
   }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 1s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+
 }
 

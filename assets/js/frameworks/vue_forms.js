@@ -101,7 +101,10 @@ class Form {
     put(url) {
         return this.submit('put', url);
     }
-
+    /*get request*/
+    get(url){
+        return this.submit('get',url)
+    }
 
     /**
      * Send a PATCH request to the given URL.
