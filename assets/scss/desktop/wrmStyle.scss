@@ -4,12 +4,10 @@
   padding: 1rem;
 
   .content{
-    padding: 2rem;
+    padding: 2rem 2rem 7rem;
     border: 1px solid black;
-
-    .return_step_1{
-
-    }
+    max-width: 80%;
+    margin: auto;
 
     .return_step_1{
     .input{
@@ -33,6 +31,17 @@
 
     }
 
+    .return_step_2{
+      display: none;
+      .input{
+        min-height: 18rem;
+      }
+      .select2-search--dropdown{
+      }
+    }
+
+
+
     /*Table*/
     img{
       width: 4rem;
@@ -43,16 +52,36 @@
     }
 
     td .action_check{
-      padding: 2rem;
+      padding: 1rem;
     }
 
     .action_checkbox{
-      padding: 2rem;
+      padding: 1rem 0rem 0 2rem;
+    }
+
+    .select2-container--default .select2-selection--single{
+      width: 100%;
+    }
+
+    .select2-search--dropdown{
+      height: 0rem!important;
+    }
+
+    .select2-search__field{
+      border: 0;
+      background: transparent;
+    }
+
+    select{
+      display: none;
     }
 
     tr,td,th,table{
-      border: 1px solid black!important;
+      border: 1px solid black !important;
       background: white;
+      font-weight: 300;
+      font-size: 1rem;
+      font-family: Roboto;
       &:hover{
         background: white ;
       }
@@ -65,7 +94,7 @@
   }
 
   .fade-enter-active, .fade-leave-active {
-    transition: opacity 1s;
+    transition: opacity 3s;
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;

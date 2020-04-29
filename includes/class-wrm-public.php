@@ -10,9 +10,10 @@ class WRM_Public{
 	protected static $instance = null;
 
 	public function __construct(){
-		add_action('wp_enqueue_scripts',array($this,'enqueue_scripts'));
+
 		/*Brug shortcode til at få returform*/
 		add_shortcode('wrm_shortcode',array($this,'get_return_form'));
+		add_action('wp_enqueue_scripts',array($this,'enqueue_scripts'),40);
 		add_action('init',array($this, 'load_ajax_method'));
 	}
 
@@ -32,22 +33,28 @@ class WRM_Public{
 		/*scss*/
 		wp_enqueue_style('wrm-style',WRM_URL.'/assets/scss/mainStyle.css',null,WRM_VERSION);
 
+		wp_enqueue_script( 'jquery' );
 		/*Scripts*/
 		wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
 		wp_enqueue_script('axios',WRM_URL.'/assets/js/frameworks/axios.js','',WRM_VERSION,true);
 		wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
-		wp_enqueue_script('selectWoo');
-		wp_enqueue_style('selectWoo');
+
+		/*Hvis selectWoo ikke er enqued kør det*/
+		if(wp_script_is('selectWoo')){
+			wp_enqueue_script('selectWoo',WRM_URL.'/assets/js/frameworks/selectWoo.min.js','',WRM_VERSION,true);
+		}
 
 
         wp_enqueue_script('wrm-js',WRM_URL.'/assets/js/wrm.js','',WRM_VERSION,true);
+		wp_script_add_data( 'wrm-js', 'async', true );
+
         /*make ajax object available in JS*/
 		wp_localize_script( 'wrm-js', 'ajax_object',
 			array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
 	}
 	/*Get template for the return form*/
 	function get_return_form(){
-		    wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
+		wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
 	}
 
 	function load_ajax_method(){
@@ -83,9 +90,33 @@ class WRM_Public{
 		}
 
 		foreach ($order->get_items() as $item_id => $item){
+			$product = $item->get_product();
+
+			$variations = $product->get_available_variations();
+
+			$attributes = $product->get_attributes();
+
+			foreach ( $attributes as $attribute ) {
+
+				$variationArray= array(
+					$attribute['name'] => ''
+			);
+			}
+
+			/*foreach ($variations as $variation){
+
+				$meta = get_post_meta($variation['variation_id'], 'attribute_' . $taxonomy, true);
+				$variationsVariable = get_term_by('slug', $meta, $taxonomy);
+
+				$variationArray[] = array(
+					'Size'	=> $variationsVariable->name
+				);
+			}*/
+
 			$order_products_array[] =array(
 				'product_id' 	 => $item->get_product_id(),
 				'product_name'	  => $item->get_name(),
+				'variations'	  => $variationArray
 			);
 		}
 

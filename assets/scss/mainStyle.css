@@ -4,8 +4,10 @@
     padding: 1rem;
   }
   .woocommerce_return_manager .content {
-    padding: 2rem;
+    padding: 2rem 2rem 7rem;
     border: 1px solid black;
+    max-width: 80%;
+    margin: auto;
     /*Table*/
   }
   .woocommerce_return_manager .content .return_step_1 .input {
@@ -26,6 +28,12 @@
   .woocommerce_return_manager .content .return_step_1 .input input {
     width: 48%;
   }
+  .woocommerce_return_manager .content .return_step_2 {
+    display: none;
+  }
+  .woocommerce_return_manager .content .return_step_2 .input {
+    min-height: 18rem;
+  }
   .woocommerce_return_manager .content img {
     width: 4rem;
     height: 4rem;
@@ -34,14 +42,30 @@
     width: 3rem;
   }
   .woocommerce_return_manager .content td .action_check {
-    padding: 2rem;
+    padding: 1rem;
   }
   .woocommerce_return_manager .content .action_checkbox {
-    padding: 2rem;
+    padding: 1rem 0rem 0 2rem;
+  }
+  .woocommerce_return_manager .content .select2-container--default .select2-selection--single {
+    width: 100%;
+  }
+  .woocommerce_return_manager .content .select2-search--dropdown {
+    height: 0rem !important;
+  }
+  .woocommerce_return_manager .content .select2-search__field {
+    border: 0;
+    background: transparent;
+  }
+  .woocommerce_return_manager .content select {
+    display: none;
   }
   .woocommerce_return_manager .content tr, .woocommerce_return_manager .content td, .woocommerce_return_manager .content th, .woocommerce_return_manager .content table {
     border: 1px solid black !important;
     background: white;
+    font-weight: 300;
+    font-size: 1rem;
+    font-family: Roboto;
   }
   .woocommerce_return_manager .content tr:hover, .woocommerce_return_manager .content td:hover, .woocommerce_return_manager .content th:hover, .woocommerce_return_manager .content table:hover {
     background: white;
@@ -51,7 +75,7 @@
     width: 100%;
   }
   .woocommerce_return_manager .fade-enter-active, .woocommerce_return_manager .fade-leave-active {
-    transition: opacity 1s;
+    transition: opacity 3s;
   }
   .woocommerce_return_manager .fade-enter, .woocommerce_return_manager .fade-leave-to {
     opacity: 0;
