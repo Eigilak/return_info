@@ -38,7 +38,7 @@ if (checkVueEl.length > 0) {
             }
             ,enable_select(){
                 setTimeout(function () {
-                    $('#return_type , #return_action').selectWoo({
+                    $('#return_type , #return_action').select2({
                         width: '100%',
                         dropdownParent: $('.return_step_2')
                     });
