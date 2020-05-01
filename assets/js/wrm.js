@@ -25,11 +25,13 @@ if (checkVueEl.length > 0) {
                     '&customer_email=' + this.find_orderForm.customer_email)
                     .then(
                         ({data}) => (this.order_products = data),
-                        this.returnForm1 = false,
-                        this.returnForm2 = true,
                     ).then(
+                    this.returnForm1 = false,
+                    this.returnForm2 = true
+                    )
+                    .then(
                     this.enable_select
-                )
+                     )
             },
             confirm_cause: function () {
                 openReturnportal('https://return.shipmondo.com/pureleaf_dk?name=hans&reference=16000&?');

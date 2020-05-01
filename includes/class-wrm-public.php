@@ -89,34 +89,43 @@ class WRM_Public{
 			wp_die($error_msg,'400');
 		}
 
+		/*Mit über loop hvor jeg kigger på produkterne kunde har købt*/
 		foreach ($order->get_items() as $item_id => $item){
+			/*Vi henter produkt*/
 			$product = $item->get_product();
-
-			$variations = $product->get_available_variations();
-
+			/*Vi resetter loop for attributter*/
+			$attributeArray=[];
+			/*Vi henter produktets attributter*/
 			$attributes = $product->get_attributes();
 
+			/*For hver attribut loop*/
 			foreach ( $attributes as $attribute ) {
+				/*Nulstiller arrau*/
+				$variationArray=[];
+				/*Henter attributnavn fra attributarray*/
+				$taxonomy = $attribute['name'];
 
-				$variationArray= array(
-					$attribute['name'] => ''
-			);
+				/*Hvilket variationer har produktet*/
+				$variations = $product->get_available_variations();
+				foreach ($variations as $variation){
+					/*Vi henter variationen ud fra attribut*/
+					$meta = get_post_meta($variation['variation_id'], 'attribute_' . $taxonomy, true);
+					$variationsVariable = get_term_by('slug', $meta, $taxonomy);
+					$name = $variationsVariable->name;;
+
+					/*Sætter det det i variationsarray*/
+					$variationArray[]=$name;
+
+					$uniqieVariation =array_unique($variationArray);
+				}
+
+				$attributeArray[$taxonomy]=$uniqieVariation;
+
 			}
-
-			/*foreach ($variations as $variation){
-
-				$meta = get_post_meta($variation['variation_id'], 'attribute_' . $taxonomy, true);
-				$variationsVariable = get_term_by('slug', $meta, $taxonomy);
-
-				$variationArray[] = array(
-					'Size'	=> $variationsVariable->name
-				);
-			}*/
-
 			$order_products_array[] =array(
 				'product_id' 	 => $item->get_product_id(),
-				'product_name'	  => $item->get_name(),
-				'variations'	  => $variationArray
+				'product_name'	 => $item->get_name(),
+				'attributes'	 => $attributeArray
 			);
 		}
 
