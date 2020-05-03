@@ -4,6 +4,7 @@ var checkVueEl = document.getElementsByClassName('woocommerce_return_manager');
 if (checkVueEl.length > 0) {
     // elements with class "snake--mobile" exist
     var app = new Vue({
+        mode: 'production',
         el: '.woocommerce_return_manager',
         data: {
             returnForm1: true,
