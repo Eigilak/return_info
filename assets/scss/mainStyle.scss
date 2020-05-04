@@ -1,7 +1,6 @@
 
 
 /*Desktop*/
-
 @media (max-width: 1024px) {
   @import "mobile&tablet/wrmStyle";
 }
@@ -9,10 +8,7 @@
 @media (min-width: 1025px) {
   @import "desktop/wrmStyle";
 }
-
 @import "frameworks/prettyCheckbox";
-
-
 
 /*General inputs*/
 .woocommerce_return_manager{

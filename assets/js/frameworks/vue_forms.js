@@ -89,8 +89,8 @@ class Form {
      * .
      * @param {string} url
      */
-    post(url) {
-        return this.submit('post', url);
+    post(url,params) {
+        return this.submit('post', url,params);
     }
 
     /**
@@ -130,9 +130,9 @@ class Form {
      * @param {string} requestType
      * @param {string} url
      */
-    submit(requestType, url) {
+    submit(requestType, url, params) {
         return new Promise((resolve, reject) => {
-            axios[requestType](url, this.data())
+            axios[requestType](url, params)
                 .then(response => {
                     this.onSuccess(response.data);
                     resolve(response.data);

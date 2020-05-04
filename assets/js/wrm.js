@@ -6,18 +6,22 @@ if (checkVueEl.length > 0) {
     var app = new Vue({
         mode: 'production',
         el: '.woocommerce_return_manager',
+        initVal:'',
         data: {
             returnForm1: true,
             returnForm2: false,
-            order_products: {},
+            enableLoading:false,
             find_orderForm: new Form({
                 customer_email: 'mm@lundbrandhouse.dk',
-                order_id: '15820',
-                product_name: ''
+                order_id: '15820'
             }),
+            return_orderForm: new Form({
+                return_order_id:'',
+                order_products:[],
+            }),
+
         },
         methods: {
-
             get_order_by_id_email() {
 
                 axios.get(ajax_object.ajax_url +
@@ -25,29 +29,47 @@ if (checkVueEl.length > 0) {
                     '&order_id=' + this.find_orderForm.order_id +
                     '&customer_email=' + this.find_orderForm.customer_email)
                     .then(
-                        ({data}) => (this.order_products = data),
+                        ({data}) => ( this.return_orderForm.order_products =data),
                     ).then(
                     this.returnForm1 = false,
-                    this.returnForm2 = true
-                    )
-                    .then(
-                    this.enable_select
-                     )
+                    this.returnForm2 = true,
+                )
             },
             confirm_cause: function () {
                 openReturnportal('https://return.shipmondo.com/pureleaf_dk?name=hans&reference=16000&?');
-            }
-            ,enable_select(){
+            },
+            enable_select(){
                 setTimeout(function () {
                     $('#return_type , #return_action').select2({
                         width: '100%',
+                        minimumResultsForSearch: Infinity,
                         dropdownParent: $('.return_step_2')
                     });
 
 
                 },100);
-            }
-        },mounted: function () {
+            },
+            submit_return_order_form:function () {
+
+
+                /*Array af order skal laves til JSON*/
+                JSON = JSON.stringify(this.return_orderForm.order_products);
+
+                var params = new URLSearchParams();
+
+                params.append('returned_products', JSON);
+                params.append('action', 'create_return_request');
+
+                this.return_orderForm
+                    .post(ajax_object.ajax_url, params)
+                    .then(response => {
+                        console.log(response);
+                    });
+            },
+        }
+        ,mounted: function () {
         }
     });
 }
+/*
+this.return_orderForm.order_products,*/

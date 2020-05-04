@@ -10,11 +10,12 @@ class WRM_Public{
 	protected static $instance = null;
 
 	public function __construct(){
-
 		/*Brug shortcode til at få returform*/
 		add_shortcode('wrm_shortcode',array($this,'get_return_form'));
 		add_action('wp_enqueue_scripts',array($this,'enqueue_scripts'),40);
 		add_action('init',array($this, 'load_ajax_method'));
+		add_action('wp_ajax_nopriv_create_return_request', array($this,'create_return_request'));
+		add_action('wp_ajax_create_return_request', array($this,'create_return_request'));
 	}
 
 	//Get class instance
@@ -115,12 +116,9 @@ class WRM_Public{
 
 					/*Sætter det det i variationsarray*/
 					$variationArray[]=$name;
-
 					$uniqieVariation =array_unique($variationArray);
 				}
-
 				$attributeArray[$taxonomy]=$uniqieVariation;
-
 			}
 			$order_products_array[] =array(
 				'product_id' 	 => $item->get_product_id(),
@@ -128,14 +126,21 @@ class WRM_Public{
 				'attributes'	 => $attributeArray
 			);
 		}
-
 		wp_send_json($order_products_array);
-
-
 		die();
     }
 
 
+    function create_return_request(){
+
+		$JSON_response = $_REQUEST['returned_products'];
+		$array_reponse = json_decode(stripslashes($JSON_response));
+
+
+
+
+
+	}
 }
 
 ?>
