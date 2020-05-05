@@ -130,15 +130,51 @@ class WRM_Public{
 		die();
     }
 
-
     function create_return_request(){
 
+		global $wpdb;
+
 		$JSON_response = $_REQUEST['returned_products'];
-		$array_reponse = json_decode(stripslashes($JSON_response));
+		$array_reponses = json_decode(stripslashes($JSON_response),true);
+
+		$table_order=$wpdb->prefix.'woocommerce_return_manager_order';
+		$table_product="{$wpdb->prefix}woocommerce_return_manager_product";
+
+		/*get order by id if not send error */
+		try{
+			$order = new WC_Order($array_reponses['return_order_id']);
+		} catch (Exception $e){
+			$error_msg = __('The order id cant be found','wrm');
+			wp_die($error_msg) ;
+		}
+
+		$data = array('order_id' => $array_reponses['return_order_id'], 'firstname' => $order->get_billing_first_name(),'amount_products_returned'=>1);
+		$format = array('%d','%s','%d');
+
+		/*Checkif product is checked*/
+		$product_returned='';
+		foreach ($array_reponses["order_products"] as $checkIfreturn){
+			if($checkIfreturn['enableReturn']){
+				$product_returned++;
+			}
+		}
+
+		if($product_returned !=0){
+			$wpdb->insert($table_order,$data,$format);
+		}else{
+			status_header(400,['errors'=>__('No products is selected','wrm')]);
+			die();
+		}
+
+		echo $wpdb->last_error;
+/*
+		foreach ($array_reponses as $key => $value){
+				if($value['enableReturn']){
 
 
-
-
+				}
+		}*/
+		die();
 
 	}
 }

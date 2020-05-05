@@ -138,8 +138,8 @@ class Form {
                     resolve(response.data);
                 })
                 .catch(error => {
-                    this.onFail(error.response.data.errors);
-                    reject(error.response.data.errors);
+                    this.onFail(error.response.errors);
+                    reject(error.response.errors);
                     this.success = false
                 });
         });
@@ -151,7 +151,7 @@ class Form {
      * @param {object} data
      */
     onSuccess(data) {
-        this.password = '';
+
     }
 
     onFail(errors) {

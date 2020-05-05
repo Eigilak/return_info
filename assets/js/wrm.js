@@ -30,6 +30,7 @@ if (checkVueEl.length > 0) {
                     '&customer_email=' + this.find_orderForm.customer_email)
                     .then(
                         ({data}) => ( this.return_orderForm.order_products =data),
+                        this.return_orderForm.return_order_id =this.find_orderForm.order_id
                     ).then(
                     this.returnForm1 = false,
                     this.returnForm2 = true,
@@ -51,13 +52,14 @@ if (checkVueEl.length > 0) {
             },
             submit_return_order_form:function () {
 
-
                 /*Array af order skal laves til JSON*/
-                JSON = JSON.stringify(this.return_orderForm.order_products);
+                var JSON_response='';
+
+                JSON_response = JSON.stringify(this.return_orderForm);
 
                 var params = new URLSearchParams();
 
-                params.append('returned_products', JSON);
+                params.append('returned_products', JSON_response);
                 params.append('action', 'create_return_request');
 
                 this.return_orderForm

@@ -17,7 +17,6 @@ class woocommerce_return_manager_init{
 	}
 
 	public function __construct(){
-
 		//Front end
 		include_once WRM_PATH.'/includes/class-wrm-public.php';
 		WRM_Public::get_instance();
@@ -26,8 +25,11 @@ class woocommerce_return_manager_init{
 		include_once WRM_PATH.'/includes/class-wrm-core.php';
 		WRM_Core::get_instance();
 
-	}
+		include_once WRM_PATH.'includes/class-wrm-db.php';
+		WRM_databases::get_instance();
 
+
+	}
 }
 
 ?>
