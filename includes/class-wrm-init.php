@@ -27,9 +27,9 @@ class woocommerce_return_manager_init{
 
 		include_once WRM_PATH.'includes/class-wrm-db.php';
 		WRM_databases::get_instance();
-
-
 	}
 }
+
+
 
 ?>

@@ -103,7 +103,7 @@ class Form {
     }
     /*get request*/
     get(url){
-        return this.submit('get',url)
+        return this.submit('get', url)
     }
 
     /**
@@ -138,8 +138,8 @@ class Form {
                     resolve(response.data);
                 })
                 .catch(error => {
-                    this.onFail(error.response.errors);
-                    reject(error.response.errors);
+                    this.onFail(error.response.data);
+                    reject(error.response.data);
                     this.success = false
                 });
         });
@@ -151,9 +151,9 @@ class Form {
      * @param {object} data
      */
     onSuccess(data) {
-
+        this.returnForm1 = false,
+        this.returnForm2 = true
     }
-
     onFail(errors) {
         this.errors.record(errors);
     }

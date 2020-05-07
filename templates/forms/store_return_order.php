@@ -1,5 +1,5 @@
 
-<form class="return_step_2" :class="[returnForm2 ? 'show' :'' ]" v-if="returnForm2" @submit.prevent="submit_return_order_form" >
+<form class="return_step_2" :class="[find_orderForm.returnForm2 ? 'show' :'' ]" v-if="find_orderForm.returnForm2" @submit.prevent="submit_return_order_form" >
     <p><?php _e('Your order number') ?>: {{find_orderForm.order_id}}</p>
     <div class="input">
         <table class="order_item">
@@ -7,7 +7,7 @@
             <tr>
                 <th class="action_check"><?php _e('Choose','wrm') ?></th>
                 <th><?php _e('Product name','wrm')?></th>
-                <th><?php _e('Return Type','wrm') ?></th>
+                <th><?php _e('Why do you wish to return','wrm') ?>?</th>
                 <th><?php _e('Return action','wrm') ?></th>
             </tr>
             </thead>
@@ -30,22 +30,35 @@
                     </label>
                 </td>
                 <td>
-                    <select name="return_type" class="wrm-select" id="return_type" v-model="order_product.return_type">
+                    <select name="return_type" class="wrm-select" id="return_type" v-model="order_product.return_type" >
                         <option disabled :value="this.initVal" > <?php _e('Choose reason to return','wrm'); ?></option>
                         <option value="<?php _e('Damaged','wrm') ?>"><?php _e('Damaged','wrm') ?></option>
                         <option  value="<?php _e('Wrong size','wrm') ?>"><?php _e('Wrong size','wrm') ?></option>
                     </select>
                 </td>
                 <td>
-                    <select name="return_action" class="wrm-select" id="return_action" v-model="order_product.return_action">
+                    <select name="return_action" class="wrm-select" id="return_action"
+                            v-model="order_product.return_action"
+                            @change="checkActionChoice($event.target.selectedIndex,this)">
                         <option disabled :value="this.initVal" ><?php _e('Choose action','wrm'); ?></option>
                         <option selected value="<?php _e('Money back','wrm') ?>"><?php _e('Money back','wrm') ?></option>
                         <option value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?></option>
                     </select>
+
+                    <select name="return_size" class="wrm-select " v-show="order_product.return_action==='<?php _e('New size','wrm') ?>'"   v-model="order_product.return_size">
+                        <option  disabled :value="this.initVal"> <?php _e('Choose Size','wrm')?></option>
+                        <option v-for="product_size in order_product.attributes.pa_stoerrelse">
+                            {{product_size}}
+                        </option>
+                    </select>
+
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
+
+    <input type="checkbox">
+
     <button type="submit"><?php _e('Find my order','wrm'); ?></button>
 </form>

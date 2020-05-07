@@ -73,8 +73,10 @@ class WRM_Public{
 
 		/*If fields empty die */
 		if(empty($order_id) || empty($customer_email)){
-			wp_send_json_error('felterne er påkrævet','400');
-			wp_die( 'Felterne er påkrævet', 400 );
+
+			echo json_encode(['errors'=>__('The field is requirerd','wrm')]);
+			status_header(400);
+			die();
 		}
 
 		/*get order by id if not send error */
@@ -131,8 +133,9 @@ class WRM_Public{
     }
 
     function create_return_request(){
-
 		global $wpdb;
+		$JSON_response='';
+		$array_reponses='';
 
 		$JSON_response = $_REQUEST['returned_products'];
 		$array_reponses = json_decode(stripslashes($JSON_response),true);
@@ -162,18 +165,24 @@ class WRM_Public{
 		if($product_returned !=0){
 			$wpdb->insert($table_order,$data,$format);
 		}else{
-			status_header(400,['errors'=>__('No products is selected','wrm')]);
+			echo json_encode(['errors'=>__('No products is selected','wrm')]);
+			status_header(400);
 			die();
 		}
 
 		echo $wpdb->last_error;
-/*
-		foreach ($array_reponses as $key => $value){
-				if($value['enableReturn']){
+
+		foreach ($array_reponses["order_products"] as $checkIfreturn){
+			if($checkIfreturn['enableReturn']){
+
+				
+				$data = array('order_id' => $array_reponses['return_order_id'], 'firstname' => $order->get_billing_first_name(),'amount_products_returned'=>1);
+				$format = array('%d','%s','%d');
+				$wpdb->insert($table_product,$data,$format);
 
 
-				}
-		}*/
+			}
+		}
 		die();
 
 	}
