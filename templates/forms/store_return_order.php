@@ -1,5 +1,5 @@
 
-<form class="return_step_2" :class="[find_orderForm.returnForm2 ? 'show' :'' ]" v-if="find_orderForm.returnForm2" @submit.prevent="submit_return_order_form" >
+<form class="return_step_2"  @submit.prevent="submit_return_order_form" >
     <p><?php _e('Your order number') ?>: {{find_orderForm.order_id}}</p>
     <div class="input">
         <table class="order_item">
@@ -30,16 +30,16 @@
                     </label>
                 </td>
                 <td>
-                    <select name="return_type" class="wrm-select" id="return_type" v-model="order_product.return_type" >
+                    <select :required="order_product.enableReturn ? true : false" name="return_type" class="wrm-select" id="return_type" v-model="order_product.return_type" >
                         <option disabled :value="this.initVal" > <?php _e('Choose reason to return','wrm'); ?></option>
                         <option value="<?php _e('Damaged','wrm') ?>"><?php _e('Damaged','wrm') ?></option>
                         <option  value="<?php _e('Wrong size','wrm') ?>"><?php _e('Wrong size','wrm') ?></option>
                     </select>
                 </td>
                 <td>
-                    <select name="return_action" class="wrm-select" id="return_action"
+                    <select :required="order_product.enableReturn ? true : false" name="return_action" class="wrm-select" id="return_action"
                             v-model="order_product.return_action"
-                            @change="checkActionChoice($event.target.selectedIndex,this)">
+                            >
                         <option disabled :value="this.initVal" ><?php _e('Choose action','wrm'); ?></option>
                         <option selected value="<?php _e('Money back','wrm') ?>"><?php _e('Money back','wrm') ?></option>
                         <option value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?></option>
@@ -58,7 +58,6 @@
         </table>
     </div>
 
-    <input type="checkbox">
 
-    <button type="submit"><?php _e('Find my order','wrm'); ?></button>
+    <button type="submit"><?php _e('Return order','wrm'); ?></button>
 </form>

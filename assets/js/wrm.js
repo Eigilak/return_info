@@ -4,21 +4,25 @@ var checkVueEl = document.getElementsByClassName('woocommerce_return_manager');
 if (checkVueEl.length > 0) {
     // elements with class "snake--mobile" exist
     var app = new Vue({
-        mode: 'production',
         el: '.woocommerce_return_manager',
         initVal:'',
         data: {
-                test:[],
+                customer:{
+                    name:null,
+                    address:null,
+                    zipcode:null,
+                    city:null,
+                    email:null,
+                },
                 enableLoading:false,
                 find_orderForm: new Form({
-                    returnForm1: true,
-                    returnForm2: false,
-                    customer_email: 'mm@lundbrandhouse.dk',
-                    order_id: '15820'
+                    customer_email: '',
+                    order_id: ''
                 }),
                 return_orderForm: new Form({
+                    requestGot:false,
                     return_order_id:'',
-                    order_products:{},
+                    order_products:[],
                 })
         },
             methods: {
@@ -32,13 +36,7 @@ if (checkVueEl.length > 0) {
                             (data => ( this.return_orderForm.order_products =data)),
                             this.return_orderForm.return_order_id =this.find_orderForm.order_id,
                         )
-                        .then(
-                        );
                 },
-                confirm_cause: function () {
-
-                    /*openReturnportal('https://return.shipmondo.com/pureleaf_dk?name=hans&reference=16000&?');*/
-                 },
                 enable_select(){
                     setTimeout(function () {
                         $('#return_type , #return_action').select2({
@@ -48,7 +46,7 @@ if (checkVueEl.length > 0) {
                         });
                     },100);
                 },
-                submit_return_order_form:function () {
+                submit_return_order_form: async function () {
                     /*Array af order skal laves til JSON*/
                     var JSON_response='';
                     JSON_response = JSON.stringify(this.return_orderForm);
@@ -58,17 +56,47 @@ if (checkVueEl.length > 0) {
 
                     this.return_orderForm
                         .post(ajax_object.ajax_url, params)
-                        .then(response => {
+                        .then(
+                            (data => (
+                                this.customer.name=data['customer'].name,
+                                this.customer.address=data['customer'].address,
+                                this.customer.zipcode=data['customer'].zipcode,
+                                this.customer.city=data['customer'].city,
+                                this.customer.email=data['customer'].email
+                            )),
+                            this.return_orderForm.requestGot=true,
+                        )
+                    that = this;
 
-                        });
+                    /*Sæt et interval op at vent til at object customer er sat indtil da vent*/
+                    var interval = setInterval(function() {
+                        // get elem
+                        if (that.customer.name == null){
+                            console.log('venter');
+                            return;
+                        }
+                        that.shipmondo_modul();
+                        clearInterval(interval);
+                        // the rest of the code
+                        console.log('fundet!')
+
+                    }, 100);
                 },
-                checkActionChoice: function(indexNumber){
-                    console.log(indexNumber);
-
+                    shipmondo_manual: function () {
+                        /*href="https://return.shipmondo.com/pureleaf_dk" target="_blank"*/
+                }, shipmondo_modul:function () {
+                    openReturnportal(
+                        "https://return.shipmondo.com/pureleaf_dk?"+
+                        "name="+this.customer.name+
+                        "&address="+this.customer.address+
+                        "&zip="+this.customer.zipcode+
+                        "&city="+this.customer.city+
+                        "&email="+this.customer.email+
+                        "&emailRepeated="+this.customer.email+
+                        "&"
+                    )
 
                 }
-        }
-        ,mounted: function () {
         }
     });
 }

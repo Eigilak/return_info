@@ -63,6 +63,9 @@ register_activation_hook( __FILE__,function (){
     $sql = "CREATE TABLE $table_name (
 			id bigint NOT NULL AUTO_INCREMENT,
 			return_id bigint not NULL,
+			product_name tinytext NOT NULL,
+			product_id integer NOT NULL,
+			chosen_attribute tinytext,
 			return_action tinytext NOT NULL,
 			return_type tinytext NOT NULL,
 			created_at timestamp DEFAULT current_timestamp,

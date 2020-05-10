@@ -12,7 +12,6 @@ class WRM_Public{
 	public function __construct(){
 		/*Brug shortcode til at få returform*/
 		add_shortcode('wrm_shortcode',array($this,'get_return_form'));
-		add_action('wp_enqueue_scripts',array($this,'enqueue_scripts'),40);
 		add_action('init',array($this, 'load_ajax_method'));
 		add_action('wp_ajax_nopriv_create_return_request', array($this,'create_return_request'));
 		add_action('wp_ajax_create_return_request', array($this,'create_return_request'));
@@ -26,33 +25,6 @@ class WRM_Public{
 		return self::$instance;
 	}
 
-	//Inline styles from cart popup settings
-
-
-	//enqueue stylesheets & scripts
-	public function enqueue_scripts(){
-		/*scss*/
-		wp_enqueue_style('wrm-style',WRM_URL.'/assets/scss/mainStyle.css',null,WRM_VERSION);
-
-		wp_enqueue_script( 'jquery' );
-		/*Scripts*/
-		wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
-		wp_enqueue_script('axios',WRM_URL.'/assets/js/frameworks/axios.js','',WRM_VERSION,true);
-		wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
-
-		/*Hvis selectWoo ikke er enqued kør det*/
-		if(wp_script_is('selectWoo')){
-			wp_enqueue_script('selectWoo',WRM_URL.'/assets/js/frameworks/selectWoo.min.js','',WRM_VERSION,true);
-		}
-
-
-        wp_enqueue_script('wrm-js',WRM_URL.'/assets/js/wrm.js','',WRM_VERSION,true);
-		wp_script_add_data( 'wrm-js', 'async', true );
-
-        /*make ajax object available in JS*/
-		wp_localize_script( 'wrm-js', 'ajax_object',
-			array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
-	}
 	/*Get template for the return form*/
 	function get_return_form(){
 		wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
@@ -68,8 +40,8 @@ class WRM_Public{
 
     function get_customer_by_id_and_email(){
 
-		$order_id = $_REQUEST['order_id'];
-		$customer_email = $_REQUEST['customer_email'];
+		$order_id = _sanitize_text_fields($_REQUEST['order_id']);
+		$customer_email = sanitize_email($_REQUEST['customer_email']);
 
 		/*If fields empty die */
 		if(empty($order_id) || empty($customer_email)){
@@ -122,14 +94,21 @@ class WRM_Public{
 				}
 				$attributeArray[$taxonomy]=$uniqieVariation;
 			}
+
+
 			$order_products_array[] =array(
 				'product_id' 	 => $item->get_product_id(),
 				'product_name'	 => $item->get_name(),
 				'attributes'	 => $attributeArray
 			);
+
+
 		}
+
+
 		wp_send_json($order_products_array);
-		die();
+
+		wp_die();
     }
 
     function create_return_request(){
@@ -151,38 +130,57 @@ class WRM_Public{
 			wp_die($error_msg) ;
 		}
 
-		$data = array('order_id' => $array_reponses['return_order_id'], 'firstname' => $order->get_billing_first_name(),'amount_products_returned'=>1);
-		$format = array('%d','%s','%d');
 
 		/*Checkif product is checked*/
 		$product_returned='';
-		foreach ($array_reponses["order_products"] as $checkIfreturn){
-			if($checkIfreturn['enableReturn']){
+		foreach ($array_reponses["order_products"] as $product){
+			if($product['enableReturn'] && isset($product['return_action']) && isset($product['return_type']) ){
 				$product_returned++;
 			}
 		}
 
-		if($product_returned !=0){
+		$data = array(
+			'order_id' => $array_reponses['return_order_id'],
+			'firstname' => $order->get_billing_first_name(),
+			'amount_products_returned'=>$product_returned);
+		$format = array('%d','%s','%d');
+
+		if($product_returned!=0 ){
 			$wpdb->insert($table_order,$data,$format);
+			$lastid = $wpdb->insert_id;
 		}else{
 			echo json_encode(['errors'=>__('No products is selected','wrm')]);
 			status_header(400);
 			die();
 		}
 
-		echo $wpdb->last_error;
+		foreach ($array_reponses["order_products"] as $product){
+			if($product['enableReturn']){
 
-		foreach ($array_reponses["order_products"] as $checkIfreturn){
-			if($checkIfreturn['enableReturn']){
+				$data = array(
+					'return_id' => $lastid,
+					'product_id' => $product['product_id'],
+					'product_name' => $product['product_name'],
+					'chosen_attribute' => $product['return_size'],
+					'return_type' => $product['return_type'],
+					'return_action' => $product['return_action'],
+					);
+				$format = array('%d','%d','%s','%s','%s','%s');
 
-				
-				$data = array('order_id' => $array_reponses['return_order_id'], 'firstname' => $order->get_billing_first_name(),'amount_products_returned'=>1);
-				$format = array('%d','%s','%d');
 				$wpdb->insert($table_product,$data,$format);
-
-
 			}
 		}
+
+
+		$customerArray['customer'] = array(
+			'name' 		=>$order->get_billing_first_name().' '.$order->get_billing_last_name(),
+			'address' 	=>$order->get_billing_address_1(),
+			'zipcode'	=>$order->get_billing_postcode(),
+			'city'	=>$order->get_billing_city(),
+			'email'		=>$order->get_billing_email()
+		);
+
+		wp_send_json($customerArray);
 		die();
 
 	}

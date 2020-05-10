@@ -151,8 +151,6 @@ class Form {
      * @param {object} data
      */
     onSuccess(data) {
-        this.returnForm1 = false,
-        this.returnForm2 = true
     }
     onFail(errors) {
         this.errors.record(errors);

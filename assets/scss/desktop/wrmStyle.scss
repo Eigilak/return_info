@@ -31,8 +31,16 @@
 
     }
 
-    .return_step_2{
+    .show {
+      display: block !important;
+      visibility: inherit!important;
+    }
+    .hide {
       display: none;
+      visibility: hidden;
+    }
+
+    .return_step_2{
       .input{
         min-height: 18rem;
       }

@@ -28,8 +28,13 @@
   .woocommerce_return_manager .content .return_step_1 .input input {
     width: 48%;
   }
-  .woocommerce_return_manager .content .return_step_2 {
+  .woocommerce_return_manager .content .show {
+    display: block !important;
+    visibility: inherit !important;
+  }
+  .woocommerce_return_manager .content .hide {
     display: none;
+    visibility: hidden;
   }
   .woocommerce_return_manager .content .return_step_2 .input {
     min-height: 18rem;

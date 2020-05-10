@@ -1,4 +1,4 @@
-<form class="return_step_1" :class="[find_orderForm.returnForm1 ? '' :'hide' ]"  v-if="find_orderForm.returnForm1" action="" @submit.prevent="get_order_by_id_email" >
+<form class="return_step_1"action="" @submit.prevent="get_order_by_id_email" >
     <div class="input">
         <div>
             <label for="email"><?php _e('Email','wrm'); ?></label>
@@ -9,4 +9,5 @@
         <input id="order_id" placeholder="1234" type="text"  name="email" v-model="find_orderForm.order_id">
     </div>
     <button type="submit"><?php _e('Find my order','wrm'); ?></button>
+
 </form>
