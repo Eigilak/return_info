@@ -16,8 +16,8 @@ if (checkVueEl.length > 0) {
                 },
                 enableLoading:false,
                 find_orderForm: new Form({
-                    customer_email: '',
-                    order_id: ''
+                    customer_email: 'nadja.kofoed@gmail.com',
+                    order_id: '17050'
                 }),
                 return_orderForm: new Form({
                     requestGot:false,
@@ -58,32 +58,49 @@ if (checkVueEl.length > 0) {
                         .post(ajax_object.ajax_url, params)
                         .then(
                             (data => (
-                                this.customer.name=data['customer'].name,
-                                this.customer.address=data['customer'].address,
-                                this.customer.zipcode=data['customer'].zipcode,
-                                this.customer.city=data['customer'].city,
-                                this.customer.email=data['customer'].email
+                                this.customer.name=    data['customer'].name,
+                                this.customer.address= data['customer'].address,
+                                this.customer.zipcode= data['customer'].zipcode,
+                                this.customer.city=    data['customer'].city,
+                                this.customer.email=   data['customer'].email
                             )),
                             this.return_orderForm.requestGot=true,
                         )
                     that = this;
-
                     /*Sæt et interval op at vent til at object customer er sat indtil da vent*/
+                    var counter_intervals
                     var interval = setInterval(function() {
                         // get elem
-                        if (that.customer.name == null){
-                            console.log('venter');
+                        if (that.customer.name == null|| that.customer.name ==='undefined' ){
+                            counter_intervals++
+                            if(counter_intervals == 50){
+                                clearInterval(interval)
+                            }
                             return;
                         }
                         that.shipmondo_modul();
                         clearInterval(interval);
                         // the rest of the code
-                        console.log('fundet!')
+
 
                     }, 100);
+
+                    var doc = new jsPDF()
+
+                    doc.text('Hello world!', 10, 10)
+                    doc.save('#'+this.find_orderForm.order_id+'_return_cause.pdf')
                 },
                     shipmondo_manual: function () {
-                        /*href="https://return.shipmondo.com/pureleaf_dk" target="_blank"*/
+                        window.open(
+                            "https://return.shipmondo.com/pureleaf_dk?"+
+                            "name="+this.customer.name+
+                            "&address="+this.customer.address+
+                            "&zip="+this.customer.zipcode+
+                            "&city="+this.customer.city+
+                            "&email="+this.customer.email+
+                            "&emailRepeated="+this.customer.email+
+                            "&reference="+this.find_orderForm.order_id+
+                            "&")
                 }, shipmondo_modul:function () {
                     openReturnportal(
                         "https://return.shipmondo.com/pureleaf_dk?"+
@@ -93,9 +110,9 @@ if (checkVueEl.length > 0) {
                         "&city="+this.customer.city+
                         "&email="+this.customer.email+
                         "&emailRepeated="+this.customer.email+
+                        "&reference="+this.find_orderForm.order_id+
                         "&"
                     )
-
                 }
         }
     });

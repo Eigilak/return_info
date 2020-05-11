@@ -36,7 +36,6 @@ class woocommerce_return_manager_init{
 	public function enqueue_scripts(){
 		/*scss*/
 		wp_enqueue_style('wrm-style',WRM_URL.'/assets/scss/mainStyle.css',null,WRM_VERSION);
-
 		wp_enqueue_script( 'jquery' );
 		/*Scripts*/
 		/*development*/

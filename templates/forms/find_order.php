@@ -6,7 +6,7 @@
         </div>
 
         <input id="email" placeholder="<?php _e('my@email.com','wrm') ?>" type="text"  name="email" v-model="find_orderForm.customer_email">
-        <input id="order_id" placeholder="1234" type="text"  name="email" v-model="find_orderForm.order_id">
+        <input id="order_id" placeholder="1234" type="number"  name="email" v-model="find_orderForm.order_id">
     </div>
     <button type="submit"><?php _e('Find my order','wrm'); ?></button>
 

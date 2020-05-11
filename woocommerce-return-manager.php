@@ -76,6 +76,9 @@ register_activation_hook( __FILE__,function (){
     dbDelta( $sql );
 });
 
+add_filter( 'woocommerce_hide_invisible_variations', '__return_false', 10);
+
+
 
 
 

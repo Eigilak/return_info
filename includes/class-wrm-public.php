@@ -27,7 +27,9 @@ class WRM_Public{
 
 	/*Get template for the return form*/
 	function get_return_form(){
-		wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
+		ob_start();
+			wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
+		return ob_get_clean();
 	}
 
 	function load_ajax_method(){
@@ -55,56 +57,65 @@ class WRM_Public{
 		try{
 			$order = new WC_Order($order_id);
 		} catch (Exception $e){
-			$error_msg = __('The order id cant be found','wrm');
+			$error_msg = __('The fields doesnt match','wrm');
 			wp_die($error_msg) ;
 		}
 
 		if($customer_email != $order->get_billing_email()){
-			$error_msg = __('The email doesn\'t match the order id','wrm');
+			$error_msg = __('The fields doesnt match','wrm');
 			wp_die($error_msg,'400');
 		}
+
+
 
 		/*Mit über loop hvor jeg kigger på produkterne kunde har købt*/
 		foreach ($order->get_items() as $item_id => $item){
 			/*Vi henter produkt*/
-			$product = $item->get_product();
+			$product_id = $item->get_product_id();
+
+
+			$product = wc_get_product( $product_id );
+
 			/*Vi resetter loop for attributter*/
 			$attributeArray=[];
 			/*Vi henter produktets attributter*/
 			$attributes = $product->get_attributes();
 
-			/*For hver attribut loop*/
-			foreach ( $attributes as $attribute ) {
-				/*Nulstiller arrau*/
-				$variationArray=[];
-				/*Henter attributnavn fra attributarray*/
-				$taxonomy = $attribute['name'];
 
-				/*Hvilket variationer har produktet*/
-				$variations = $product->get_available_variations();
-				foreach ($variations as $variation){
-					/*Vi henter variationen ud fra attribut*/
-					$meta = get_post_meta($variation['variation_id'], 'attribute_' . $taxonomy, true);
-					$variationsVariable = get_term_by('slug', $meta, $taxonomy);
-					$name = $variationsVariable->name;;
+			if ($product->is_type( 'variable' )){
 
-					/*Sætter det det i variationsarray*/
-					$variationArray[]=$name;
-					$uniqieVariation =array_unique($variationArray);
+				/*For hver attribut loop*/
+				foreach ( $attributes as $attributeKey => $attributeValue ) {
+					/*Nulstiller arrau*/
+					$variationArray=[];
+					/*Henter attributnavn fra attributarray*/
+					$taxonomy = $attributeKey;
+					/*Hvilket variationer har produktet*/
+
+					/*ERROR IF ONLY GOT ONE VARIATION*/
+					$variations = $product->get_available_variations();
+
+					foreach ($variations as $variation){
+						/*Vi henter variationen ud fra attribut*/
+						$meta = get_post_meta($variation['variation_id'], 'attribute_' . $taxonomy, true);
+						$variationsVariable = get_term_by('slug', $meta, $taxonomy);
+						$name = $variationsVariable->name;
+
+						/*Sætter det det i variationsarray*/
+						$variationArray[]=$name;
+						$uniqieVariation =array_unique($variationArray);
+					}
+					$attributeArray[$taxonomy]=$uniqieVariation;
 				}
-				$attributeArray[$taxonomy]=$uniqieVariation;
+				$order_products_array[] =array(
+					'product_id' 	 => $item->get_product_id(),
+					'product_name'	 => $item->get_name(),
+					'attributes'	 => $attributeArray
+				);
 			}
 
 
-			$order_products_array[] =array(
-				'product_id' 	 => $item->get_product_id(),
-				'product_name'	 => $item->get_name(),
-				'attributes'	 => $attributeArray
-			);
-
-
 		}
-
 
 		wp_send_json($order_products_array);
 
@@ -123,14 +134,15 @@ class WRM_Public{
 		$table_product="{$wpdb->prefix}woocommerce_return_manager_product";
 
 		/*get order by id if not send error */
+
+		$sanitizedOrderId = sanitize_text_field($array_reponses['return_order_id']);
+
 		try{
-			$order = new WC_Order($array_reponses['return_order_id']);
+			$order = new WC_Order($sanitizedOrderId);
 		} catch (Exception $e){
 			$error_msg = __('The order id cant be found','wrm');
 			wp_die($error_msg) ;
 		}
-
-
 		/*Checkif product is checked*/
 		$product_returned='';
 		foreach ($array_reponses["order_products"] as $product){
@@ -145,6 +157,10 @@ class WRM_Public{
 			'amount_products_returned'=>$product_returned);
 		$format = array('%d','%s','%d');
 
+
+/*nadja.kofoed@gmail.com
+17050
+*/
 		if($product_returned!=0 ){
 			$wpdb->insert($table_order,$data,$format);
 			$lastid = $wpdb->insert_id;
@@ -181,7 +197,7 @@ class WRM_Public{
 		);
 
 		wp_send_json($customerArray);
-		die();
+		wp_die();
 
 	}
 }

@@ -20,14 +20,14 @@ function wrm_admin_enqueue($hook){
 	wp_enqueue_style('wp-color-picker');
 	wp_enqueue_script('xoo-cp-admin-js',XOO_CP_URL.'/admin/assets/js/xoo-cp-admin-js.js',array('jquery','wp-color-picker'),XOO_CP_VERSION,true);*/
 }
-add_action('admin_enqueue_scripts','xoo_cp_admin_enqueue');
+/*add_action('admin_enqueue_scripts','xoo_cp_admin_enqueue');*/
 
 //Settings page
 function wrm_menu_settings(){
 /*	add_menu_page( 'Added to cart popup', 'Added to cart popup', 'manage_options', 'xoo_cp', 'xoo_cp_settings_cb', 'dashicons-cart', 61 );
 	add_action('admin_init','xoo_cp_settings');*/
 }
-add_action('admin_menu','xoo_cp_menu_settings');
+/*add_action('admin_menu','xoo_cp_menu_settings');*/
 
 //Settings callback function
 function wrm_settings_cb(){

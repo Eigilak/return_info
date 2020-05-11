@@ -1,3 +1,4 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 <div class="woocommerce_return_manager" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div class="wrm_overlay wrm_app">
         <div class="content">
@@ -9,10 +10,8 @@
                 <?php include( WRM_PATH.'templates/forms/find_order.php') ?>
             </div>
 
-            <div class="hide" :class="{hide : return_orderForm.requestGot, show :return_orderForm.order_products.length}" v-if="return_orderForm.order_products.length">
-                <transition name="fade">
-                    <?php include( WRM_PATH.'templates/forms/store_return_order.php') ?>
-                </transition>
+            <div :class="{hide : return_orderForm.requestGot}" v-if="return_orderForm.order_products.length">
+                 <?php include( WRM_PATH.'templates/forms/store_return_order.php') ?>
             </div>
 
             <div :class="{hide : !return_orderForm.requestGot}">
@@ -22,7 +21,7 @@
                         <br>
                         <?php _e('Please follow','wrm') ?>
                         <u>
-                            <a @click="shipmondo_manual"  rel="noopener noreferrer">
+                            <a style="cursor: pointer" @click="shipmondo_manual"  rel="noopener noreferrer">
                                 <?php _e('this link','') ?>
                             </a>
                         </u>
