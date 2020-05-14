@@ -66,6 +66,7 @@ register_activation_hook( __FILE__,function (){
 			product_name tinytext NOT NULL,
 			product_id integer NOT NULL,
 			chosen_attribute tinytext,
+			chosen_material tinytext,
 			return_action tinytext NOT NULL,
 			return_type tinytext NOT NULL,
 			created_at timestamp DEFAULT current_timestamp,

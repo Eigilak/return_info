@@ -40,6 +40,15 @@ class WRM_Public{
         }
     }
 
+    public function error_404($msg){
+
+		echo json_encode(['errors'=>$msg]);
+
+		status_header(400);
+
+		die();
+	}
+
     function get_customer_by_id_and_email(){
 
 		$order_id = _sanitize_text_fields($_REQUEST['order_id']);
@@ -47,23 +56,17 @@ class WRM_Public{
 
 		/*If fields empty die */
 		if(empty($order_id) || empty($customer_email)){
-
-			echo json_encode(['errors'=>__('The field is requirerd','wrm')]);
-			status_header(400);
-			die();
+			$this->error_404(__('The field is requirerd','wrm'));
 		}
 
 		/*get order by id if not send error */
 		try{
 			$order = new WC_Order($order_id);
 		} catch (Exception $e){
-			$error_msg = __('The fields doesnt match','wrm');
-			wp_die($error_msg) ;
+			$this->error_404(__('The fields doesnt match','wrm'));
 		}
-
 		if($customer_email != $order->get_billing_email()){
-			$error_msg = __('The fields doesnt match','wrm');
-			wp_die($error_msg,'400');
+			$this->error_404(__('The fields doesnt match','wrm'));
 		}
 
 
@@ -72,10 +75,7 @@ class WRM_Public{
 		foreach ($order->get_items() as $item_id => $item){
 			/*Vi henter produkt*/
 			$product_id = $item->get_product_id();
-
-
 			$product = wc_get_product( $product_id );
-
 			/*Vi resetter loop for attributter*/
 			$attributeArray=[];
 			/*Vi henter produktets attributter*/
@@ -83,7 +83,6 @@ class WRM_Public{
 
 
 			if ($product->is_type( 'variable' )){
-
 				/*For hver attribut loop*/
 				foreach ( $attributes as $attributeKey => $attributeValue ) {
 					/*Nulstiller arrau*/
@@ -92,25 +91,41 @@ class WRM_Public{
 					$taxonomy = $attributeKey;
 					/*Hvilket variationer har produktet*/
 
-					/*ERROR IF ONLY GOT ONE VARIATION*/
 					$variations = $product->get_available_variations();
 
 					foreach ($variations as $variation){
+
+						$variation_id = $variation['variation_id'];
+						$variation_obj = new WC_Product_Variation( $variation_id );
+
+						$stock_status = $variation_obj->get_stock_quantity();
+
+
 						/*Vi henter variationen ud fra attribut*/
 						$meta = get_post_meta($variation['variation_id'], 'attribute_' . $taxonomy, true);
 						$variationsVariable = get_term_by('slug', $meta, $taxonomy);
 						$name = $variationsVariable->name;
 
+						if($stock_status >= 5 ){
+							$stock_status_text = __('In stock','wrm');
+						}elseif($stock_status <= 5 && $stock_status !=0 ){
+							$stock_status_text = __('Low in stock','wrm');
+						}else{
+							$stock_status_text = __('out of stock','wrm');
+						}
+
 						/*Sætter det det i variationsarray*/
-						$variationArray[]=$name;
+						$variationArray[]=$name.' '.$stock_status_text;
 						$uniqieVariation =array_unique($variationArray);
 					}
 					$attributeArray[$taxonomy]=$uniqieVariation;
 				}
-				$order_products_array[] =array(
+				$order_products_array[] = array(
 					'product_id' 	 => $item->get_product_id(),
 					'product_name'	 => $item->get_name(),
-					'attributes'	 => $attributeArray
+					'attributes'	 => $attributeArray,
+					'return_size'	=> 'choose size',
+					'return_material'=>'Choose material'
 				);
 			}
 
@@ -134,15 +149,14 @@ class WRM_Public{
 		$table_product="{$wpdb->prefix}woocommerce_return_manager_product";
 
 		/*get order by id if not send error */
-
 		$sanitizedOrderId = sanitize_text_field($array_reponses['return_order_id']);
-
 		try{
 			$order = new WC_Order($sanitizedOrderId);
 		} catch (Exception $e){
 			$error_msg = __('The order id cant be found','wrm');
 			wp_die($error_msg) ;
 		}
+
 		/*Checkif product is checked*/
 		$product_returned='';
 		foreach ($array_reponses["order_products"] as $product){
@@ -150,49 +164,40 @@ class WRM_Public{
 				$product_returned++;
 			}
 		}
-
 		$data = array(
-			'order_id' => $array_reponses['return_order_id'],
-			'firstname' => $order->get_billing_first_name(),
-			'amount_products_returned'=>$product_returned);
+			'order_id' 					=> $array_reponses['return_order_id'],
+			'firstname' 				=> $order->get_billing_first_name(),
+			'amount_products_returned'	=> $product_returned);
 		$format = array('%d','%s','%d');
 
-
-/*nadja.kofoed@gmail.com
-17050
-*/
 		if($product_returned!=0 ){
 			$wpdb->insert($table_order,$data,$format);
 			$lastid = $wpdb->insert_id;
 		}else{
-			echo json_encode(['errors'=>__('No products is selected','wrm')]);
-			status_header(400);
-			die();
+			$this->error_404(__('No products is selected','wrm'));
 		}
 
 		foreach ($array_reponses["order_products"] as $product){
 			if($product['enableReturn']){
 
 				$data = array(
-					'return_id' => $lastid,
-					'product_id' => $product['product_id'],
-					'product_name' => $product['product_name'],
-					'chosen_attribute' => $product['return_size'],
-					'return_type' => $product['return_type'],
-					'return_action' => $product['return_action'],
+					'return_id' 		=> $lastid,
+					'product_id' 		=> $product['product_id'],
+					'product_name' 		=> $product['product_name'],
+					'chosen_attribute' 	=> $product['return_size'],
+					'return_type' 		=> $product['return_type'],
+					'return_action' 	=> $product['return_action'],
 					);
 				$format = array('%d','%d','%s','%s','%s','%s');
 
 				$wpdb->insert($table_product,$data,$format);
 			}
 		}
-
-
 		$customerArray['customer'] = array(
 			'name' 		=>$order->get_billing_first_name().' '.$order->get_billing_last_name(),
 			'address' 	=>$order->get_billing_address_1(),
 			'zipcode'	=>$order->get_billing_postcode(),
-			'city'	=>$order->get_billing_city(),
+			'city'		=>$order->get_billing_city(),
 			'email'		=>$order->get_billing_email()
 		);
 

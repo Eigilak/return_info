@@ -2,6 +2,10 @@
 @media (min-width: 1025px) {
   .woocommerce_return_manager {
     padding: 1rem;
+    min-height: 90vh;
+  }
+  .woocommerce_return_manager .header {
+    text-align: center;
   }
   .woocommerce_return_manager .content {
     padding: 2rem 2rem 7rem;
@@ -35,6 +39,9 @@
   .woocommerce_return_manager .content .hide {
     display: none;
     visibility: hidden;
+  }
+  .woocommerce_return_manager .content .return_step_2 {
+    display: none;
   }
   .woocommerce_return_manager .content .return_step_2 .input {
     min-height: 18rem;
@@ -83,6 +90,22 @@
   }
   .woocommerce_return_manager .fade-enter, .woocommerce_return_manager .fade-leave-to {
     opacity: 0;
+  }
+  .woocommerce_return_manager .border-bottom {
+    text-decoration: underline;
+  }
+  .woocommerce_return_manager .forms {
+    padding-top: 2rem;
+  }
+  .woocommerce_return_manager .printNote {
+    display: flex;
+    justify-content: left;
+    padding: 1rem 0 1rem;
+  }
+  .woocommerce_return_manager .steps {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid;
   }
   .woocommerce_return_manager .wrm-select {
     display: block;

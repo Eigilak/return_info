@@ -2,6 +2,11 @@
 
 .woocommerce_return_manager{
   padding: 1rem;
+  min-height: 90vh;
+
+  .header{
+    text-align: center;
+  }
 
   .content{
     padding: 2rem 2rem 7rem;
@@ -41,6 +46,7 @@
     }
 
     .return_step_2{
+      display: none;
       .input{
         min-height: 18rem;
       }
@@ -107,6 +113,26 @@
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+  }
+
+  .border-bottom{
+    text-decoration: underline;
+  }
+
+  .forms{
+    padding-top: 2rem;
+  }
+
+  .printNote{
+    display: flex;
+    justify-content: left;
+    padding: 1rem 0 1rem ;
+  }
+
+  .steps{
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid;
   }
 
   .wrm-select {
