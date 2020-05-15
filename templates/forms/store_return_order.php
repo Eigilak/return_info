@@ -31,7 +31,7 @@
                 </td>
                 <td>
                     <select :required="order_product.enableReturn ? true : false" name="return_type" class="wrm-select" id="return_type" v-model="order_product.return_type" >
-                        <option disabled :value="this.initVal" > <?php _e('Choose reason to return','wrm'); ?>               </option>
+                        <option :value="this.initVal" > <?php _e('Choose reason to return','wrm'); ?>               </option>
                         <option value="<?php _e('Damaged','wrm') ?>"><?php _e('Damaged','wrm') ?>               </option>
                         <option  value="<?php _e('Wrong size','wrm') ?>"><?php _e('Wrong size','wrm') ?>        </option>
                         <option value="<?php _e('Regret purchase','wrm') ?>"><?php _e('Regret purchase','wrm') ?>      </option>
@@ -44,10 +44,8 @@
                             @change="[
                             $event.target.selectedIndex == 2 ? order_product.ShowSize=true     : order_product.ShowSize=false,     order_product.return_size='' ,
                             $event.target.selectedIndex == 3 ? order_product.ShowMaterial=true : order_product.ShowMaterial=false, order_product.return_material='',
-
-
                             ]">
-                        <option disabled :value="this.initVal" ><?php _e('Choose action','wrm'); ?>                              </option>
+                        <option :value="this.initVal" ><?php _e('Choose action','wrm'); ?>                              </option>
                         <option value="<?php _e('Money back','wrm') ?>"><?php _e('Money back','wrm') ?>             </option>
                         <option value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?>                 </option>
                         <option value="<?php _e('Another material','wrm') ?>"><?php _e('Another material','wrm') ?> </option>

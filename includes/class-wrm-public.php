@@ -42,7 +42,7 @@ class WRM_Public{
 
     public function error_404($msg){
 
-		echo json_encode(['errors'=>$msg]);
+		echo wp_json_encode(['errors'=>$msg]);
 
 		status_header(400);
 
@@ -111,7 +111,7 @@ class WRM_Public{
 						}elseif($stock_status <= 5 && $stock_status !=0 ){
 							$stock_status_text = __('Low in stock','wrm');
 						}else{
-							$stock_status_text = __('out of stock','wrm');
+							$stock_status_text = __('Out of stock','wrm');
 						}
 
 						/*Sætter det det i variationsarray*/
@@ -132,7 +132,7 @@ class WRM_Public{
 
 		}
 
-		wp_send_json($order_products_array);
+		wp_send_json_success($order_products_array);
 
 		wp_die();
     }
@@ -201,7 +201,7 @@ class WRM_Public{
 			'email'		=>$order->get_billing_email()
 		);
 
-		wp_send_json($customerArray);
+		wp_send_json_success($customerArray);
 		wp_die();
 
 	}

@@ -134,8 +134,13 @@ class Form {
         return new Promise((resolve, reject) => {
             axios[requestType](url, params)
                 .then(response => {
-                    this.onSuccess(response.data);
-                    resolve(response.data);
+                    /*This is related to wp's json reponse success*/
+                    if(response.data.success){
+                        this.onSuccess(response.data);
+                        resolve(response.data);
+                    } else {
+                        throw new Error()
+                    }
                 })
                 .catch(error => {
                     this.onFail(error.response.data);

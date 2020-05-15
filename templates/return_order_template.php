@@ -21,32 +21,19 @@
                 </div>
 
                 <div :class="[ !return_orderForm.requestGot ? 'hide' : '']">
-                    <?php if(true): ?>
-                        <div>
-                            <p>
-                                <?php _e('If the return link is not opened:') ?>
-                                <br>
-                                <?php _e('Please follow','wrm') ?>
-                                <u>
-                                    <a style="cursor: pointer" @click="shipmondo_manual"  rel="noopener noreferrer">
-                                        <?php _e('this link','') ?>
-                                    </a>
-                                </u>
-                                <?php _e('to return your order') ?>
-                            </p>
-                        </div>
-                    <?php else :?>
-                        <div>
-                            <p><?php _e('Thanks for requesting for a return','wrm') ?></p>
-                            <p><?php _e('further actions will be done when we have the product(s) in our possesion','wrm')?></p>
-                        </div>
-                    <?php endif ?>
+                        <p>
+                            <?php _e('If the return link is not opened:') ?>
+                            <br>
+                            <?php _e('Please follow','wrm') ?>
+                                <a style="cursor: pointer" @click="shipmondo_manual"  rel="noopener noreferrer">
+                                    <?php _e('this link','') ?>
+                                </a>
+                            <?php _e('to return your order') ?>
+                        </p> <br><br>
+                        <p><?php _e('Thanks for requesting for a return','wrm') ?>.</p>
+                        <p><?php _e('Further actions will be done when we have the product(s) in our possesion','wrm')?>.</p>
                 </div>
             </div>
-
-            <button class="test"></button>
-
-
 
         </div>
 

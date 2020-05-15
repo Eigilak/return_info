@@ -33,12 +33,22 @@ if (checkVueEl.length > 0) {
                     '?action=get_customer_by_id_and_email' +
                     '&order_id=' + this.find_orderForm.order_id +
                     '&customer_email=' + this.find_orderForm.customer_email)
-                    .then(
-                        (data => ( this.return_orderForm.order_products =data)),
-                        this.return_orderForm.return_order_id =this.find_orderForm.order_id,
+                    .then((
+                            response => (
+                                this.return_orderForm.order_products =response.data,
+                                this.afterFindCustomer(response.success)
+                            )
+                        ),
                     )
+
+            },
+            afterFindCustomer(response){
+                if(response === true){
+                    this.return_orderForm.return_order_id =this.find_orderForm.order_id;
                     this.step1=false;
                     this.step2=true;
+                    console.log('kørt');
+                }
             },
             enable_select(){
                 setTimeout(function () {
@@ -60,21 +70,22 @@ if (checkVueEl.length > 0) {
                 this.return_orderForm
                     .post(local.ajax_url, params)
                     .then(
-                        (data => (
-                            this.customer.name=    data['customer'].name,
-                            this.customer.address= data['customer'].address,
-                            this.customer.zipcode= data['customer'].zipcode,
-                            this.customer.city=    data['customer'].city,
-                            this.customer.email=   data['customer'].email
-                        )),
-                        this.return_orderForm.requestGot=true,
+                        (response => (
+                            this.customer.name=    response.data['customer'].name,
+                            this.customer.address= response.data['customer'].address,
+                            this.customer.zipcode= response.data['customer'].zipcode,
+                            this.customer.city=    response.data['customer'].city,
+                            this.customer.email=   response.data['customer'].email
+                        )), this.afterReturn()
                     )
+            }, afterReturn(){
                 that = this;
                 /*Sæt et interval op at vent til at object customer er sat indtil da vent*/
                 var counter_intervals
                 var interval = setInterval(function() {
                     // get elem
                     if (that.customer.name == null|| that.customer.name ==='undefined' ){
+                        console.log('søger...')
                         counter_intervals++
                         if(counter_intervals == 50){
                             clearInterval(interval)
@@ -82,12 +93,16 @@ if (checkVueEl.length > 0) {
                         return;
                     }
                     that.shipmondo_modul();
+                    that.order_note_pdf()
+                    that.return_orderForm.requestGot=true;
                     clearInterval(interval);
                     // the rest of the code
                 }, 100);
                 this.step1=false;
                 this.step2=false;
                 this.step3=true;
+
+
 
             },
                 shipmondo_manual: function () {
@@ -114,8 +129,7 @@ if (checkVueEl.length > 0) {
                     "&preview=true&"
                 )
             },
-            test_pdf: function () {
-                this.customer.name = 'Hans';
+            order_note_pdf: function () {
                 var doc = new jsPDF()
 
                 var pdfName=local.pdf_name;
@@ -151,8 +165,8 @@ if (checkVueEl.length > 0) {
                     }
 
                 });
+                doc.save(pdfName+'#'+this.find_orderForm.order_id);
 
-                doc.save(pdfName+'#'+this.find_orderForm.order_id)
             }
         }
     });
