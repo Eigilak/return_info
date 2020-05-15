@@ -1,8 +1,14 @@
 
+$site_color: black;
 
 .woocommerce_return_manager{
   padding: 1rem;
   min-height: 90vh;
+
+  .loading{
+    cursor: progress;
+    opacity: 0.4;
+  }
 
   .header{
     text-align: center;
@@ -10,7 +16,7 @@
 
   .content{
     padding: 2rem 2rem 7rem;
-    border: 1px solid black;
+    border: 1px solid $site_color;
     max-width: 80%;
     margin: auto;
 
@@ -91,8 +97,12 @@
       background: lightgrey!important;
     }
 
+    .wrm-tr{
+      border: 1px solid $site_color;
+    }
+
     tr,td,th,table{
-      border: 1px solid black !important;
+      border: 1px solid $site_color!important;
       background: white;
       font-weight: 300;
       font-size: 1rem;
@@ -133,6 +143,25 @@
     display: flex;
     justify-content: space-around;
     border-bottom: 1px solid;
+  }
+
+  .errorInput{
+    border: 1px solid red!important;
+  }
+
+  .danger{
+    border-color: red !important;
+    color: red;
+  }
+
+  button{
+    cursor: pointer;
+    &:focus{
+      border: 1px solid $site_color;
+    }
+    &:active{
+      border: 1px solid $site_color;
+    }
   }
 
   .wrm-select {

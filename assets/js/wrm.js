@@ -6,6 +6,7 @@ if (checkVueEl.length > 0) {
         el: '.woocommerce_return_manager',
         initVal:'',
         data: {
+                loading:false,
                 step1:true,
                 step2:false,
                 step3:false,
@@ -19,7 +20,7 @@ if (checkVueEl.length > 0) {
                 enableLoading:false,
                 find_orderForm: new Form({
                     customer_email: 'mm@lundbrandhouse.dk',
-                    order_id: '15820'
+                    order_id: '15822'
                 }),
                 return_orderForm: new Form({
                     requestGot:false,
@@ -29,16 +30,20 @@ if (checkVueEl.length > 0) {
         },
         methods: {
             get_order_by_id_email() {
+                this.loading=true;
+
                 this.find_orderForm.get(local.ajax_url +
                     '?action=get_customer_by_id_and_email' +
                     '&order_id=' + this.find_orderForm.order_id +
                     '&customer_email=' + this.find_orderForm.customer_email)
-                    .then((
+                    .then(
+                        (
                             response => (
                                 this.return_orderForm.order_products =response.data,
                                 this.afterFindCustomer(response.success)
+
                             )
-                        ),
+                        ),this.loading=false
                     )
 
             },
@@ -49,6 +54,7 @@ if (checkVueEl.length > 0) {
                     this.step2=true;
                     console.log('kørt');
                 }
+
             },
             enable_select(){
                 setTimeout(function () {
@@ -79,30 +85,30 @@ if (checkVueEl.length > 0) {
                         )), this.afterReturn()
                     )
             }, afterReturn(){
-                that = this;
-                /*Sæt et interval op at vent til at object customer er sat indtil da vent*/
-                var counter_intervals
-                var interval = setInterval(function() {
-                    // get elem
-                    if (that.customer.name == null|| that.customer.name ==='undefined' ){
-                        console.log('søger...')
-                        counter_intervals++
-                        if(counter_intervals == 50){
-                            clearInterval(interval)
+                if(response === true){
+                    that = this;
+                    /*Sæt et interval op at vent til at object customer er sat indtil da vent*/
+                    var counter_intervals
+                    var interval = setInterval(function() {
+                        // get elem
+                        if (that.customer.name == null|| that.customer.name ==='undefined' ){
+                            console.log('søger...')
+                            counter_intervals++
+                            if(counter_intervals == 50){
+                                clearInterval(interval)
+                            }
+                            return;
                         }
-                        return;
-                    }
-                    that.shipmondo_modul();
-                    that.order_note_pdf()
-                    that.return_orderForm.requestGot=true;
-                    clearInterval(interval);
-                    // the rest of the code
-                }, 100);
-                this.step1=false;
-                this.step2=false;
-                this.step3=true;
-
-
+                        that.shipmondo_modul();
+                        that.order_note_pdf()
+                        that.return_orderForm.requestGot=true;
+                        clearInterval(interval);
+                        // the rest of the code
+                    }, 100);
+                    this.step1=false;
+                    this.step2=false;
+                    this.step3=true;
+                }
 
             },
                 shipmondo_manual: function () {

@@ -34,8 +34,9 @@ class Errors {
     }
 
     get(field){
+
         if(this.errors[field]){
-            return this.errors[field][0];
+            return this.errors[field];
         }
     }
 
@@ -143,6 +144,7 @@ class Form {
                     }
                 })
                 .catch(error => {
+
                     this.onFail(error.response.data);
                     reject(error.response.data);
                     this.success = false

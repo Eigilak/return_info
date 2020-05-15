@@ -63,10 +63,10 @@ class WRM_Public{
 		try{
 			$order = new WC_Order($order_id);
 		} catch (Exception $e){
-			$this->error_404(__('The fields doesnt match','wrm'));
+			$this->error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
 		if($customer_email != $order->get_billing_email()){
-			$this->error_404(__('The fields doesnt match','wrm'));
+			$this->error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
 
 

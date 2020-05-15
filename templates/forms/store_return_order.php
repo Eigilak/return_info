@@ -1,19 +1,19 @@
 
-<form  @submit.prevent="submit_return_order_form" >
+<form  @submit.prevent="submit_return_order_form" @keydown="find_orderForm.errors.clear('errors')" >
     <p><?php _e('Your order number') ?>: {{find_orderForm.order_id}}</p>
     <div class="input">
         <table class="order_item">
-            <thead>
-            <tr>
-                <th class="action_check"><?php _e('Choose','wrm') ?></th>
+            <thead class="wrm-tr">
+            <tr >
+                <th :class="[return_orderForm.errors.any() ? 'danger' : '']" class="action_check"><?php _e('Selected','wrm') ?></th>
                 <th><?php _e('Product name','wrm')?></th>
                 <th><?php _e('Why do you wish to return','wrm') ?>?</th>
                 <th><?php _e('Return action','wrm') ?></th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(order_product, index) in return_orderForm.order_products" :key="order_product.product_id">
-                <td class="action_checkbox">
+            <tr  v-for="(order_product, index) in return_orderForm.order_products" :key="order_product.product_id">
+                <td class="action_checkbox" :class="[return_orderForm.errors.any() ? 'danger' : '']">
                     <div class="pretty p-svg p-curve">
                         <input :id="order_product.product_name" :value="false" v-model="order_product.enableReturn" type="checkbox"/>
                         <div class="state p-success">
@@ -98,4 +98,5 @@
     </div>
 
     <button type="submit"><?php _e('Return order','wrm'); ?> </button>
+    <span style="color: red" v-text="return_orderForm.errors.get('errors')" v-if="return_orderForm.errors.any()"></span>
 </form>

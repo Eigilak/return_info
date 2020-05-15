@@ -4,6 +4,10 @@
     padding: 1rem;
     min-height: 90vh;
   }
+  .woocommerce_return_manager .loading {
+    cursor: progress;
+    opacity: 0.4;
+  }
   .woocommerce_return_manager .header {
     text-align: center;
   }
@@ -71,6 +75,9 @@
   .woocommerce_return_manager .content .select2-results__option--highlighted {
     background: lightgrey !important;
   }
+  .woocommerce_return_manager .content .wrm-tr {
+    border: 1px solid black;
+  }
   .woocommerce_return_manager .content tr, .woocommerce_return_manager .content td, .woocommerce_return_manager .content th, .woocommerce_return_manager .content table {
     border: 1px solid black !important;
     background: white;
@@ -106,6 +113,22 @@
     display: flex;
     justify-content: space-around;
     border-bottom: 1px solid;
+  }
+  .woocommerce_return_manager .errorInput {
+    border: 1px solid red !important;
+  }
+  .woocommerce_return_manager .danger {
+    border-color: red !important;
+    color: red;
+  }
+  .woocommerce_return_manager button {
+    cursor: pointer;
+  }
+  .woocommerce_return_manager button:focus {
+    border: 1px solid black;
+  }
+  .woocommerce_return_manager button:active {
+    border: 1px solid black;
   }
   .woocommerce_return_manager .wrm-select {
     display: block;

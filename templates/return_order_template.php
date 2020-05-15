@@ -1,6 +1,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
-<div class="woocommerce_return_manager" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <div class="wrm_overlay wrm_app">
+
+
+<div class="woocommerce_return_manager">
+    <div class="wrm_app" :class="[loading ? 'loading' :'']">
         <div class="header">
             <h3><?=  get_the_title() ?> - <?php _e('Return your order','wrm')  ?></h3>
         </div>
