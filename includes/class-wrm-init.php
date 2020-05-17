@@ -66,7 +66,8 @@ class woocommerce_return_manager_init{
 					'products_txt'		=>	__('Returned products','wrm'),
 					'product_name_txt'	=>	__('Product name','wrm'),
 					'no_products_txt'	=>	__('No products selected','wrm'),
-					'name_txt'			=>	__('Customer','wrm')
+					'name_txt'			=>	__('Customer','wrm'),
+					'fc_nonce'			=> wp_create_nonce()
 				));
 
 		}

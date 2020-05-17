@@ -20,8 +20,8 @@ if (checkVueEl.length > 0) {
                 enableLoading:false,
                 find_orderForm: new Form({
                     customer_email: 'mm@lundbrandhouse.dk',
-                    order_id: '15822',
-                    google_token:'asd'
+                    order_id: '15820',
+                    nonce:local.fc_nonce
                 }),
                 return_orderForm: new Form({
                     requestGot:false,
@@ -31,12 +31,16 @@ if (checkVueEl.length > 0) {
         },
         methods: {
             get_order_by_id_email() {
-                this.loading=true;
 
-                this.find_orderForm.get(local.ajax_url +
-                    '?action=get_customer_by_id_and_email' +
-                    '&order_id=' + this.find_orderForm.order_id +
-                    '&customer_email=' + this.find_orderForm.customer_email)
+                var JSON_response='';
+                JSON_response = JSON.stringify(this.find_orderForm);
+                var params = new URLSearchParams();
+                params.append('find_customer', JSON_response);
+                params.append('action', 'get_customer_by_id_and_email');
+                params.append('Content-Type','application/x-www-form-urlencoded');
+
+                this.find_orderForm
+                    .post(local.ajax_url, params)
                     .then(
                         (
                             response => (
@@ -133,7 +137,8 @@ if (checkVueEl.length > 0) {
                     "&email="+this.customer.email+
                     "&emailRepeated="+this.customer.email+
                     "&reference="+this.find_orderForm.order_id+
-                    "&preview=true&"
+                    '&'
+                    /*"&preview=true&"*/
                 )
             },
             order_note_pdf: function () {
@@ -182,8 +187,8 @@ if (checkVueEl.length > 0) {
 grecaptcha.ready(function() {
     grecaptcha.execute('6LeCKvgUAAAAANrj6FzsYqF9j6vpGCjmDgZJ6hGE', {action: 'homepage'}).then(function(token) {
 
-        token = this.find_orderForm.google_token;
+       /* token = this.find_orderForm.google_token;*/
 
-        console.log(this.find_orderForm.google_token)
+        /*console.log(this.find_orderForm.google_token)*/
     });
 });

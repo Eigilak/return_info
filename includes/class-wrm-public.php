@@ -55,8 +55,24 @@ class WRM_Public{
 
     function get_customer_by_id_and_email(){
 
-		$order_id = _sanitize_text_fields($_REQUEST['order_id']);
-		$customer_email = sanitize_email($_REQUEST['customer_email']);
+		$JSON_response='';
+		$array_reponses='';
+
+		$JSON_response = $_REQUEST['find_customer'];
+
+		$array_reponses = json_decode(stripslashes($JSON_response),true);
+
+		$nonce = _sanitize_text_fields($array_reponses['nonce']);
+
+		/*Check if the nonce from the site is the same generated from wordpress*/
+		if(!isset($nonce) || !wp_verify_nonce($nonce)){
+
+			$this->error_404(__('Hmmm... seems your nonce doesnt fit ours ','wrm'));
+
+		}
+
+		$order_id = _sanitize_text_fields($array_reponses['order_id']);
+		$customer_email = sanitize_email($array_reponses['customer_email']);
 
 		/*If fields empty die */
 		if(empty($order_id) || empty($customer_email)){

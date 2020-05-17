@@ -103,8 +103,10 @@ class Form {
         return this.submit('put', url);
     }
     /*get request*/
-    get(url){
-        return this.submit('get', url)
+    get(url, params){
+        console.log(params)
+        console.log(url)
+        return this.submit('get', url,params)
     }
 
     /**

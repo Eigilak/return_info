@@ -6,7 +6,7 @@
 
   .woocommerce_return_manager {
     padding: 1rem;
-    min-height: 90vh;
+    min-height: 100vh;
   }
   .woocommerce_return_manager .loading {
     cursor: progress;

@@ -11,6 +11,8 @@
 
     <input type="text" value="" name="google_token" id="g-token" hidden v-model="find_orderForm.google_token">
 
+    <input type="text" hidden name="find_customer_nonce"  v-model="find_orderForm.nonce">
+
     <button type="submit"><?php _e('Find my order','wrm'); ?></button>
     <span style="color: red" v-text="find_orderForm.errors.get('errors')" v-if="find_orderForm.errors.any()"></span>
 
