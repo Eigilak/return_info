@@ -1,5 +1,9 @@
 /*Desktop*/
 @media (min-width: 1025px) {
+  .grecaptcha-badge {
+    top: 37rem !important;
+  }
+
   .woocommerce_return_manager {
     padding: 1rem;
     min-height: 90vh;

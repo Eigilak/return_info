@@ -26,10 +26,14 @@ class WRM_Public{
 	}
 
 	/*Get template for the return form*/
-	function get_return_form(){
+	function get_return_form($atts, $content = null){
+
 		ob_start();
 			wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
 		return ob_get_clean();
+
+
+
 	}
 
 	function load_ajax_method(){
@@ -68,7 +72,6 @@ class WRM_Public{
 		if($customer_email != $order->get_billing_email()){
 			$this->error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
-
 
 
 		/*Mit über loop hvor jeg kigger på produkterne kunde har købt*/

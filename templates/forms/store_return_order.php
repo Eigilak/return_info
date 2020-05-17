@@ -47,8 +47,9 @@
                             ]">
                         <option :value="this.initVal" ><?php _e('Choose action','wrm'); ?>                              </option>
                         <option value="<?php _e('Money back','wrm') ?>"><?php _e('Money back','wrm') ?>             </option>
-                        <option v-if="order_product.attributes.pa_stoerrelse" value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?>                 </option>
+                        <option :disabled="!order_product.attributes.pa_stoerrelse" value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?>                 </option>
                         <option value="<?php _e('Another material','wrm') ?>"><?php _e('Another material','wrm') ?> </option>
+                        <option value="<?php _e('Same product','wrm') ?>"><?php _e('Same product','wrm') ?> </option>
                     </select>
 
                     <select name="return_size" class="wrm-select " v-show="order_product.ShowSize" @change="order_product.return_size= $event.target.value">

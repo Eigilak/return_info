@@ -38,7 +38,6 @@ function init_WRM(){
 	woocommerce_return_manager_init::get_instance();
 }
 
-
 register_activation_hook( __FILE__,function (){
     global $wpdb;
     $table_name = $wpdb->prefix .'woocommerce_return_manager_order';

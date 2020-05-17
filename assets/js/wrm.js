@@ -20,7 +20,8 @@ if (checkVueEl.length > 0) {
                 enableLoading:false,
                 find_orderForm: new Form({
                     customer_email: 'mm@lundbrandhouse.dk',
-                    order_id: '15822'
+                    order_id: '15822',
+                    google_token:'asd'
                 }),
                 return_orderForm: new Form({
                     requestGot:false,
@@ -52,7 +53,6 @@ if (checkVueEl.length > 0) {
                     this.return_orderForm.return_order_id =this.find_orderForm.order_id;
                     this.step1=false;
                     this.step2=true;
-                    console.log('kørt');
                 }
 
             },
@@ -81,10 +81,11 @@ if (checkVueEl.length > 0) {
                             this.customer.address= response.data['customer'].address,
                             this.customer.zipcode= response.data['customer'].zipcode,
                             this.customer.city=    response.data['customer'].city,
-                            this.customer.email=   response.data['customer'].email
-                        )), this.afterReturn()
+                            this.customer.email=   response.data['customer'].email,
+                            this.afterReturn(response.success)
+                        ))
                     )
-            }, afterReturn(){
+            }, afterReturn(response){
                 if(response === true){
                     that = this;
                     /*Sæt et interval op at vent til at object customer er sat indtil da vent*/
@@ -177,3 +178,12 @@ if (checkVueEl.length > 0) {
         }
     });
 }
+
+grecaptcha.ready(function() {
+    grecaptcha.execute('6LeCKvgUAAAAANrj6FzsYqF9j6vpGCjmDgZJ6hGE', {action: 'homepage'}).then(function(token) {
+
+        token = this.find_orderForm.google_token;
+
+        console.log(this.find_orderForm.google_token)
+    });
+});
