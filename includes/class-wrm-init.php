@@ -42,10 +42,10 @@ class woocommerce_return_manager_init{
 			wp_enqueue_script( 'jquery' );
 			/*Scripts*/
 			/*development*/
-			wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
+			wp_enqueue_script('vue-defer',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
 			/*production*/
 			/*		wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);*/
-			wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
+			wp_enqueue_script('vueforms-defer',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
 
 			/*Hvis selectWoo ikke er enqued kør det*/
 			if(wp_script_is('selectWoo')){
