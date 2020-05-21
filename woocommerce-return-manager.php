@@ -27,12 +27,12 @@ define( 'WRM__FILE__', __FILE__ );
 
 
 //Admin Settings
-include_once WRM_PATH.'/admin/wrm-admin.php';
+include_once WRM_PATH.'/admin/class-wrm-admin.php';
 
 //Init plugin
 function init_WRM(){
-	global $WRM_atcem_value;
 
+	global $WRM_atcem_value;
 	require_once WRM_PATH.'/includes/class-wrm-init.php';
 	//Start the plugin
 	woocommerce_return_manager_init::get_instance();
@@ -45,7 +45,8 @@ register_activation_hook( __FILE__,function (){
     $sql = "CREATE TABLE $table_name (
 			id bigint NOT NULL AUTO_INCREMENT,
 			order_id integer not NULL,
-			firstname tinytext NOT NULL,
+			name tinytext NOT NULL,
+			email tinytext NOT NULL,
 			amount_products_returned int,
 			created_at timestamp DEFAULT current_timestamp,
 			PRIMARY KEY  (id)

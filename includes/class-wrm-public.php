@@ -10,11 +10,14 @@ class WRM_Public{
 	protected static $instance = null;
 
 	public function __construct(){
+
 		/*Brug shortcode til at få returform*/
 		add_shortcode('wrm_shortcode',array($this,'get_return_form'));
 		add_action('init',array($this, 'load_ajax_method'));
 		add_action('wp_ajax_nopriv_create_return_request', array($this,'create_return_request'));
 		add_action('wp_ajax_create_return_request', array($this,'create_return_request'));
+		add_action('wp_enqueue_scripts',array($this,'enqueue_scripts'),99);
+
 	}
 
 	//Get class instance
@@ -27,13 +30,9 @@ class WRM_Public{
 
 	/*Get template for the return form*/
 	function get_return_form($atts, $content = null){
-
 		ob_start();
 			wc_get_template('return_order_template.php','','',WRM_PATH.'/templates/');
 		return ob_get_clean();
-
-
-
 	}
 
 	function load_ajax_method(){
@@ -44,14 +43,6 @@ class WRM_Public{
         }
     }
 
-    public function error_404($msg){
-
-		echo wp_json_encode(['errors'=>$msg]);
-
-		status_header(400);
-
-		die();
-	}
 
     function get_customer_by_id_and_email(){
 
@@ -66,9 +57,7 @@ class WRM_Public{
 
 		/*Check if the nonce from the site is the same generated from wordpress*/
 		if(!isset($nonce) || !wp_verify_nonce($nonce)){
-
-			$this->error_404(__('Hmmm... seems your nonce doesnt fit ours ','wrm'));
-
+			WRM_Core::error_404(__('Hmmm... seems your nonce doesnt fit ours ','wrm'));
 		}
 
 		$order_id = _sanitize_text_fields($array_reponses['order_id']);
@@ -76,17 +65,17 @@ class WRM_Public{
 
 		/*If fields empty die */
 		if(empty($order_id) || empty($customer_email)){
-			$this->error_404(__('The field is requirerd','wrm'));
+			WRM_Core::error_404(__('The field is requirerd','wrm'));
 		}
 
 		/*get order by id if not send error */
 		try{
 			$order = new WC_Order($order_id);
 		} catch (Exception $e){
-			$this->error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
+			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
 		if($customer_email != $order->get_billing_email()){
-			$this->error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
+			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
 
 
@@ -185,7 +174,8 @@ class WRM_Public{
 		}
 		$data = array(
 			'order_id' 					=> $array_reponses['return_order_id'],
-			'firstname' 				=> $order->get_billing_first_name(),
+			'name' 						=> $order->get_billing_first_name().' '.$order->get_billing_last_name(),
+			'email' 					=> $order->get_billing_email(),
 			'amount_products_returned'	=> $product_returned);
 		$format = array('%d','%s','%d');
 
@@ -193,7 +183,7 @@ class WRM_Public{
 			$wpdb->insert($table_order,$data,$format);
 			$lastid = $wpdb->insert_id;
 		}else{
-			$this->error_404(__('No products is selected','wrm'));
+			(new WRM_Core)->error_404(__('No products is selected','wrm'));
 		}
 
 		foreach ($array_reponses["order_products"] as $product){
@@ -204,9 +194,11 @@ class WRM_Public{
 					'product_id' 		=> $product['product_id'],
 					'product_name' 		=> $product['product_name'],
 					'chosen_attribute' 	=> $product['return_size'],
+					'chosen_material' 	=> $product['return_material'],
 					'return_type' 		=> $product['return_type'],
 					'return_action' 	=> $product['return_action'],
 					);
+
 				$format = array('%d','%d','%s','%s','%s','%s');
 
 				$wpdb->insert($table_product,$data,$format);
@@ -223,6 +215,45 @@ class WRM_Public{
 		wp_send_json_success($customerArray);
 		wp_die();
 
+	}
+
+
+	//enqueue stylesheets & scripts
+	public function enqueue_scripts(){
+		global $post;
+		/*If short code is present --> load scripts*/
+		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'wrm_shortcode') ) {
+			/*scss*/
+			wp_enqueue_style('wrm-style',WRM_URL.'/assets/scss/mainStyle.css',null,WRM_VERSION);
+			wp_enqueue_script( 'jquery' );
+			/*Scripts*/
+			/*development*/
+				/*wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);*/
+			/*production*/
+				wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
+			wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
+
+			/*Hvis selectWoo ikke er enqued kør det*/
+			if(wp_script_is('selectWoo')){
+				wp_enqueue_script('selectWoo',WRM_URL.'/assets/js/frameworks/selectWoo.min.js','',WRM_VERSION,true);
+			}
+			wp_enqueue_script('wrm-js',WRM_URL.'/assets/js/wrm.js','',WRM_VERSION,true);
+
+			/*make pdf variables available in js*/
+			wp_localize_script( 'wrm-js', 'local',
+				array(
+					'ajax_url' 			=> 	admin_url( 'admin-ajax.php' ),
+					'site_name' 		=> 	get_bloginfo( 'name' ),
+					'pdf_name'			=>	__('Follow note for','wrm'),
+					'package_message' 	=> 	__('This note should be placed in the package so we can carry out your order','wrm'),
+					'order_number_txt' 	=>	__('Order number:','wrm'),
+					'products_txt'		=>	__('Returned products','wrm'),
+					'product_name_txt'	=>	__('Product name','wrm'),
+					'no_products_txt'	=>	__('No products selected','wrm'),
+					'name_txt'			=>	__('Customer','wrm'),
+					'fc_nonce'			=> wp_create_nonce()
+				));
+		}
 	}
 }
 

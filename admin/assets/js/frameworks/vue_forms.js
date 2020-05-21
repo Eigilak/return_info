@@ -1,5 +1,4 @@
-
-class Success{
+class Success {
     constructor() {
         this.success = {}
     }

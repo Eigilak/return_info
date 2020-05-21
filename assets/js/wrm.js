@@ -184,11 +184,3 @@ if (checkVueEl.length > 0) {
     });
 }
 
-grecaptcha.ready(function() {
-    grecaptcha.execute('6LeCKvgUAAAAANrj6FzsYqF9j6vpGCjmDgZJ6hGE', {action: 'homepage'}).then(function(token) {
-
-       /* token = this.find_orderForm.google_token;*/
-
-        /*console.log(this.find_orderForm.google_token)*/
-    });
-});

@@ -18,11 +18,18 @@ class WRM_Core{
 		return self::$instance;
 	}
 
-
 	public function __construct(){
-
-
 	}
+
+	public function error_404($msg){
+
+		echo wp_json_encode(['errors'=>$msg]);
+
+		status_header(400);
+
+		die();
+	}
+
 
 }
 ?>
