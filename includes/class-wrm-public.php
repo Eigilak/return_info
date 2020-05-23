@@ -229,7 +229,6 @@ class WRM_Public{
 
 	}
 
-
 	//enqueue stylesheets & scripts
 	public function enqueue_scripts(){
 		global $post;
