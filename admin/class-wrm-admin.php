@@ -18,7 +18,7 @@ class WRM_Admin{
     {
        add_action('admin_menu',array($this,'wrm_add_admin_menu'));
        add_action('init',array($this, 'load_ajax_method'));
-       add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'),99);
+       add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'),1);
 
     }
 
@@ -82,12 +82,14 @@ class WRM_Admin{
             $products = $wpdb->get_results($preparedStatement);
 
             $returnedOrders[]= [
-                'Order id'      =>$order->order_id,
-                'firstname'     =>$order->firstname,
+                'id'            =>$order->id,
+                'order_id'      =>$order->order_id,
+                'name'          =>$order->name,
                 'email'         =>$order->email,
                 'product_count' =>$order->amount_products_returned,
                 'products'      =>$products,
-                'created_at'    =>$order->created_at
+                'created_at'    =>$order->created_at,
+                'showProduct'   =>false
             ];
 
         }

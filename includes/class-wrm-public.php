@@ -170,6 +170,7 @@ class WRM_Public{
 		foreach ($array_reponses["order_products"] as $product){
 			if($product['enableReturn'] && isset($product['return_action']) && isset($product['return_type']) ){
 				$product_returned++;
+
 			}
 		}
 		$data = array(
@@ -177,7 +178,7 @@ class WRM_Public{
 			'name' 						=> $order->get_billing_first_name().' '.$order->get_billing_last_name(),
 			'email' 					=> $order->get_billing_email(),
 			'amount_products_returned'	=> $product_returned);
-		$format = array('%d','%s','%d');
+		$format = array('%d','%s','%s','%d');
 
 		if($product_returned!=0 ){
 			$wpdb->insert($table_order,$data,$format);
@@ -193,13 +194,13 @@ class WRM_Public{
 					'return_id' 		=> $lastid,
 					'product_id' 		=> $product['product_id'],
 					'product_name' 		=> $product['product_name'],
-					'chosen_attribute' 	=> $product['return_size'],
-					'chosen_material' 	=> $product['return_material'],
+					'chosen_attribute1' 	=> $product['return_size'],
+					'chosen_attribute2' 	=> $product['return_material'],
 					'return_type' 		=> $product['return_type'],
 					'return_action' 	=> $product['return_action'],
 					);
 
-				$format = array('%d','%d','%s','%s','%s','%s');
+				$format = array('%d','%d','%s','%s','%s','%s','%s');
 
 				$wpdb->insert($table_product,$data,$format);
 			}
@@ -228,9 +229,9 @@ class WRM_Public{
 			wp_enqueue_script( 'jquery' );
 			/*Scripts*/
 			/*development*/
-				/*wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);*/
+				wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
 			/*production*/
-				wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
+				//wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
 			wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
 
 			/*Hvis selectWoo ikke er enqued kør det*/

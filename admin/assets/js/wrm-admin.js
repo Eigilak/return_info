@@ -8,33 +8,35 @@ if(checkVueAdmin.length > 0){
         new Vue({
             el:'.wrm_admin',
             data:{
-                returned_orders:{},
-                search:''
+                hans:false,
+                search_keys:'',
+                orders:{},
+                orginalOrders:{}
             },
             methods:{
-                get_orders(){
-
-                    var data = {
-                        actiom:'init_get_order'
-                    }
-                    var params = new URLSearchParams();
-                    params.append('action', 'init_get_order');
-                    axios.get('/wp-admin/admin-ajax.php?action=init_get_orders')
-                        .then(
-                            (
-                                response=>(
-                                 this.returned_orders = response.data
-                                )
-                            )
-                        )
+                search_order(){
 
                 }
+
             },
             computed:{
 
             },
             mounted(){
-
+                var data = {
+                    actiom:'init_get_order'
+                }
+                var params = new URLSearchParams();
+                params.append('action', 'init_get_order');
+                axios.get('/wp-admin/admin-ajax.php?action=init_get_orders')
+                    .then(
+                        (
+                            response=>(
+                                this.orders = response.data.data.reverse(),
+                                this.orginalOrders = response.data.data.reverse()
+                            )
+                        )
+                    )
             }
 
 

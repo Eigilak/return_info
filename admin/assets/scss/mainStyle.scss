@@ -1,0 +1,52 @@
+
+
+.wrm_admin{
+
+  .hide{
+    display: none;
+  }
+
+  .controlPanel{
+    display: flex;
+    padding: 0 1rem;
+    justify-content: space-between;
+    .search{
+      width: 30%;
+      input{
+        width: 100%;
+      }
+    }
+  }
+
+
+  .orderItem{
+    position: relative;
+
+    .products{
+      background: white;
+      position: absolute;
+      left: 0;
+      width: 60%;
+      color: #0071a1;
+      border-color: #0071a1;
+      background: #f3f5f6;
+      border-spacing: 0;
+      tr,td,th{
+        background: #f3f5f6;
+        border-color: #007cba;
+        color: #016087;
+        box-shadow: 0 0 0 1px #007cba;
+        outline: 2px solid transparent;
+        outline-offset: 0;
+      }
+
+    }
+
+    .emptyField{
+      background: #007cba;
+    }
+
+
+  }
+
+}
