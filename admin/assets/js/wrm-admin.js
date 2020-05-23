@@ -31,6 +31,21 @@ if(checkVueAdmin.length > 0){
                     let from = (page * perPage) - perPage;
                     let to = (page * perPage);
                     return  orders.slice(from, to);
+                },
+                deleteOrder(id,name){
+
+                    if(confirm(local.confirm_msg+' '+name+'s '+local.request_msg+'?'))
+                    {
+                        axios.post('/wp-admin/admin-ajax.php?action=delete_order&returned_id='+id)
+                            .then(
+                                (
+                                    response=>(
+                                        console.log(response.data)
+                                    )
+                                )
+
+                            )
+                    }
                 }
             },
             computed:{

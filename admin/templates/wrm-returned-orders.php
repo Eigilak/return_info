@@ -17,14 +17,17 @@
                     <th> <?php _e('Order','wrm')?></th>
                     <th> <?php _e('Name','wrm')?></th>
                     <th class="mobileHide"> <?php _e('Email','wrm')?></th>
-                    <th class="mobileHide"> <?php _e('Products returned','wrm')?></th>
-                    <th class="mobileHide"> <?php _e('Created at','wrm')?></th>
+                    <th class="mobileHide"> <?php _e('Returned','wrm')?></th>
+                    <th class="mobileHide"> <?php _e('Created','wrm')?></th>
                     <th> <?php _e('Show products','wrm')?></th>
+                    <th> <?php _e('Delete','wrm')?></th>
                 </tr>
             </thead>
             <tbody class="body">
                 <tr class="orderItem" v-for="(order,index) in filtered_orders" :key="order.id">
-                    <td><a target="_blank" :href="'<?= get_site_url() ?>/wp-admin/post.php?post='+order.order_id+'&action=edit'"> {{order.order_id}}</a></td>
+                    <td>
+                        <a target="_blank" :href="'<?= get_site_url() ?>/wp-admin/post.php?post='+order.order_id+'&action=edit'"> {{order.order_id}}</a>
+                    </td>
                     <td><p> {{order.name}}</p></td>
                     <td class="mobileHide"><a target="_blank" :href="'mailto:' + order.email"> {{order.email}}</a></td>
                     <td class="mobileHide"><p> {{order.product_count}}</p></td>
@@ -32,8 +35,8 @@
                     <td>
                         <button class="button action"
                                 @click="[ order.showProduct  ? order.showProduct=false : order.showProduct=true ]">
-                            <span v-show="!order.showProduct"><?php _e('Show products','wrm') ?></span>
-                            <span v-show="order.showProduct" ><?php _e('Hide products','wrm') ?></span>
+                            <span v-show="!order.showProduct"><?php _e('+','wrm') ?></span>
+                            <span v-show="order.showProduct" ><?php _e('-','wrm') ?></span>
                         </button>
                         <input type="text" v-model="order.showProduct" value="false" hidden>
                         <table class="products" v-if="order.showProduct">
@@ -53,6 +56,10 @@
                             </tr>
                         </table>
                     </td>
+                    <td>
+                        <button class="button action" @click="deleteOrder(order.id , order.name)"><?php _e('Delete','wrm') ?></button>
+                    </td>
+
                 </tr>
             </tbody>
         </table>

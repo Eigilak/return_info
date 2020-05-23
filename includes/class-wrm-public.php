@@ -236,19 +236,13 @@ class WRM_Public{
 		if( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'wrm_shortcode') ) {
 			/*scss*/
 			wp_enqueue_style('wrm-style',WRM_URL.'/assets/scss/mainStyle.css',null,WRM_VERSION);
-			wp_enqueue_script( 'jquery' );
 			/*Scripts*/
-			/*development*/
-				wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
-			/*production*/
-				//wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
 			wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
-
-			/*Hvis selectWoo ikke er enqued kør det*/
-			if(wp_script_is('selectWoo')){
-				wp_enqueue_script('selectWoo',WRM_URL.'/assets/js/frameworks/selectWoo.min.js','',WRM_VERSION,true);
-			}
 			wp_enqueue_script('wrm-js',WRM_URL.'/assets/js/wrm.js','',WRM_VERSION,true);
+			/*development*/
+			wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
+			/*production*/
+			//wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
 
 			/*make pdf variables available in js*/
 			wp_localize_script( 'wrm-js', 'local',

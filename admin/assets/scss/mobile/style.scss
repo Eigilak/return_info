@@ -21,10 +21,16 @@
       }
     }
   }
+  /*Årsagen til den er to steder er pga wordpress klasser*/
   .mobileHide{
     display: none!important;
   }
 
+  .header{
+    th{
+      text-align: center!important;
+    }
+  }
   .orderItem{
     position: relative;
     .mobileHide{
@@ -34,6 +40,7 @@
     td{
       position: inherit!important;
       display: table-cell!important;
+      text-align: center;
       button{
         font-size: 9px;
       }

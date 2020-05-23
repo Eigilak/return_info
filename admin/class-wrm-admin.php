@@ -34,9 +34,7 @@ class WRM_Admin{
     }
 
     function wrm_settings_init(){
-
         register_setting('wrmPluginPage','wrm_settings');
-
     }
 
     function wrm_add_admin_menu(){
@@ -44,8 +42,9 @@ class WRM_Admin{
     }
 
     function load_ajax_method(){
-        add_action( 'wp_ajax_init_get_orders',        array( &$this, 'init_get_orders' ) );
+        add_action( 'wp_ajax_init_get_orders',      array( &$this, 'init_get_orders' ) );
         add_action( 'wp_ajax_search_orders',        array( &$this, 'search_orders' ) );
+        add_action( 'wp_ajax_delete_order',        array( &$this, 'delete_order' ) );
     }
 
     function list_return_page(){
@@ -68,7 +67,9 @@ class WRM_Admin{
         wp_localize_script( 'wrm-admin-js', 'local',
             array(
                 'ajax_url' 			=> 	admin_url( 'admin-ajax.php' ),
-                'fc_nonce'			=> wp_create_nonce()
+                'fc_nonce'			=> wp_create_nonce(),
+                'confirm_msg'       => __('Are you sure you want to delete','wrm'),
+                'request_msg'       => __('request','wrm')
             ));
 
     }
@@ -104,7 +105,6 @@ class WRM_Admin{
         wp_send_json_success($returnedOrders);
         wp_die();
     }
-
     function search_orders(){
 
         $search_key = sanitize_text_field($_REQUEST['search_query']);
@@ -112,6 +112,33 @@ class WRM_Admin{
 
 
         die();
+    }
+    function delete_order(){
+
+        $id = $_REQUEST['returned_id'];
+
+        global $wpdb;
+        $returnedOrders=[];
+
+        $deleteOrder = $wpdb->prepare("DELETE * FROM {$wpdb->prefix}woocommerce_return_manager_order WHERE return_id=%d",$id);
+
+        $orders = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}woocommerce_return_manager_order WHERE return_id=%d",$id);
+
+        /*foreach ($orders as $order ) {
+
+            $order_id = $order->id;
+            $deleteProduct = $wpdb->prepare("DELETE * FROM {$wpdb->prefix}woocommerce_return_manager_product WHERE return_id=%d", $order_id);
+
+            $wpdb->query($deleteProduct);
+
+        }*/
+
+        $is_deleted_order = $wpdb->query($deleteOrder);
+
+        wp_send_json_success($is_deleted_order);
+
+        die;
+
     }
 
 }

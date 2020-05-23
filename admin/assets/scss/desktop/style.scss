@@ -34,6 +34,14 @@
     position: relative;
     text-align: center;
 
+    .delete_order{
+      position: relative;
+      span{
+        display: flex;
+        position: absolute;
+      }
+    }
+
     .products{
       background: white;
       position: absolute;
@@ -57,6 +65,7 @@
       th{
         font-weight: 600;
       }
+
 
     }
 
