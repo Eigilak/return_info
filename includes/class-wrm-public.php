@@ -156,6 +156,11 @@ class WRM_Public{
 
 		$JSON_response = $_REQUEST['returned_products'];
 		$array_reponses = json_decode(stripslashes($JSON_response),true);
+		$nonce = _sanitize_text_fields($array_reponses['nonce']);
+		/*Check if the nonce from the site is the same generated from wordpress*/
+		if(!isset($nonce) || !wp_verify_nonce($nonce)){
+			WRM_Core::error_404(__('Hmmm... seems your nonce doesnt fit ours ','wrm'));
+		}
 
 		$table_order=$wpdb->prefix.'woocommerce_return_manager_order';
 		$table_product="{$wpdb->prefix}woocommerce_return_manager_product";
@@ -168,6 +173,8 @@ class WRM_Public{
 			$error_msg = __('The order id cant be found','wrm');
 			wp_die($error_msg) ;
 		}
+
+
 
 		/*Checkif product is checked*/
 		$product_returned='';

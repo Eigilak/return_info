@@ -40,7 +40,7 @@ class WRM_Admin{
     }
 
     function wrm_add_admin_menu(){
-        add_submenu_page('woocommerce', 'Woocommerce return manager', 'Return manager', 'manage_options', 'wrm_options_page',array($this,'list_return_page'));
+        add_submenu_page('woocommerce', 'Woocommerce return manager', 'Return manager', 'manage_options', 'Wrm',array($this,'list_return_page'));
     }
 
     function load_ajax_method(){
@@ -87,6 +87,7 @@ class WRM_Admin{
 
             $products = $wpdb->get_results($preparedStatement);
 
+            $created_at = date("d-m-Y",strtotime($order->created_at));
             $returnedOrders[]= [
                 'id'            =>$order->id,
                 'order_id'      =>$order->order_id,
@@ -94,7 +95,7 @@ class WRM_Admin{
                 'email'         =>$order->email,
                 'product_count' =>$order->amount_products_returned,
                 'products'      =>$products,
-                'created_at'    =>$order->created_at,
+                'created_at'    =>$created_at,
                 'showProduct'   =>false
             ];
 

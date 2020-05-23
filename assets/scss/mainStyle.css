@@ -21,7 +21,7 @@
   .woocommerce_return_manager .content {
     padding: 2rem 2rem 7rem;
     border: 1px solid black;
-    max-width: 80%;
+    max-width: 100%;
     margin: auto;
     /*Table*/
   }
@@ -35,7 +35,7 @@
     justify-content: space-between;
     flex-direction: column;
     display: flex;
-    width: 45%;
+    width: 100%;
     padding-bottom: 1rem;
   }
   .woocommerce_return_manager .content .return_step_1 .input div label {
@@ -65,12 +65,16 @@
   }
   .woocommerce_return_manager .content .action_check {
     width: 3rem;
+    padding: 2rem 0;
   }
   .woocommerce_return_manager .content td .action_check {
     padding: 1rem;
   }
   .woocommerce_return_manager .content .action_checkbox {
-    padding: 1rem 0rem 0 2rem;
+    padding: 1rem;
+  }
+  .woocommerce_return_manager .content .action_checkbox .pretty {
+    margin: 0;
   }
   .woocommerce_return_manager .content .select2-container--default .select2-selection--single {
     width: 100%;

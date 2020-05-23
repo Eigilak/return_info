@@ -25,7 +25,7 @@ $site_color: black;
   .content{
     padding: 2rem 2rem 7rem;
     border: 1px solid $site_color;
-    max-width: 80%;
+    max-width: 100%;
     margin: auto;
 
     .return_step_1{
@@ -38,7 +38,7 @@ $site_color: black;
           justify-content: space-between;
           flex-direction: column;
           display: flex;
-          width: 45%;
+          width: 100%;
           padding-bottom: 1rem;
           label{
             width: 100%;
@@ -79,6 +79,7 @@ $site_color: black;
     }
     .action_check{
       width: 3rem;
+      padding: 2rem 0;
     }
 
     td .action_check{
@@ -86,7 +87,10 @@ $site_color: black;
     }
 
     .action_checkbox{
-      padding: 1rem 0rem 0 2rem;
+      padding: 1rem;
+      .pretty{
+        margin: 0;
+      }
     }
 
     .select2-container--default .select2-selection--single{

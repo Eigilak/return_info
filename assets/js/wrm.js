@@ -22,12 +22,13 @@ if (checkVueEl.length > 0) {
                     customer_email: 'mm@lundbrandhouse.dk',
                     order_id: '15820',
                     nonce:local.fc_nonce,
-                    email2:'asd'
+                    email2:''
                 }),
                 return_orderForm: new Form({
                     requestGot:false,
                     return_order_id:'',
                     order_products:{},
+                    nonce:local.fc_nonce,
                 })
         },
         methods: {

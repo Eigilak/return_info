@@ -16,9 +16,9 @@
                 <tr class="header">
                     <th> <?php _e('Order','wrm')?></th>
                     <th> <?php _e('Name','wrm')?></th>
-                    <th> <?php _e('Email','wrm')?></th>
-                    <th> <?php _e('Products returned','wrm')?></th>
-                    <th> <?php _e('Created at','wrm')?></th>
+                    <th class="mobileHide"> <?php _e('Email','wrm')?></th>
+                    <th class="mobileHide"> <?php _e('Products returned','wrm')?></th>
+                    <th class="mobileHide"> <?php _e('Created at','wrm')?></th>
                     <th> <?php _e('Show products','wrm')?></th>
                 </tr>
             </thead>
@@ -26,9 +26,9 @@
                 <tr class="orderItem" v-for="(order,index) in filtered_orders" :key="order.id">
                     <td><a target="_blank" :href="'<?= get_site_url() ?>/wp-admin/post.php?post='+order.order_id+'&action=edit'"> {{order.order_id}}</a></td>
                     <td><p> {{order.name}}</p></td>
-                    <td><a target="_blank" :href="'mailto:' + order.email"> {{order.email}}</a></td>
-                    <td><p> {{order.product_count}}</p></td>
-                    <td><p> {{order.created_at}}</p></td>
+                    <td class="mobileHide"><a target="_blank" :href="'mailto:' + order.email"> {{order.email}}</a></td>
+                    <td class="mobileHide"><p> {{order.product_count}}</p></td>
+                    <td class="mobileHide"><p> {{order.created_at}}</p></td>
                     <td>
                         <button class="button action"
                                 @click="[ order.showProduct  ? order.showProduct=false : order.showProduct=true ]">
@@ -48,8 +48,8 @@
                                 <td>{{product.product_name}}</td>
                                 <td>{{product.return_type}}</td>
                                 <td>{{product.return_action}}</td>
-                                <td :class="[product.chosen_attribute1.length ? 'emptyField' : '']">{{product.chosen_attribute1}}</td>
-                                <td :class="[product.chosen_attribute2.length ? 'emptyField' : '']">{{product.chosen_attribute2}}</td>
+                                <td  :class="[!product.chosen_attribute1 ? 'emptyField' : '']">{{product.chosen_attribute1}}</td>
+                                <td :class="[!product.chosen_attribute2 ? 'emptyField' : '']">{{product.chosen_attribute2}}</td>
                             </tr>
                         </table>
                     </td>
