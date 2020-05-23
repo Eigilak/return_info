@@ -21,7 +21,8 @@ if (checkVueEl.length > 0) {
                 find_orderForm: new Form({
                     customer_email: 'mm@lundbrandhouse.dk',
                     order_id: '15820',
-                    nonce:local.fc_nonce
+                    nonce:local.fc_nonce,
+                    email2:'asd'
                 }),
                 return_orderForm: new Form({
                     requestGot:false,

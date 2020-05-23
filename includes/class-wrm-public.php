@@ -49,12 +49,10 @@ class WRM_Public{
 		$JSON_response='';
 		$array_reponses='';
 
+
 		$JSON_response = $_REQUEST['find_customer'];
-
 		$array_reponses = json_decode(stripslashes($JSON_response),true);
-
 		$nonce = _sanitize_text_fields($array_reponses['nonce']);
-
 		/*Check if the nonce from the site is the same generated from wordpress*/
 		if(!isset($nonce) || !wp_verify_nonce($nonce)){
 			WRM_Core::error_404(__('Hmmm... seems your nonce doesnt fit ours ','wrm'));
@@ -62,10 +60,16 @@ class WRM_Public{
 
 		$order_id = _sanitize_text_fields($array_reponses['order_id']);
 		$customer_email = sanitize_email($array_reponses['customer_email']);
+		$honeypot = _sanitize_text_fields($array_reponses['email2']);
+
+
+		if(!empty($honeypot)){
+			WRM_Core::error_404(__('Hmmm.... It seems there is an error','wrm'));
+		}
 
 		/*If fields empty die */
 		if(empty($order_id) || empty($customer_email)){
-			WRM_Core::error_404(__('The field is requirerd','wrm'));
+
 		}
 
 		/*get order by id if not send error */

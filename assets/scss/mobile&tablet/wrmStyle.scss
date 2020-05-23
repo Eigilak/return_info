@@ -1,0 +1,219 @@
+
+$site_color: black;
+
+.grecaptcha-badge{
+  top: 37rem!important;
+}
+
+.woocommerce_return_manager{
+
+  min-height: 100vh;
+
+  .realEmail{
+    display: none;
+    visibility: hidden;
+  }
+  .loading{
+    cursor: progress;
+    opacity: 0.4;
+  }
+
+  .header{
+    text-align: center;
+  }
+
+  .content{
+    padding: 2rem 2rem 7rem;
+    border: 1px solid $site_color;
+    max-width: 80%;
+    margin: auto;
+
+    .return_step_1{
+      .input{
+        display: flex;
+        justify-content: space-between;
+        padding-bottom: 4rem;
+        flex-wrap: wrap;
+        div{
+          justify-content: space-between;
+          flex-direction: column;
+          display: flex;
+          width: 45%;
+          padding-bottom: 1rem;
+          label{
+            width: 100%;
+            padding-bottom: 1rem;
+          }
+        }
+        input{
+          width: 100%;
+        }
+      }
+
+    }
+
+    .show {
+      display: block !important;
+      visibility: inherit!important;
+    }
+    .hide {
+      display: none;
+      visibility: hidden;
+    }
+
+    .return_step_2{
+      display: none;
+      .input{
+        min-height: 18rem;
+      }
+      .select2-search--dropdown{
+      }
+    }
+
+
+
+    /*Table*/
+    img{
+      width: 4rem;
+      height: 4rem;
+    }
+    .action_check{
+      width: 3rem;
+    }
+
+    td .action_check{
+      padding: 1rem;
+    }
+
+    .action_checkbox{
+      padding: 1rem 0rem 0 2rem;
+    }
+
+    .select2-container--default .select2-selection--single{
+      width: 100%;
+    }
+
+    .select2-container--default .select2-results__option[aria-selected=true]{
+      background: transparent;
+    }
+
+    .select2-results__option{
+      &::after{
+        display: none;
+      }
+    }
+
+    .select2-results__option--highlighted{
+      background: lightgrey!important;
+    }
+
+    .wrm-tr{
+      border: 1px solid $site_color;
+    }
+
+    tr,td,th,table{
+      border: 1px solid $site_color!important;
+      background: white;
+      font-weight: 300;
+      font-size: 1rem;
+      font-family: Roboto;
+      &:hover{
+        background: white ;
+      }
+    }
+
+  }
+  button{
+    padding: 0.5rem 1rem;
+    width: 100%;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity 3s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+
+  .border-bottom{
+    text-decoration: underline;
+  }
+
+  .forms{
+    padding-top: 2rem;
+  }
+
+  .printNote{
+    display: flex;
+    justify-content: left;
+    padding: 1rem 0 1rem ;
+  }
+
+  .steps{
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 1px solid;
+  }
+
+  .errorInput{
+    border: 1px solid red!important;
+  }
+
+  .danger{
+    border-color: red !important;
+    color: red;
+  }
+
+  button{
+    cursor: pointer;
+    &:focus{
+      border: 1px solid $site_color;
+    }
+    &:active{
+      border: 1px solid $site_color;
+    }
+  }
+
+  .wrm-select {
+    display: block;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: 300;
+    color: #444;
+    line-height: 1.3;
+    padding: 0.6em 1.4em 0.5em 0.8em;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    border: 1px solid #000;
+    /* box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04); */
+    border-radius: 0;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: white;
+    background-image: url(data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%20007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E);
+    background-position: right 0.7em top 50%, 0 0;
+    background-repeat: no-repeat;
+    background-size: 0.65em auto, 100%;
+  }
+  .wrm-select::-ms-expand {
+    display: none;
+  }
+  .wrm-select:hover {
+    border-color: #888;
+  }
+  .wrm-select:focus {
+    border-color: #aaa;
+    box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+  }
+  .wrm-select option {
+    font-weight:normal;
+  }
+
+}
+

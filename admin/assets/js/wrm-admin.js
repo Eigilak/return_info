@@ -7,36 +7,69 @@ if(checkVueAdmin.length > 0){
     var adminApp =
         new Vue({
             el:'.wrm_admin',
-            data:{
-                hans:false,
-                search_keys:'',
-                orders:{},
-                orginalOrders:{}
+            data(){
+                return{
+                    search_keys:'',
+                    orders:[],
+                    loaded:false,
+                    page:1,
+                    perPage:20,
+                    pages:[],
+                    loaded_pagination:true
+                }
             },
             methods:{
-                search_order(){
-
+                setPages () {
+                    let numberOfPages = Math.ceil(this.orders.length / this.perPage);
+                    for (let index = 1; index <= numberOfPages; index++) {
+                        this.pages.push(index);
+                    }
+                },
+                paginate (orders) {
+                    let page = this.page;
+                    let perPage = this.perPage;
+                    let from = (page * perPage) - perPage;
+                    let to = (page * perPage);
+                    return  orders.slice(from, to);
                 }
-
             },
             computed:{
+                filtered_orders:function() {
+                    if(this.search_keys.length !=0) {
+                        return this.orders.filter((order)=>{
+                            this.loaded_pagination=false;
+                            return order.name.toLowerCase().match(this.search_keys.toLowerCase())
+                                || order.order_id.toLowerCase().match(this.search_keys.toLowerCase())
+                        });
+                    }else {
+                        this.loaded_pagination=true;
+                        return this.paginate(this.orders);
+                    }
+                }
 
             },
-            mounted(){
-                var data = {
-                    actiom:'init_get_order'
+            watch:{
+                orders() {
+                    this.setPages();
                 }
-                var params = new URLSearchParams();
-                params.append('action', 'init_get_order');
+            },
+            mounted(){
                 axios.get('/wp-admin/admin-ajax.php?action=init_get_orders')
                     .then(
                         (
                             response=>(
-                                this.orders = response.data.data.reverse(),
-                                this.orginalOrders = response.data.data.reverse()
+                                this.orders = response.data.data.reverse()
                             )
                         )
-                    )
+
+                    ).then(
+                        this.loaded= true
+                )
+            },
+            filters: {
+                trimWords(value){
+                    return value.split(" ").splice(0,20).join(" ") + '...';
+                }
             }
 
 
@@ -45,3 +78,17 @@ if(checkVueAdmin.length > 0){
         })
 
 }
+/*
+
+if(this.search_keys.length !=0){
+    console.log('der er noget i mig')
+} else {
+
+}
+
+axios.get('/wp-admin/admin-ajax.php?action=search_orders&search_query='+this.search_keys)
+    .then(
+        response=>(
+            console.log(response.data)
+        )
+    )*/

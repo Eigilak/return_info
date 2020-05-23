@@ -2,14 +2,17 @@
     <div class="input">
         <div>
             <label for="email"><?php _e('Email','wrm'); ?></label>
-            <label for="ordre_id"><?php _e('Your order number','wrm'); ?></label>
+            <input :class="[find_orderForm.errors.any() ? 'errorInput' : '' ]" id="email" placeholder="<?php _e('my@email.com','wrm') ?>" type="text"  name="email" v-model="find_orderForm.customer_email">
         </div>
 
-        <input :class="[find_orderForm.errors.any() ? 'errorInput' : '' ]" id="email" placeholder="<?php _e('my@email.com','wrm') ?>" type="text"  name="email" v-model="find_orderForm.customer_email">
-        <input :class="[find_orderForm.errors.any() ? 'errorInput' : '' ]" id="order_id" placeholder="1234" type="number"  name="email" v-model="find_orderForm.order_id">
+        <div>
+            <label for="ordre_id"><?php _e('Your order number','wrm'); ?></label>
+            <input :class="[find_orderForm.errors.any() ? 'errorInput' : '' ]" id="order_id" placeholder="1234" type="number"  name="email" v-model="find_orderForm.order_id">
+        </div>
+
     </div>
 
-    <input type="text" value="" name="google_token" id="g-token" hidden v-model="find_orderForm.google_token">
+    <input type="text" class="realEmail" v-model="find_orderForm.email2">
 
     <input type="text" hidden name="find_customer_nonce"  v-model="find_orderForm.nonce">
 

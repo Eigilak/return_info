@@ -16,9 +16,12 @@ class WRM_Admin{
 
     public function __construct()
     {
-       add_action('admin_menu',array($this,'wrm_add_admin_menu'));
-       add_action('init',array($this, 'load_ajax_method'));
-       add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'),1);
+        if(is_user_logged_in()){
+            add_action('admin_menu',array($this,'wrm_add_admin_menu'));
+            add_action('init',array($this, 'load_ajax_method'));
+            add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'),1);
+            add_action('admin_init','wrm_settings_init');
+        }
 
     }
 
@@ -30,16 +33,19 @@ class WRM_Admin{
         return self::$instance;
     }
 
+    function wrm_settings_init(){
+
+        register_setting('wrmPluginPage','wrm_settings');
+
+    }
+
     function wrm_add_admin_menu(){
         add_submenu_page('woocommerce', 'Woocommerce return manager', 'Return manager', 'manage_options', 'wrm_options_page',array($this,'list_return_page'));
     }
 
     function load_ajax_method(){
-        if ( !is_user_logged_in() ){
-            add_action( 'wp_ajax_nopriv_init_get_orders', array( &$this, 'init_get_orders' ) );
-        } else{
-            add_action( 'wp_ajax_init_get_orders',        array( &$this, 'init_get_orders' ) );
-        }
+        add_action( 'wp_ajax_init_get_orders',        array( &$this, 'init_get_orders' ) );
+        add_action( 'wp_ajax_search_orders',        array( &$this, 'search_orders' ) );
     }
 
     function list_return_page(){
@@ -96,6 +102,15 @@ class WRM_Admin{
 
         wp_send_json_success($returnedOrders);
         wp_die();
+    }
+
+    function search_orders(){
+
+        $search_key = sanitize_text_field($_REQUEST['search_query']);
+
+
+
+        die();
     }
 
 }
