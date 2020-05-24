@@ -9,17 +9,23 @@ if(checkVueAdmin.length > 0){
             el:'.wrm_admin',
             data(){
                 return{
+                    errors:[],
                     search_keys:'',
                     orders:[],
                     loaded:false,
                     page:1,
                     perPage:20,
                     pages:[],
-                    loaded_pagination:true
+                    loaded_pagination:true,
+                    deleteOrderForm: new Form({
+                        id:'',
+                        nonce: local.fc_nonce
+                    })
                 }
             },
             methods:{
                 setPages () {
+                    this.pages=[]
                     let numberOfPages = Math.ceil(this.orders.length / this.perPage);
                     for (let index = 1; index <= numberOfPages; index++) {
                         this.pages.push(index);
@@ -32,20 +38,36 @@ if(checkVueAdmin.length > 0){
                     let to = (page * perPage);
                     return  orders.slice(from, to);
                 },
-                deleteOrder(id,name){
+                deleteOrder(id,name,order){
 
                     if(confirm(local.confirm_msg+' '+name+'s '+local.request_msg+'?'))
                     {
-                        axios.post('/wp-admin/admin-ajax.php?action=delete_order&returned_id='+id)
+                        this.deleteOrderForm
+                            .post('/wp-admin/admin-ajax.php?action=delete_order&returned_id='+id+'&nonce='+local.fc_nonce)
                             .then(
                                 (
                                     response=>(
-                                        console.log(response.data)
+                                        console.log(response)
                                     )
-                                )
-
-                            )
+                                ),
+                                this.orders.splice(this.orders.indexOf(order), 1),
+                                this.setPages()
+                             )
                     }
+                },
+                get_orders(){
+                    this.orders=[]
+                    axios.get('/wp-admin/admin-ajax.php?action=init_get_orders')
+                        .then(
+                            (
+                                response=>(
+                                    this.orders = response.data.data.reverse()
+                                )
+                            )
+
+                        ).then(
+                             this.loaded= true
+                        )
                 }
             },
             computed:{
@@ -68,18 +90,8 @@ if(checkVueAdmin.length > 0){
                     this.setPages();
                 }
             },
-            mounted(){
-                axios.get('/wp-admin/admin-ajax.php?action=init_get_orders')
-                    .then(
-                        (
-                            response=>(
-                                this.orders = response.data.data.reverse()
-                            )
-                        )
-
-                    ).then(
-                        this.loaded= true
-                )
+            created(){
+                this.get_orders()
             },
             filters: {
                 trimWords(value){

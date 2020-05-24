@@ -3,6 +3,19 @@
 .wrm_admin{
   padding-right: 1rem;
 
+  .showDiv{
+    display: flex!important;
+  }
+
+  .is_empty{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+    margin: 1rem auto;
+  }
+
   .hide{
     display: none;
   }

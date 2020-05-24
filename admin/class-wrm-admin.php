@@ -115,27 +115,31 @@ class WRM_Admin{
     }
     function delete_order(){
 
-        $id = $_REQUEST['returned_id'];
-
         global $wpdb;
         $returnedOrders=[];
+        $id = $_REQUEST['returned_id'];
+        $nonce = _sanitize_text_fields($_REQUEST['nonce']);
+        /*Check if the nonce from the site is the same generated from wordpress*/
+        if(!isset($nonce) || !wp_verify_nonce($nonce)){
+            WRM_Core::error_404(__('Hmmm... seems your nonce doesnt fit ours ','wrm'));
+        }
 
-        $deleteOrder = $wpdb->prepare("DELETE * FROM {$wpdb->prefix}woocommerce_return_manager_order WHERE return_id=%d",$id);
+        $deleteProduct = $wpdb->prepare("DELETE FROM {$wpdb->prefix}woocommerce_return_manager_product WHERE return_id=%d",$id);
+        $deleteOrder = $wpdb->prepare("DELETE FROM {$wpdb->prefix}woocommerce_return_manager_order WHERE id=%d",$id);
 
-        $orders = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}woocommerce_return_manager_order WHERE return_id=%d",$id);
+        $is_deleted_product = $wpdb->query($deleteProduct);
+        if(!$is_deleted_product){
+            WRM_Core::error_404(__('We cant delete the product... try again ','wrm'));
+        }
+        else{
+            $is_deleted_order = $wpdb->query($deleteOrder);
+            if(!$is_deleted_order){
+                WRM_Core::error_404(__('We cant delete the orders... try again ','wrm'));
+            }
+            wp_send_json_success(__('The order and its products is deleted','wrm'));
 
-        /*foreach ($orders as $order ) {
+        }
 
-            $order_id = $order->id;
-            $deleteProduct = $wpdb->prepare("DELETE * FROM {$wpdb->prefix}woocommerce_return_manager_product WHERE return_id=%d", $order_id);
-
-            $wpdb->query($deleteProduct);
-
-        }*/
-
-        $is_deleted_order = $wpdb->query($deleteOrder);
-
-        wp_send_json_success($is_deleted_order);
 
         die;
 

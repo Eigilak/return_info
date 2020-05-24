@@ -11,8 +11,9 @@
             </div>
         </div>
 
-        <table class="return-results wp-list-table widefat fixed striped pages hide" :class="[loaded ? 'show' :'']">
-            <thead>
+        <div class="is_not_empty" v-if="filtered_orders.length">
+            <table class="return-results wp-list-table widefat fixed striped pages hide" :class="[loaded ? 'show' :'']">
+                <thead>
                 <tr class="header">
                     <th> <?php _e('Order','wrm')?></th>
                     <th> <?php _e('Name','wrm')?></th>
@@ -22,8 +23,8 @@
                     <th> <?php _e('Show products','wrm')?></th>
                     <th> <?php _e('Delete','wrm')?></th>
                 </tr>
-            </thead>
-            <tbody class="body">
+                </thead>
+                <tbody class="body">
                 <tr class="orderItem" v-for="(order,index) in filtered_orders" :key="order.id">
                     <td>
                         <a target="_blank" :href="'<?= get_site_url() ?>/wp-admin/post.php?post='+order.order_id+'&action=edit'"> {{order.order_id}}</a>
@@ -57,26 +58,36 @@
                         </table>
                     </td>
                     <td>
-                        <button class="button action" @click="deleteOrder(order.id , order.name)"><?php _e('Delete','wrm') ?></button>
+                        <form @submit.prevent="deleteOrder(order.id , order.name, order)">
+                            <button class="button action" type="submit"><?php _e('Delete','wrm') ?></button>
+                        </form>
                     </td>
 
                 </tr>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
 
-        <nav aria-label="Page navigation " v-if="loaded_pagination" >
-            <ul class="pagination">
-                <li class="page-item">
-                    <button type="button" class="page-link button action" :disabled="page === 1" @click="page--"> <?php _e('Previous','wrm') ?></button>
-                </li>
-                <li class="page-item">
-                    <button type="button" class="page-link button action pag_button" v-for="pageNumber in pages" @click="page = pageNumber"> {{pageNumber}} </button>
-                </li>
-                <li class="page-item">
-                    <button type="button" class="page-link button action" :disabled="page > pages.length - 1" @click="page++" > <?php _e('Next','wrm') ?> </button>
-                </li>
-            </ul>
-        </nav>
+            <nav aria-label="Page navigation " v-if="loaded_pagination" >
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button type="button" class="page-link button action" :disabled="page === 1" @click="page--"> <?php _e('Previous','wrm') ?></button>
+                    </li>
+                    <li class="page-item">
+                        <button type="button" class="page-link button action pag_button" v-for="pageNumber in pages" @click="page = pageNumber"> {{pageNumber}} </button>
+                    </li>
+                    <li class="page-item">
+                        <button type="button" class="page-link button action" :disabled="page > pages.length - 1" @click="page++" > <?php _e('Next','wrm') ?> </button>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+<!--
+        <div class="is_empty " :class="[loaded ? 'showDiv' :'']" v-if="!filtered_orders.length">
+            <h3><?php /*_e('It seems there is no returned orders.. Nice!','wrm')*/?></h3>
+            <img src="<?/*= WRM_URL.'/admin/assets/images/is_empty.svg' */?>" alt="">
+        </div>-->
+
 
     </div>
 </div>
