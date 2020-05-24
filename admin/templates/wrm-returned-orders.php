@@ -82,11 +82,11 @@
             </nav>
 
         </div>
-<!--
+
         <div class="is_empty " :class="[loaded ? 'showDiv' :'']" v-if="!filtered_orders.length">
-            <h3><?php /*_e('It seems there is no returned orders.. Nice!','wrm')*/?></h3>
-            <img src="<?/*= WRM_URL.'/admin/assets/images/is_empty.svg' */?>" alt="">
-        </div>-->
+            <h3><?php _e('It seems there is no returned orders..','wrm')?></h3>
+           <!-- <img src="<?/*= WRM_URL.'/admin/assets/images/is_empty.svg' */?>" alt="">-->
+        </div>
 
 
     </div>
