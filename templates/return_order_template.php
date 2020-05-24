@@ -2,7 +2,7 @@
 
 
 <div class="woocommerce_return_manager">
-    <div class="wrm_app" :class="[loading ? 'loading' :'']">
+    <div class="wrm_app">
         <div class="header">
             <h3><?=  get_the_title() ?> - <?php _e('Return your order','wrm')  ?></h3>
         </div>

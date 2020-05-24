@@ -1,0 +1,164 @@
+@charset "UTF-8";
+/*Desktop*/
+@media (max-width: 1024px) {
+  .wrm_admin {
+    padding-right: 1rem;
+    /*Årsagen til den er to steder er pga wordpress klasser*/
+  }
+  .wrm_admin .is_empty {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 100%;
+    margin: 1rem auto;
+  }
+  .wrm_admin .hide {
+    display: none;
+  }
+  .wrm_admin .show {
+    display: inline-table;
+  }
+  .wrm_admin .controlPanel {
+    display: flex;
+    padding: 0 1rem;
+    justify-content: space-between;
+  }
+  .wrm_admin .controlPanel .search {
+    width: 30%;
+  }
+  .wrm_admin .controlPanel .search input {
+    width: 100%;
+  }
+  .wrm_admin .mobileHide {
+    display: none !important;
+  }
+  .wrm_admin .header th {
+    text-align: center !important;
+  }
+  .wrm_admin .orderItem {
+    position: relative;
+  }
+  .wrm_admin .orderItem .mobileHide {
+    display: none !important;
+  }
+  .wrm_admin .orderItem td {
+    position: inherit !important;
+    display: table-cell !important;
+    text-align: center;
+  }
+  .wrm_admin .orderItem td button {
+    font-size: 9px;
+  }
+  .wrm_admin .orderItem .products {
+    background: white;
+    position: absolute;
+    margin-top: 0.75rem;
+    left: 1px;
+    width: 99.9%;
+    color: #0071a1;
+    border-color: #0071a1;
+    background: #f3f5f6;
+    border-spacing: 0;
+    padding-right: 1rem;
+  }
+  .wrm_admin .orderItem .products tr, .wrm_admin .orderItem .products td, .wrm_admin .orderItem .products th {
+    text-align: center !important;
+    background: #f3f5f6;
+    border-color: #007cba;
+    color: #016087;
+    box-shadow: 0 0 0 1px #007cba;
+    outline: 2px solid transparent;
+    outline-offset: 0;
+  }
+  .wrm_admin .orderItem .emptyField {
+    background: #007cba;
+  }
+  .wrm_admin .pagination {
+    display: flex;
+    justify-content: center;
+  }
+}
+@media (min-width: 1025px) {
+  .wrm_admin {
+    padding-right: 1rem;
+  }
+  .wrm_admin .showDiv {
+    display: flex !important;
+  }
+  .wrm_admin .is_empty {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+    margin: 1rem auto;
+  }
+  .wrm_admin .hide {
+    display: none;
+  }
+  .wrm_admin .show {
+    display: inline-table;
+  }
+  .wrm_admin .controlPanel {
+    display: flex;
+    padding: 0 1rem;
+    justify-content: space-between;
+  }
+  .wrm_admin .controlPanel .search {
+    width: 30%;
+  }
+  .wrm_admin .controlPanel .search input {
+    width: 100%;
+  }
+  .wrm_admin .header {
+    text-align: center;
+  }
+  .wrm_admin .header th {
+    text-align: center !important;
+  }
+  .wrm_admin .orderItem {
+    position: relative;
+    text-align: center;
+  }
+  .wrm_admin .orderItem .delete_order {
+    position: relative;
+  }
+  .wrm_admin .orderItem .delete_order span {
+    display: flex;
+    position: absolute;
+  }
+  .wrm_admin .orderItem .products {
+    background: white;
+    position: absolute;
+    margin-top: 0.75rem;
+    left: 1px;
+    width: 99.9%;
+    color: #0071a1;
+    border-color: #0071a1;
+    background: #f3f5f6;
+    border-spacing: 0;
+    padding-right: 1rem;
+  }
+  .wrm_admin .orderItem .products tr, .wrm_admin .orderItem .products td, .wrm_admin .orderItem .products th {
+    text-align: center !important;
+    background: #f3f5f6;
+    border-color: #007cba;
+    color: #016087;
+    box-shadow: 0 0 0 1px #007cba;
+    outline: 2px solid transparent;
+    outline-offset: 0;
+  }
+  .wrm_admin .orderItem .products th {
+    font-weight: 600;
+  }
+  .wrm_admin .orderItem .emptyField {
+    background: #007cba !important;
+  }
+  .wrm_admin .pagination {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/*# sourceMappingURL=mainStyle.css.map */

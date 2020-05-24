@@ -1,5 +1,5 @@
 
-<form  @submit.prevent="submit_return_order_form" @keydown="find_orderForm.errors.clear('errors')" >
+<form  @submit.prevent="submit_return_order_form" @change="disabled = false" @keydown="find_orderForm.errors.clear('errors')" >
     <p><?php _e('Your order number') ?>: {{find_orderForm.order_id}}</p>
     <div class="input">
         <table class="order_item">
@@ -98,6 +98,6 @@
 
     </div>
 
-    <button type="submit"><?php _e('Return order','wrm'); ?> </button>
+    <button :disabled="disabled" type="submit"><?php _e('Return order','wrm'); ?> </button>
     <span style="color: red" v-text="return_orderForm.errors.get('errors')" v-if="return_orderForm.errors.any()"></span>
 </form>

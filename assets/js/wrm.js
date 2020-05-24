@@ -5,11 +5,14 @@ if (checkVueEl.length > 0) {
     var app = new Vue({
         el: '.woocommerce_return_manager',
         initVal:'',
-        data: {
+        data: function() {
+            return{
                 loading:false,
                 step1:true,
                 step2:false,
                 step3:false,
+                counter:'1',
+                disabled:false,
                 customer:{
                     name:null,
                     address:null,
@@ -30,37 +33,48 @@ if (checkVueEl.length > 0) {
                     order_products:{},
                     nonce:local.fc_nonce,
                 })
+            }
         },
         methods: {
             get_order_by_id_email() {
+                this.counter++;
+                this.loading = true;
 
+                if(this.counter ===10){
+                    this.disabled=true
+                }
                 var JSON_response='';
                 JSON_response = JSON.stringify(this.find_orderForm);
                 var params = new URLSearchParams();
                 params.append('find_customer', JSON_response);
                 params.append('action', 'get_customer_by_id_and_email');
                 params.append('Content-Type','application/x-www-form-urlencoded');
-
-                this.find_orderForm
-                    .post(local.ajax_url, params)
-                    .then(
-                        (
-                            response => (
-                                this.return_orderForm.order_products =response.data,
-                                this.afterFindCustomer(response.success)
-
+                that = this
+                grecaptcha.ready(function() {
+                    grecaptcha.execute('6LeCKvgUAAAAANrj6FzsYqF9j6vpGCjmDgZJ6hGE', {action: 'submit'}).then(function(token) {
+                        that.find_orderForm
+                            .post(local.ajax_url, params)
+                            .then(
+                                (
+                                    response => (
+                                        that.stop_loading(),
+                                        that.return_orderForm.order_products =response.data,
+                                            that.afterFindCustomer(response.success)
+                                    )
+                                ),
                             )
-                        ),this.loading=false
-                    )
-
+                    });
+                });
             },
+            stop_loading(){ this.loading=false}
+            ,
             afterFindCustomer(response){
                 if(response === true){
                     this.return_orderForm.return_order_id =this.find_orderForm.order_id;
                     this.step1=false;
                     this.step2=true;
-                }
 
+                }
             },
             enable_select(){
                 setTimeout(function () {
@@ -73,6 +87,9 @@ if (checkVueEl.length > 0) {
             },
             submit_return_order_form: async function () {
                 /*Array af order skal laves til JSON*/
+
+                this.disabled = true;
+
                 var JSON_response='';
                 JSON_response = JSON.stringify(this.return_orderForm);
                 var params = new URLSearchParams();
@@ -156,7 +173,7 @@ if (checkVueEl.length > 0) {
                 /*Order number row with txt and order id*/
                 doc.text(local.order_number_txt+':', 10, 65); doc.text(this.find_orderForm.order_id,50,65);
                 /*Customer name*/
-                doc.text(local.name_txt+':',10,70); doc.text(this.customer.name,50, 70)
+                doc.text(local.name_txt,10,70); doc.text(this.customer.name,50, 70)
                 doc.text(local.products_txt+':', 10, 75);
 
                 var start_y_position = 85;
@@ -166,6 +183,7 @@ if (checkVueEl.length > 0) {
                         doc.text(10,start_y_position,item.product_name);
                         doc.text(70,start_y_position,item.return_type);
                         doc.text(130,start_y_position,item.return_action);
+
                         if(item.return_size && item.return_material.length === 0){
                             doc.text(160,start_y_position,item.return_size);
                         }else if(item.return_size && item.return_material){
@@ -185,4 +203,3 @@ if (checkVueEl.length > 0) {
         }
     });
 }
-

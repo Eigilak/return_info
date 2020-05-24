@@ -1,4 +1,4 @@
-<form class="return_step_1"action="" @submit.prevent="get_order_by_id_email" @keydown="find_orderForm.errors.clear('errors')">
+<form :readonly="disabled" class="return_step_1" @submit.prevent="get_order_by_id_email" @keydown="find_orderForm.errors.clear('errors'), loading = false">
     <div class="input">
         <div>
             <label for="email"><?php _e('Email','wrm'); ?></label>
@@ -16,7 +16,12 @@
 
     <input type="text" hidden name="find_customer_nonce"  v-model="find_orderForm.nonce">
 
-    <button type="submit"><?php _e('Find my order','wrm'); ?></button>
+    <span v-if="loading">loading.... </span>
+    <button :disabled="disabled" type="submit">
+        <span v-if="disabled"> <?php _e('Too many attemtss','wrm') ?> </span>
+        <span v-if="!disabled"> <?php _e('Find my order','wrm'); ?> </span>
+
+    </button>
     <span style="color: red" v-text="find_orderForm.errors.get('errors')" v-if="find_orderForm.errors.any()"></span>
 
 </form>
