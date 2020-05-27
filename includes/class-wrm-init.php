@@ -32,6 +32,12 @@ class woocommerce_return_manager_init{
 		include_once WRM_PATH.'includes/class-wrm-db.php';
 		WRM_databases::get_instance();
 
+		add_action('init',array($this,'load_lang'));
+
+	}
+
+	function load_lang(){
+		load_plugin_textdomain('wrm',false,WRM.'languages/wrm-da.po');
 	}
 
 }

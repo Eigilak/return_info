@@ -69,7 +69,7 @@ class WRM_Public{
 
 		/*If fields empty die */
 		if(empty($order_id) || empty($customer_email)){
-
+			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
 
 		/*get order by id if not send error */

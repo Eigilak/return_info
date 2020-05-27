@@ -1,6 +1,6 @@
 
 <form  @submit.prevent="submit_return_order_form" @change="disabled = false" @keydown="find_orderForm.errors.clear('errors')" >
-    <p><?php _e('Your order number') ?>: {{find_orderForm.order_id}}</p>
+    <p><?php _e('Your order number','wrm') ?>: {{find_orderForm.order_id}}</p>
     <div class="input">
         <table class="order_item">
             <thead class="wrm-tr">
@@ -75,7 +75,7 @@
 
         <div class="commentSection">
             <p><?php _e('Further comments','wrm')?> (<?php  _e('optional','wrm') ?>)</p>
-            <textarea v-model="return_orderForm.comment" type="text" maxlength="400" placeholder="<?php _e('Explain further with 400 characters') ?>">
+            <textarea v-model="return_orderForm.comment" type="text" maxlength="400" placeholder="<?php _e('Explain further with 400 characters','wrm') ?>">
             </textarea>
         </div>
 
