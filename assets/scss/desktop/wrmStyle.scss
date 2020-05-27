@@ -211,9 +211,14 @@ $site_color: black;
     color: #222;
     outline: none;
   }
-  .wrm-select option {
-    font-weight:normal;
+  .commentSection{
+    textarea{
+      min-height: 4rem;
+    }
   }
 
-}
 
+  .wrm-select option {
+    font-weight: normal;
+  }
+}

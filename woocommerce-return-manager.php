@@ -47,6 +47,7 @@ register_activation_hook( __FILE__,function (){
 			order_id integer not NULL,
 			name tinytext NOT NULL,
 			email tinytext NOT NULL,
+			comment MEDIUMTEXT,
 			amount_products_returned int,
 			created_at timestamp DEFAULT current_timestamp,
 			PRIMARY KEY  (id)

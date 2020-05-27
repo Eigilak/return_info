@@ -154,7 +154,7 @@ class WRM_Public{
 		$JSON_response='';
 		$array_reponses='';
 
-		$JSON_response = $_REQUEST['returned_products'];
+		$JSON_response = $_REQUEST['return_requesst'];
 		$array_reponses = json_decode(stripslashes($JSON_response),true);
 		$nonce = _sanitize_text_fields($array_reponses['nonce']);
 		/*Check if the nonce from the site is the same generated from wordpress*/
@@ -188,8 +188,10 @@ class WRM_Public{
 			'order_id' 					=> $array_reponses['return_order_id'],
 			'name' 						=> $order->get_billing_first_name().' '.$order->get_billing_last_name(),
 			'email' 					=> $order->get_billing_email(),
-			'amount_products_returned'	=> $product_returned);
-		$format = array('%d','%s','%s','%d');
+			'comment'					=> $array_reponses['comment'],
+			'amount_products_returned'	=> $product_returned
+		);
+		$format = array('%d','%s','%s','%s','%d');
 
 		if($product_returned!=0 ){
 			$wpdb->insert($table_order,$data,$format);
@@ -249,14 +251,19 @@ class WRM_Public{
 				array(
 					'ajax_url' 			=> 	admin_url( 'admin-ajax.php' ),
 					'site_name' 		=> 	get_bloginfo( 'name' ),
-					'pdf_name'			=>	__('Follow note for','wrm'),
+					'pdf_name'			=>	__('Return note for','wrm'),
 					'package_message' 	=> 	__('This note should be placed in the package so we can carry out your order','wrm'),
 					'order_number_txt' 	=>	__('Order number:','wrm'),
 					'products_txt'		=>	__('Returned products','wrm'),
 					'product_name_txt'	=>	__('Product name','wrm'),
 					'no_products_txt'	=>	__('No products selected','wrm'),
 					'name_txt'			=>	__('Customer','wrm'),
-					'fc_nonce'			=> wp_create_nonce()
+					'fc_nonce'			=> wp_create_nonce(),
+					'product_name_title'=> __('Product name','wrm'),
+					'action_title'		=> __('Return action','wrm'),
+					'reason_title'		=> __('Return cause','wrm'),
+					'size_title'		=> __('New size','wrm'),
+					'material_title'		=> __('New material','wrm'),
 				));
 		}
 	}

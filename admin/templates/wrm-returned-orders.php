@@ -20,6 +20,7 @@
                     <th class="mobileHide"> <?php _e('Email','wrm')?></th>
                     <th class="mobileHide"> <?php _e('Returned','wrm')?></th>
                     <th class="mobileHide"> <?php _e('Created','wrm')?></th>
+                    <th class="mobileHide"> <?php _e('Comment','wrm')?></th>
                     <th> <?php _e('Show products','wrm')?></th>
                     <th> <?php _e('Delete','wrm')?></th>
                 </tr>
@@ -33,6 +34,24 @@
                     <td class="mobileHide"><a target="_blank" :href="'mailto:' + order.email"> {{order.email}}</a></td>
                     <td class="mobileHide"><p> {{order.product_count}}</p></td>
                     <td class="mobileHide"><p> {{order.created_at}}</p></td>
+                    <td class="mobileHide">
+                        <button :disabled="!order.comment" class="button action"
+                                @click="[ order.showComment  ? order.showComment=false : order.showComment=true ]">
+                            <span v-show="!order.showComment"><?php _e('+','wrm') ?></span>
+                            <span v-show="order.showComment" ><?php _e('-','wrm') ?></span>
+                        </button>
+
+                        <table class="products" v-if="order.showComment">
+                            <tr>
+                                <th><?php _e('Comment','wrm')?></th>
+                            </tr>
+                            <tr>
+                                <td v-if="order.comment">{{order.comment}}</td>
+                                <td v-else><?php _e('There is no comment','wrm') ?></td>
+                            </tr>
+                        </table>
+
+                    </td>
                     <td>
                         <button class="button action"
                                 @click="[ order.showProduct  ? order.showProduct=false : order.showProduct=true ]">

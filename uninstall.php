@@ -1,5 +1,5 @@
 <?php
-function delete_plugin_database_tables(){
+/*function delete_plugin_database_tables(){
     global $wpdb;
     $tableArray = [
         $wpdb->prefix . "woocommerce_return_manager_product",
@@ -11,4 +11,4 @@ function delete_plugin_database_tables(){
     }
 }
 
-register_uninstall_hook(__FILE__, 'delete_plugin_database_tables');
+register_uninstall_hook(__FILE__, 'delete_plugin_database_tables');*/

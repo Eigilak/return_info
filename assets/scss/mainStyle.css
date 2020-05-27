@@ -362,6 +362,9 @@
     color: #222;
     outline: none;
   }
+  .woocommerce_return_manager .commentSection textarea {
+    min-height: 4rem;
+  }
   .woocommerce_return_manager .wrm-select option {
     font-weight: normal;
   }

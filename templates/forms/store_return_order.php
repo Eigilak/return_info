@@ -36,6 +36,7 @@
                         <option  value="<?php _e('Wrong size','wrm') ?>"><?php _e('Wrong size','wrm') ?>        </option>
                         <option value="<?php _e('Regret purchase','wrm') ?>"><?php _e('Regret purchase','wrm') ?>      </option>
                         <option value="<?php _e('Plating rubs off','wrm') ?>"><?php _e('Plating rubs off','wrm') ?>     </option>
+                        <option value="<?php _e('Jewelry didn\'t match pictures ','wrm') ?>"><?php _e('Jewelry didn\'t match pictures ','wrm') ?>     </option>
                     </select>
                 </td>
                 <td>
@@ -50,6 +51,7 @@
                         <option :disabled="!order_product.attributes.pa_stoerrelse" value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?>                 </option>
                         <option value="<?php _e('Another material','wrm') ?>"><?php _e('Another material','wrm') ?> </option>
                         <option value="<?php _e('Same product','wrm') ?>"><?php _e('Same product','wrm') ?> </option>
+                        <option value="<?php _e('Voucher','wrm') ?>"><?php _e('Voucher','wrm') ?></option>
                     </select>
 
                     <select name="return_size" class="wrm-select " v-show="order_product.ShowSize" @change="order_product.return_size= $event.target.value" :required="order_product.ShowSize" >
@@ -70,11 +72,16 @@
             </tr>
             </tbody>
         </table>
+
+        <div class="commentSection">
+            <p><?php _e('Further comments','wrm')?> (<?php  _e('optional','wrm') ?>)</p>
+            <textarea v-model="return_orderForm.comment" type="text" maxlength="400" placeholder="<?php _e('Explain further with 400 characters') ?>">
+            </textarea>
+        </div>
+
+
     </div>
-
-
     <div class="printNote">
-
         <div class="checkBox">
             <div class="pretty p-svg p-curve">
                 <input id="acceptPrint" required :value="false"  type="checkbox"/>
@@ -91,11 +98,7 @@
             <label for="acceptPrint">
                 <?php _e('Remember to print the return-order-note to make your return proces faster','wrm') ?>
             </label>
-
         </div>
-
-
-
     </div>
 
     <button :disabled="disabled" type="submit"><?php _e('Return order','wrm'); ?> </button>

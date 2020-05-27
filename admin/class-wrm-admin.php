@@ -94,9 +94,11 @@ class WRM_Admin{
                 'order_id'      =>$order->order_id,
                 'name'          =>$order->name,
                 'email'         =>$order->email,
+                'comment'       =>$order->comment,
                 'product_count' =>$order->amount_products_returned,
                 'products'      =>$products,
                 'created_at'    =>$created_at,
+                'showComment'   => false,
                 'showProduct'   =>false
             ];
 
