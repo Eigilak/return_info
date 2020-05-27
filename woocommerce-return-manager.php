@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Woocommerce return manager
  * Plugin URI:        eigilak.dk
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Use [wrm_shortcode] to setup the plugin
  * Version:           1.0.0
  * Author:            Eigilak
  * Author URI:        EigilAK
