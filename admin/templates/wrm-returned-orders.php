@@ -2,6 +2,9 @@
 <div class="wrm_admin">
     <div class="inner_wrm-app">
         <h1><?php _e('Woocommerce return manager') ?></h1>
+
+        <?php wc_get_template('settings.php','','',WRM_PATH.'/admin/templates/'); ?>
+
         <div class="controlPanel">
             <div class="returned-numbers">
                 <p>{{orders.length}} <?php _e('returned orderes') ?></p>

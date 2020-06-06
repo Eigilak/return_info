@@ -51,6 +51,7 @@ class WRM_Admin{
         wc_get_template('wrm-returned-orders.php','','',WRM_PATH.'/admin/templates/');
     }
 
+    /*Enqueu */
     function enqueue_scripts(){
         /*Styles*/
               wp_enqueue_style('wrm-admin-style',WRM_URL.'/admin/assets/scss/mainStyle.css',null,WRM_VERSION);
