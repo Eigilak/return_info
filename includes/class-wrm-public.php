@@ -59,7 +59,7 @@ class WRM_Public{
 		}
 
 		$order_id = _sanitize_text_fields($array_reponses['order_id']);
-		$customer_email = sanitize_email($array_reponses['customer_email']);
+		$customer_email = strtolower(sanitize_email($array_reponses['customer_email']));
 		$honeypot = _sanitize_text_fields($array_reponses['email2']);
 
 

@@ -78,6 +78,31 @@ register_activation_hook( __FILE__,function (){
     dbDelta( $sql );
 });
 
+
+register_activation_hook( __FILE__,function (){
+    global $wpdb;
+    $table_name = $wpdb->prefix.'woocommerce_return_manager_settings';
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE $table_name (
+			id bigint NOT NULL AUTO_INCREMENT,
+			pdf_image tinytext,
+			enable_recaptcha boolean,
+	
+			return_id bigint not NULL,
+			product_name tinytext NOT NULL,
+			product_id integer NOT NULL,
+			chosen_attribute1 tinytext,
+			chosen_attribute2 tinytext,
+			return_action tinytext NOT NULL,
+			return_type tinytext NOT NULL,
+			created_at timestamp DEFAULT current_timestamp,
+			PRIMARY KEY  (id),
+			FOREIGN key (return_id) references $referenceTable(id)
+ 		) $charset_collate";
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta( $sql );
+});
+
 add_filter( 'woocommerce_hide_invisible_variations', '__return_false', 10);
 
 
