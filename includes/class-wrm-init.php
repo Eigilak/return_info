@@ -37,7 +37,7 @@ class woocommerce_return_manager_init{
 	}
 
 	function load_lang(){
-		load_plugin_textdomain('wrm',false,WRM.'languages/wrm-da.po');
+		load_plugin_textdomain('wrm',false,WRM_PATH.'languages/wrm-da.po');
 	}
 
 }

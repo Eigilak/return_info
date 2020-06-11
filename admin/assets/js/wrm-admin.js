@@ -20,6 +20,13 @@ if(checkVueAdmin.length > 0){
                     deleteOrderForm: new Form({
                         id:'',
                         nonce: local.fc_nonce
+                    }),
+                    settingsForm: new Form({
+                        pdf_img:'',
+                        is_recaptcha_enabled:false,
+                        recaptcha:'',
+                        taxonomy1:'',
+                        taxonomy2:''
                     })
                 }
             },

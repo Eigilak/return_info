@@ -33,7 +33,7 @@
                     <select :required="order_product.enableReturn ? true : false" name="return_type" class="wrm-select" id="return_type" v-model="order_product.return_type" >
                         <option :value="this.initVal" > <?php _e('Choose reason to return','wrm'); ?>               </option>
                         <option value="<?php _e('Damaged','wrm') ?>"><?php _e('Damaged','wrm') ?>               </option>
-                        <option  value="<?php _e('Wrong size','wrm') ?>"><?php _e('Wrong size','wrm') ?>        </option>
+                        <option value="<?php _e('Wrong size','wrm') ?>"><?php _e('Wrong size','wrm') ?>        </option>
                         <option value="<?php _e('Regret purchase','wrm') ?>"><?php _e('Regret purchase','wrm') ?>      </option>
                         <option value="<?php _e('Plating rubs off','wrm') ?>"><?php _e('Plating rubs off','wrm') ?>     </option>
                         <option value="<?php _e('Jewelry didn\'t match pictures ','wrm') ?>"><?php _e('Jewelry didn\'t match pictures ','wrm') ?>     </option>
