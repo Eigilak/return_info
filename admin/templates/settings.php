@@ -2,12 +2,16 @@
 
 <div class="parent_settings">
     <div class="showSettings">
-        <button class="button action"> <?php _e('show settings','wrm') ?></button>
+        <button class="button action" @click="[ show_settings  ? show_settings=false : show_settings=true ]">
+            <span v-if="show_settings"> <?php _e('show settings','wrm')?></span>
+            <span v-if="!show_settings"> <?php _e('hide settings','wrm')?></span>
+
+        </button>
     </div>
 
     <div class="settingsOverlay">
         <div class="settings">
-            <form action="option.php" type="POST">
+            <form @submit.prevent="submit_settings" >
                 <h2> Woocommerce return manager <?php _e('settings','wrm') ?></h2>
 
                 <div class="field">
@@ -17,14 +21,14 @@
                             (<?php _e('Base64 format is needed','wrm') ?>)
                         </a>
                     </label>
-                    <input id="pdf_img" type="text">
+                    <input id="pdf_img" v-model="settings_Form.pdf_img" type="text">
                 </div>
 
                 <div class="field">
                     <label for="enable_recaptcha">
                         <?php _e('Do you want google recaptcha') ?>?
                     </label>
-                    <input type="checkbox" >
+                    <input type="checkbox" v-model="settings_Form.is_recaptcha_enabled">
                     <div class="enabledRecaptcha">
                         <label for="google_recapcha">
                             <?php _e('If you want recapcha on field fill','wrm') ?>
@@ -32,29 +36,45 @@
                                 (<?php _e('Find your api key','wrm') ?>)
                             </a>
                         </label>
-                        <input type="text" >
+                        <input type="text" v-model="settings_Form.recaptcha" >
                     </div>
                 </div>
-
 
                 <div class="field">
-                    <label for="taxonomu">
-                        <?php _e('Product attribute names') ?>
-                        <strong class="findGif">
-                            ( <?php _e('where do i find that?') ?> )
-                        </strong>
-                            <div class="findGif">
-                                <img src="" alt="">
-                            </div>
-                    </label>
+                    <label for="attribute_terms">
+                        <?php _e('Product attribute_terms') ?>
 
-                    <div class="enabledRecaptcha">
-                        <input type="text" placeholder="<?php _e('attribute 1') ?>" >
-                        <input type="text" placeholder="<?php _e('attribute 2')?>" >
+                    </label><strong class="findGif">
+                        ( <?php _e('where do i find that?') ?> )
+                    </strong>
+                    <div class="findGif">
+                        <img src="" alt="">
+                    </div>
+
+                    <div class="attribute_terms">
+                        <input id="attribute_terms" type="text" placeholder="<?php _e('attribute') ?> 1" v-model="settings_Form.attribute1" >
+                        <input type="text" placeholder="<?php _e('attribute')?> 2" v-model="settings_Form.attribute2" >
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="use_shipmondo">
+                        <?php _e('Use shipmondo?','wrm') ?>
+                    </label>
+                    <div class="use_shipmondo">
+                        <input id="use_shipmondo" type="checkbox">
                     </div>
 
                 </div>
 
+                <div class="field shipmondo_name">
+                    <label for="shipmondo_name"> Shipmondo <?php _e('name','wrm') ?>
+                    </label>
+                    <div class="shipmondo_name">
+                        <input id="use_shipmondo" type="text">
+                    </div>
+
+                </div>
 
 
 

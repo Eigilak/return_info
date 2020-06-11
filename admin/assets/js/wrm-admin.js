@@ -21,12 +21,16 @@ if(checkVueAdmin.length > 0){
                         id:'',
                         nonce: local.fc_nonce
                     }),
-                    settingsForm: new Form({
+                    show_settings:true,
+                    settings_Form: new Form({
                         pdf_img:'',
                         is_recaptcha_enabled:false,
+                        shipmondo_enabled:false,
+                        shipmondo_name:'',
                         recaptcha:'',
-                        taxonomy1:'',
-                        taxonomy2:''
+                        attribute1:'',
+                        attribute2:'',
+                        pdf_note_txt:''
                     })
                 }
             },
