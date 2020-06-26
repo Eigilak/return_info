@@ -87,7 +87,6 @@ register_activation_hook( __FILE__,function (){
 			id bigint NOT NULL AUTO_INCREMENT,
 			pdf_image tinytext,
 			enable_recaptcha boolean,
-	
 			return_id bigint not NULL,
 			product_name tinytext NOT NULL,
 			product_id integer NOT NULL,
@@ -97,7 +96,6 @@ register_activation_hook( __FILE__,function (){
 			return_type tinytext NOT NULL,
 			created_at timestamp DEFAULT current_timestamp,
 			PRIMARY KEY  (id),
-			FOREIGN key (return_id) references $referenceTable(id)
  		) $charset_collate";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta( $sql );

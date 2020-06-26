@@ -20,6 +20,7 @@ class WRM_Admin{
             add_action('admin_menu',array($this,'wrm_add_admin_menu'));
             add_action('init',array($this, 'load_ajax_method'));
             add_action('admin_enqueue_scripts',array($this,'enqueue_scripts'),1);
+
         /*    add_action('admin_init','wrm_settings_init');*/
         }
 
@@ -45,9 +46,12 @@ class WRM_Admin{
         add_action( 'wp_ajax_init_get_orders',      array( &$this, 'init_get_orders' ) );
         add_action( 'wp_ajax_search_orders',        array( &$this, 'search_orders' ) );
         add_action( 'wp_ajax_delete_order',        array( &$this, 'delete_order' ) );
+
+        wc_get_template('settings.php','','',WRM_PATH.'/admin/includes/');
     }
 
     function list_return_page(){
+
         wc_get_template('wrm-returned-orders.php','','',WRM_PATH.'/admin/templates/');
     }
 
@@ -131,6 +135,7 @@ class WRM_Admin{
         $deleteOrder = $wpdb->prepare("DELETE FROM {$wpdb->prefix}woocommerce_return_manager_order WHERE id=%d",$id);
 
         $is_deleted_product = $wpdb->query($deleteProduct);
+
         if(!$is_deleted_product){
             WRM_Core::error_404(__('We cant delete the product... try again ','wrm'));
         }
