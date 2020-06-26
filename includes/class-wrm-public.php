@@ -132,12 +132,20 @@ class WRM_Public{
 					}
 					$attributeArray[$taxonomy]=$uniqieVariation;
 				}
+
+				/*get settings array*/
+				$attribute1 = get_option('wrm_options_attribute1');
+				$attribute1_output = 'return_'.$attribute1;
+
+				$attribute2 = get_option('wrm_options_attribute2');
+				$attribute2_output = 'return_'.$attribute2;
+
 				$order_products_array[] = array(
 					'product_id' 	 => $item->get_product_id(),
 					'product_name'	 => $item->get_name(),
 					'attributes'	 => $attributeArray,
-					'return_size'	=> 'choose size',
-					'return_material'=>'Choose material'
+					$attribute1_output	=> _('choose','wrm').' '.$attribute1 ,
+					$attribute2_output  => _('choose','wrm').' '.$attribute2
 				);
 			}
 

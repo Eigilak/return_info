@@ -9,30 +9,11 @@
  */
 function wrm_settings_init() {
     // register a new setting for "wrm" page
-    register_setting( 'wrm', 'wrm_options' );
-
-    // register a new section in the "wrm" page
-    add_settings_section(
-        'wrm_section_developers',
-        '',
-        'wrm_section_developers_cb',
-        'wrm'
-    );
-
-    // register a new field in the "wrm_section_developers" section, inside the "wrm" page
-    add_settings_field(
-        'wrm_field_pill', // as of WP 4.6 this value is used only internally
-        // use $args' label_for to populate the id inside the callback
-        __( 'Pill', 'wrm' ),
-        'wrm_field_pill_cb',
-        'wrm',
-        'wrm_section_developers',
-        [
-            'label_for' => 'wrm_field_pill',
-            'class' => 'wrm_row',
-            'wrm_custom_data' => 'custom',
-        ]
-    );
+    register_setting( 'wrm', 'wrm_options_base64' );
+    register_setting( 'wrm', 'wrm_options_recaptcha' );
+    register_setting( 'wrm', 'wrm_options_attribute1' );
+    register_setting( 'wrm', 'wrm_options_attribute2' );
+    register_setting( 'wrm', 'wrm_options_shipmondo' );
 }
 
 /**
@@ -40,43 +21,24 @@ function wrm_settings_init() {
  */
 add_action( 'admin_init', 'wrm_settings_init' );
 
-/**
- * custom option and settings:
- * callback functions
- */
+function get_option_wrm($option_name){
 
-// developers section cb
+}
 
-// section callbacks can accept an $args parameter, which is an array.
-// $args have the following keys defined: title, id, callback.
-// the values are defined at the add_settings_section() function.
+
+function print_option_wrm($option_name){
+    echo esc_attr( get_option($option_name) );
+}
+
+
 function wrm_section_developers_cb( $args ) {
-    ?>
-    <p id="<?php echo esc_attr( $args['id'] ); ?>"><?php esc_html_e( 'Follow the white rabbit.', 'wrm' ); ?></p>
-    <?php
+
 }
 
 function wrm_field_pill_cb( $args ) {
     // get the value of the setting we've registered with register_setting()
     $options = get_option( 'wrm_options' );
     // output the field
-    ?>
-
-
-
-    <select id="<?php echo esc_attr( $args['label_for'] ); ?>"
-            data-custom="<?php echo esc_attr( $args['wrm_custom_data'] ); ?>"
-            name="wrm_options[<?php echo esc_attr( $args['label_for'] ); ?>]"
-    >
-        <option value="red" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'red', false ) ) : ( '' ); ?>>
-            <?php esc_html_e( 'red pill', 'wrm' ); ?>
-        </option>
-        <option value="blue" <?php echo isset( $options[ $args['label_for'] ] ) ? ( selected( $options[ $args['label_for'] ], 'blue', false ) ) : ( '' ); ?>>
-            <?php esc_html_e( 'blue pill', 'wrm' ); ?>
-        </option>
-    </select>
-
-    <?php
 }
 
 
@@ -102,17 +64,81 @@ function wrm_options_page_html() {
 
     settings_errors( 'wrm_messages' );
     ?>
-    <div class="wrap">
+    <div class="wrm_settings">
         <form action="options.php" method="post">
             <?php
             // output security fields for the registered setting "wrm"
             settings_fields( 'wrm' );
-            // output setting sections and their fields
-            // (sections are registered for "wrm", each field is registered to a specific section)
             do_settings_sections( 'wrm' );
-            // output save settings button
-            submit_button( 'Save Settings' );
             ?>
+            <div class="showSettings">
+                <div class="button action" @click="[ show_settings  ? show_settings=false : show_settings=true ]">
+                    <span v-if="show_settings"> <?php _e('False settings','wrm')?></span>
+                    <span v-if="!show_settings"> <?php _e('Show settings','wrm')?></span>
+
+                </div>
+            </div>
+
+
+            <div class="innerform" v-if="show_settings">
+
+                <h2> Woocommerce return manager <?php _e('settings','wrm') ?></h2>
+
+                <div class="field">
+                    <label for="pdf_img">
+                        <?php _e('Your image for the note of the PDF','wrm') ?>
+                        <a  target="_blank" href="https://www.base64-image.de/">
+                            (<?php _e('Base64 format is needed','wrm') ?>)
+                        </a>
+                    </label>
+                    <input id="pdf_img" name="wrm_options_base64" value="<?php print_option_wrm('wrm_options_base64');  ?>" type="text">
+                </div>
+
+                <div class="field">
+
+                    <div class="enabledRecaptcha">
+                        <label for="recapatcha">
+                            <?php _e('If you want recapcha on field fill','wrm') ?>
+                            <a target="_blank" href="https://www.google.com/recaptcha/intro/v3.html">
+                                (<?php _e('Find your api key','wrm') ?>)
+                            </a>
+                        </label>
+                        <input id="recapatcha" type="text" name="wrm_options_recaptcha" value="<?php print_option_wrm('wrm_options_recaptcha'); ?> "  >
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="attribute_terms">
+                        <?php _e('Product attribute_terms') ?>
+
+                    </label><strong class="findGif">
+                        ( <?php _e('where do i find that?') ?> )
+                    </strong>
+                    <div class="findGif">
+                        <img src="" alt="">
+                    </div>
+
+                    <div class="attribute_terms">
+                        <input type="text" name="wrm_options_attribute1" value="<?php print_option_wrm('wrm_options_attribute1'); ?>" >
+                        <input type="text" name="wrm_options_attribute2" value="<?php print_option_wrm('wrm_options_attribute2'); ?>"  >
+                    </div>
+                </div>
+
+                <div class="field shipmondo_name">
+                    <label for="shipmondo_name"> Shipmondo <?php _e('name','wrm') ?>
+                    </label>
+                    <div class="shipmondo_name">
+                        <input type="text" name="wrm_options_shipmondo" value="<?php print_option_wrm('wrm_options_shipmondo'); ?>">
+                    </div>
+
+                </div>
+
+                <?php
+                // output save settings button
+                submit_button( __('Save settings','wrm') );
+                ?>
+
+            </div>
         </form>
     </div>
     <?php

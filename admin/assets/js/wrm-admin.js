@@ -21,7 +21,7 @@ if(checkVueAdmin.length > 0){
                         id:'',
                         nonce: local.fc_nonce
                     }),
-                    show_settings:true,
+                    show_settings:false,
                     settings_Form: new Form({
                         pdf_img:'',
                         is_recaptcha_enabled:false,
