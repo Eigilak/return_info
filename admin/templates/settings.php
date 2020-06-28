@@ -1,6 +1,6 @@
 
 
-<div class="parent_settings">
+<div class="parent_settings" unselectable="on">
     <div class="showSettings">
         <button class="button action" @click="[ show_settings  ? show_settings=false : show_settings=true ]">
             <span v-if="show_settings"> <?php _e('show settings','wrm')?></span>
@@ -75,9 +75,6 @@
                     </div>
 
                 </div>
-
-
-
             </form>
         </div>
     </div>

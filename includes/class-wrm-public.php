@@ -250,9 +250,9 @@ class WRM_Public{
 			wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
 			wp_enqueue_script('wrm-js',WRM_URL.'/assets/js/wrm.js','',WRM_VERSION,true);
 			/*development*/
-			//wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
+			wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
 			/*production*/
-			wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
+			//wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
 
 			/*make pdf variables available in js*/
 			wp_localize_script( 'wrm-js', 'local',
@@ -271,7 +271,10 @@ class WRM_Public{
 					'action_title'		=> __('Return action','wrm'),
 					'reason_title'		=> __('Return cause','wrm'),
 					'size_title'		=> __('New size','wrm'),
-					'material_title'		=> __('New material','wrm'),
+					'material_title'	=> __('New material','wrm'),
+					'site_logo'			=> get_option('wrm_options_base64'),
+					'g_recaptcha'		=> get_option('wrm_options_recaptcha'),
+					'shipmondo_name'	=> get_option('wrm_options_shipmondo')
 				));
 		}
 	}

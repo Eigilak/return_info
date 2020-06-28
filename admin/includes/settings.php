@@ -119,8 +119,8 @@ function wrm_options_page_html() {
                     </div>
 
                     <div class="attribute_terms">
-                        <input type="text" name="wrm_options_attribute1" value="<?php print_option_wrm('wrm_options_attribute1'); ?>" >
-                        <input type="text" name="wrm_options_attribute2" value="<?php print_option_wrm('wrm_options_attribute2'); ?>"  >
+                        <input type="text" name="wrm_options_attribute1" placeholder="<?php _e('attribute','wrm') ?>1" value="<?php print_option_wrm('wrm_options_attribute1'); ?>" >
+                        <input type="text" name="wrm_options_attribute2" placeholder="<?php _e('attribute','wrm') ?>2" value="<?php print_option_wrm('wrm_options_attribute2'); ?>"  >
                     </div>
                 </div>
 
