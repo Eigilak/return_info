@@ -1,10 +1,14 @@
-<script src="https://www.google.com/recaptcha/api.js?render=6LeCKvgUAAAAANrj6FzsYqF9j6vpGCjmDgZJ6hGE"></script>
+
+<?php $sitekey = get_option('wrm_options_recaptcha') ?>
+<script
+        src="https://www.google.com/recaptcha/api.js?render=<?=$sitekey?>"
+></script>
 
 
 <div class="woocommerce_return_manager">
     <div class="wrm_app">
         <div class="header">
-            <h3><?=  get_the_title() ?> - <?php _e('Return your order','wrm')  ?></h3>
+            <h3> <?php _e('Return your order','wrm')  ?></h3>
         </div>
         <div class="content">
             <div class="steps">

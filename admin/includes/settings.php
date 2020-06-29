@@ -11,9 +11,12 @@ function wrm_settings_init() {
     // register a new setting for "wrm" page
     register_setting( 'wrm', 'wrm_options_base64' );
     register_setting( 'wrm', 'wrm_options_recaptcha' );
+    register_setting( 'wrm', 'wrm_options_enable_recaptcha' );
     register_setting( 'wrm', 'wrm_options_attribute1' );
     register_setting( 'wrm', 'wrm_options_attribute2' );
     register_setting( 'wrm', 'wrm_options_shipmondo' );
+    register_setting('wrm','wrm_options_free_return');
+    register_setting('wrm','wrm_options_claim');
 }
 
 /**
@@ -73,7 +76,7 @@ function wrm_options_page_html() {
             ?>
             <div class="showSettings">
                 <div class="button action" @click="[ show_settings  ? show_settings=false : show_settings=true ]">
-                    <span v-if="show_settings"> <?php _e('False settings','wrm')?></span>
+                    <span v-if="show_settings"> <?php _e('Hide settings','wrm')?></span>
                     <span v-if="!show_settings"> <?php _e('Show settings','wrm')?></span>
 
                 </div>
@@ -95,7 +98,18 @@ function wrm_options_page_html() {
                 </div>
 
                 <div class="field">
+                    <div class="enabledRecaptcha">
+                        <label for="recapatcha">
+                            <?php _e('Enable Google recaptcha','wrm') ?>
+                            <a target="_blank" href="https://www.google.com/recaptcha/intro/v3.html">
+                                (<?php _e('Find your api key','wrm') ?>)
+                            </a>
+                        </label>
+                        <input id="recapatcha" type="checkbox" name="wrm_options_enable_recaptcha" value="<?php print_option_wrm('wrm_options_enable_recaptcha'); ?> "  >
+                    </div>
+                </div>
 
+                <div class="field" >
                     <div class="enabledRecaptcha">
                         <label for="recapatcha">
                             <?php _e('If you want recapcha on field fill','wrm') ?>
@@ -106,6 +120,8 @@ function wrm_options_page_html() {
                         <input id="recapatcha" type="text" name="wrm_options_recaptcha" value="<?php print_option_wrm('wrm_options_recaptcha'); ?> "  >
                     </div>
                 </div>
+
+
 
                 <div class="field">
                     <label for="attribute_terms">
@@ -130,7 +146,13 @@ function wrm_options_page_html() {
                     <div class="shipmondo_name">
                         <input type="text" name="wrm_options_shipmondo" value="<?php print_option_wrm('wrm_options_shipmondo'); ?>">
                     </div>
-
+                </div>
+                <div class="field shipmondo_name">
+                    <label for="shipmondo_name"> Full return periode <?php _e('name','wrm') ?>
+                    </label>
+                    <div class="shipmondo_name">
+                        <input type="number" name="wrm_options_free_return" value="<?php print_option_wrm('wrm_options_free_return'); ?>">
+                    </div>
                 </div>
 
                 <?php

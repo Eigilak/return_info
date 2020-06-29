@@ -81,6 +81,22 @@ class WRM_Public{
 		if($customer_email != $order->get_billing_email()){
 			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
+		$ordered_date = strtotime($order->order_date);
+
+		$today = strtotime("now");
+
+		$days = floor( ($today-$ordered_date)/ (24*60*60));
+
+		/*Options*/
+
+		$claim_years = get_option('wrm_options_claim');
+		$free_return_days = get_option('wrm_options_free_return');
+
+		if($days <= $free_return_days){
+
+			WRM_Core::error_404(__('Sorry, it seems that your free return periode have experiered, do you wish to proceed?','wrm'));
+
+		}
 
 
 		/*Mit über loop hvor jeg kigger på produkterne kunde har købt*/
