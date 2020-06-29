@@ -5,6 +5,7 @@ $site_color: black;
   top: 37rem!important;
 }
 
+
 .woocommerce_return_manager{
   padding: 1rem;
   min-height: 100vh;
@@ -221,4 +222,51 @@ $site_color: black;
   .wrm-select option {
     font-weight: normal;
   }
+
+  .order_notice{
+    .inner_order_notice{
+      height: 100%;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-backface-visibility: hidden;
+
+      .content{
+        text-align: center;
+        width: 30%;
+        background: white;
+        padding: 2rem;
+        p{
+          padding: 0.5rem;
+        }
+        a{
+          font-weight: bold;
+        }
+
+        .button{
+          margin-top: 1rem;
+          cursor: pointer;
+          border: 1px solid $site_color;
+        }
+      }
+
+
+    }
+
+
+  }
+
+  [v-cloak] {
+    display: none;
+  }
+
+
 }

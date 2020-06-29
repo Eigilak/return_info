@@ -42,6 +42,62 @@
                 </div>
             </div>
 
+
+
+        </div>
+
+        <div v-show="check_order_date.claim_return_days || check_order_date.free_return_days"
+             class="order_notice" v-cloak>
+            <div class="inner_order_notice">
+                <div class="content">
+                    <h3><?php _e('Return policy notice','wrm') ?></h3>
+
+                    <div class="text" style="text-decoration: underline">
+                        <p>
+                            <span v-if="check_order_date.claim_return_days">
+                                <?php
+                                _e('Your request exceed our right of complaint periode','wrm');
+                                echo '('.get_option('wrm_options_claim_period').__('years','wrm').')'
+                                ?>
+                            </span>
+                                    <span v-if="check_order_date.free_return_days">
+                                <?php
+                                _e('Your request exceed our right of cancellation periode','wrm');
+                                echo "( ";
+                                echo get_option('wrm_options_free_return_period');
+                                _e('days','wrm');
+                                echo " )";
+                                ?>
+                            </span>
+                        </p>
+
+
+                    </div>
+
+                    <div class="policy">
+                        <p>
+                            <?php _e('Please read more at our terms and conditions if needed','wrm'); echo ':'?>
+                            <br>
+                            <strong>
+                                <?php
+                                $terms_page_id   = wc_terms_and_conditions_page_id();
+                                echo '<a href="' . esc_url( get_permalink( $terms_page_id ) ) . '" class="woocommerce-terms-and-conditions-link" target="_blank">' . __( 'terms and conditions', 'woocommerce' ) . '</a>'
+                                ?>
+                            </strong>
+
+                        </p>
+
+                    </div>
+
+                    <div class=" proceed button action" @click="close_policy_notice">
+                        <p>
+                            <?php _e('I understand','wrm') ?>
+                        </p>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>

@@ -368,6 +368,41 @@
   .woocommerce_return_manager .wrm-select option {
     font-weight: normal;
   }
+  .woocommerce_return_manager .order_notice .inner_order_notice {
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-backface-visibility: hidden;
+  }
+  .woocommerce_return_manager .order_notice .inner_order_notice .content {
+    text-align: center;
+    width: 30%;
+    background: white;
+    padding: 2rem;
+  }
+  .woocommerce_return_manager .order_notice .inner_order_notice .content p {
+    padding: 0.5rem;
+  }
+  .woocommerce_return_manager .order_notice .inner_order_notice .content a {
+    font-weight: bold;
+  }
+  .woocommerce_return_manager .order_notice .inner_order_notice .content .button {
+    margin-top: 1rem;
+    cursor: pointer;
+    border: 1px solid black;
+  }
+  .woocommerce_return_manager [v-cloak] {
+    display: none;
+  }
 }
 /**
  * pretty-checkbox.css

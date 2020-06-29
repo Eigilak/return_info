@@ -15,8 +15,8 @@ function wrm_settings_init() {
     register_setting( 'wrm', 'wrm_options_attribute1' );
     register_setting( 'wrm', 'wrm_options_attribute2' );
     register_setting( 'wrm', 'wrm_options_shipmondo' );
-    register_setting('wrm','wrm_options_free_return');
-    register_setting('wrm','wrm_options_claim');
+    register_setting('wrm','wrm_options_free_return_period');
+    register_setting('wrm','wrm_options_claim_period');
 }
 
 /**
@@ -148,10 +148,17 @@ function wrm_options_page_html() {
                     </div>
                 </div>
                 <div class="field shipmondo_name">
-                    <label for="shipmondo_name"> Full return periode <?php _e('name','wrm') ?>
+                    <label for="shipmondo_name">  <?php _e('Full return periode','wrm'); echo '('; _e('days'); echo ')' ?>
                     </label>
                     <div class="shipmondo_name">
-                        <input type="number" name="wrm_options_free_return" value="<?php print_option_wrm('wrm_options_free_return'); ?>">
+                        <input type="number" name="wrm_options_free_return_period" value="<?php print_option_wrm('wrm_options_free_return_period'); ?>">
+                    </div>
+                </div>
+                <div class="field shipmondo_name">
+                    <label for="shipmondo_name">  <?php _e('Claim return periode','wrm'); echo '('; _e('years'); echo ')' ?>
+                    </label>
+                    <div class="shipmondo_name">
+                        <input type="number" name="wrm_options_claim_period" value="<?php print_option_wrm('wrm_options_claim_period'); ?>">
                     </div>
                 </div>
 

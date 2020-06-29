@@ -37,9 +37,11 @@ class WRM_Public{
 
 	function load_ajax_method(){
         if ( !is_user_logged_in() ){
-            add_action( 'wp_ajax_nopriv_get_customer_by_id_and_email', array( &$this, 'get_customer_by_id_and_email' ) );
+            add_action( 'wp_ajax_nopriv_get_customer_by_id_and_email', array( $this, 'get_customer_by_id_and_email' ) );
+            add_action( 'wp_ajax_nopriv_check_order_date', array( $this, 'check_order_date' ) );
         } else{
-            add_action( 'wp_ajax_get_customer_by_id_and_email',        array( &$this, 'get_customer_by_id_and_email' ) );
+            add_action( 'wp_ajax_get_customer_by_id_and_email',        array( $this, 'get_customer_by_id_and_email' ) );
+            add_action( 'wp_ajax_check_order_date',        array( $this, 'check_order_date' ) );
         }
     }
 
@@ -81,23 +83,6 @@ class WRM_Public{
 		if($customer_email != $order->get_billing_email()){
 			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
-		$ordered_date = strtotime($order->order_date);
-
-		$today = strtotime("now");
-
-		$days = floor( ($today-$ordered_date)/ (24*60*60));
-
-		/*Options*/
-
-		$claim_years = get_option('wrm_options_claim');
-		$free_return_days = get_option('wrm_options_free_return');
-
-		if($days <= $free_return_days){
-
-			WRM_Core::error_404(__('Sorry, it seems that your free return periode have experiered, do you wish to proceed?','wrm'));
-
-		}
-
 
 		/*Mit über loop hvor jeg kigger på produkterne kunde har købt*/
 		foreach ($order->get_items() as $item_id => $item){
@@ -151,10 +136,10 @@ class WRM_Public{
 
 				/*get settings array*/
 				$attribute1 = get_option('wrm_options_attribute1');
-				$attribute1_output = 'return_'.$attribute1;
+				$attribute1_output = 'return '.$attribute1;
 
 				$attribute2 = get_option('wrm_options_attribute2');
-				$attribute2_output = 'return_'.$attribute2;
+				$attribute2_output = 'return '.$attribute2;
 
 				$order_products_array[] = array(
 					'product_id' 	 => $item->get_product_id(),
@@ -164,14 +149,62 @@ class WRM_Public{
 					$attribute2_output  => _('choose','wrm').' '.$attribute2
 				);
 			}
-
-
 		}
 
 		wp_send_json_success($order_products_array);
 
 		wp_die();
     }
+
+    function check_order_date(){
+		$JSON_response='';
+		$array_reponses='';
+
+		$JSON_response = $_REQUEST['check_order_date_JSON'];
+		$array_reponses = json_decode(stripslashes($JSON_response),true);
+		$nonce = _sanitize_text_fields($array_reponses['nonce']);
+		/*Check if the nonce from the site is the same generated from wordpress*/
+		if(!isset($nonce) || !wp_verify_nonce($nonce)){
+			WRM_Core::error_404(__('Hmmm... seems your nonce doesnt fit ours ','wrm'));
+		}
+
+		$order_id = _sanitize_text_fields($array_reponses['order_id']);
+
+		try{
+			$order = new WC_Order($order_id);
+		} catch (Exception $e){
+			WRM_Core::error_404(__('Sorry, we cannot find that order','wrm'));
+		}
+
+		$secondsCompare = strtotime("now") - strtotime($order->order_date);
+
+		/*Days from created order to today*/
+		$days = $secondsCompare/(24*60*60);
+
+		/*years since the order got created*/
+		$years = $secondsCompare/(24*60*60*365);
+
+		$free_return_days=false;
+		$claim_return_days=false;
+
+		if($days >= get_option('wrm_options_free_return_period') && $years <= get_option('wrm_options_claim_period')){
+			$free_return_days = true;
+			$claim_return_days = false;
+		}
+		elseif ($days >= get_option('wrm_options_free_return_period') && $years >= get_option('wrm_options_claim_period')){
+			$free_return_days = false;
+			$claim_return_days = true;
+		}
+
+		$checkDate_send_Array = array(
+			'free_return_days' =>$free_return_days,
+			'claim_return_days'	=>$claim_return_days
+
+		);
+		wp_send_json_success($checkDate_send_Array);
+
+
+	}
 
     function create_return_request(){
 		global $wpdb;

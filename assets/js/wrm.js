@@ -22,8 +22,8 @@ if (checkVueEl.length > 0) {
                 },
                 enableLoading:false,
                 find_orderForm: new Form({
-                    customer_email: 'mm@lundbrandhouse.dk',
-                    order_id: '15820',
+                    customer_email: '',
+                    order_id: '',
                     nonce:local.fc_nonce,
                     email2:''
                 }),
@@ -33,6 +33,12 @@ if (checkVueEl.length > 0) {
                     comment:'',
                     order_products:{},
                     nonce:local.fc_nonce,
+                }),
+                check_order_date: new Form({
+                    nonce:local.fc_nonce,
+                    order_id:'',
+                    free_return_days:'',
+                    complaint_years:''
                 })
             }
         },
@@ -56,27 +62,58 @@ if (checkVueEl.length > 0) {
                         that.find_orderForm
                             .post(local.ajax_url, params)
                             .then(
-                                (
+                                  (
                                     response => (
-                                        that.stop_loading(),
                                         that.return_orderForm.order_products =response.data,
-                                            that.afterFindCustomer(response.success)
+                                            that.afterFindCustomer(response.success),
+                                        that.check_purchase_method()
                                     )
-                                ),
-                            )
+                                  ),
+                            ).catch(
+                                setTimeout(function () {
+                                    that.loading=false
+                                },1200)
+                        )
                     });
                 });
             },
-            stop_loading(){ this.loading=false}
-            ,
+            check_purchase_method(){
+
+                this.check_order_date.order_id = this.find_orderForm.order_id
+
+                var JSON_response='';
+                JSON_response = JSON.stringify(this.check_order_date);
+                var params = new URLSearchParams();
+                params.append('check_order_date_JSON', JSON_response);
+                params.append('action', 'check_order_date');
+
+                this.check_order_date
+                    .post(local.ajax_url,params)
+                    .then
+                    (
+                        (
+                            response =>(
+                                this.check_order_date = response.data
+                            )
+                        )
+                    ).catch(
+                        response =>(
+                            console.log(response.data)
+                        )
+                    )
+            },
             afterFindCustomer(response){
                 if(response === true){
                     this.return_orderForm.return_order_id =this.find_orderForm.order_id;
                     this.step1=false;
                     this.step2=true;
-
                 }
             },
+            close_policy_notice(){
+             this.check_order_date.claim_return_days = false
+             this.check_order_date.free_return_days = false
+            }
+            ,
             enable_select(){
                 setTimeout(function () {
                     $('#return_type , #return_action').select2({
@@ -88,9 +125,7 @@ if (checkVueEl.length > 0) {
             },
             submit_return_order_form: async function () {
                 /*Array af order skal laves til JSON*/
-
                 this.disabled = true;
-
                 var JSON_response='';
                 JSON_response = JSON.stringify(this.return_orderForm);
                 var params = new URLSearchParams();
