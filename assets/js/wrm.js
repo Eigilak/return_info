@@ -22,8 +22,8 @@ if (checkVueEl.length > 0) {
                 },
                 enableLoading:false,
                 find_orderForm: new Form({
-                    customer_email: '',
-                    order_id: '',
+                    customer_email: 'ek@lundbrandhouse.dk',
+                    order_id: '16752',
                     nonce:local.fc_nonce,
                     email2:''
                 }),
@@ -57,25 +57,46 @@ if (checkVueEl.length > 0) {
                 params.append('action', 'get_customer_by_id_and_email');
                 params.append('Content-Type','application/x-www-form-urlencoded');
                 that = this
-                grecaptcha.ready(function() {
-                    grecaptcha.execute(local.g_recaptcha, {action: 'submit'}).then(function(token) {
-                        that.find_orderForm
-                            .post(local.ajax_url, params)
-                            .then(
-                                  (
-                                    response => (
-                                        that.return_orderForm.order_products =response.data,
-                                            that.afterFindCustomer(response.success),
-                                        that.check_purchase_method()
-                                    )
-                                  ),
-                            ).catch(
+
+                /*If google recpatcha is filled use the google recaptcha*/
+                if(local.g_recaptcha){
+                    grecaptcha.ready(function() {
+                        grecaptcha.execute(local.g_recaptcha, {action: 'submit'}).then(function(token) {
+                            that.find_orderForm
+                                .post(local.ajax_url, params)
+                                .then(
+                                    (
+                                        response => (
+                                            that.return_orderForm.order_products =response.data,
+                                                that.afterFindCustomer(response.success),
+                                                that.check_purchase_method()
+                                        )
+                                    ),
+                                ).catch(
                                 setTimeout(function () {
                                     that.loading=false
                                 },1200)
-                        )
+                            )
+                        });
                     });
-                });
+                }else {
+                    that.find_orderForm
+                        .post(local.ajax_url, params)
+                        .then(
+                            (
+                                response => (
+                                    that.return_orderForm.order_products =response.data,
+                                        that.afterFindCustomer(response.success),
+                                        that.check_purchase_method()
+                                )
+                            ),
+                        ).catch(
+                        setTimeout(function () {
+                            that.loading=false
+                        },1200)
+                    )
+                }
+
             },
             check_purchase_method(){
 
@@ -144,7 +165,8 @@ if (checkVueEl.length > 0) {
                             this.afterReturn(response.success)
                         ))
                     )
-            }, afterReturn(response){
+            },
+            afterReturn(response){
                 if(response === true){
                     that = this;
                     /*Sæt et interval op at vent til at object customer er sat indtil da vent*/
@@ -159,7 +181,11 @@ if (checkVueEl.length > 0) {
                             }
                             return;
                         }
-                        that.shipmondo_modul();
+
+                        if(local.shipmondo_name){
+                            that.shipmondo_modul();
+                        }
+
                         that.order_note_pdf()
                         that.return_orderForm.requestGot=true;
                         clearInterval(interval);

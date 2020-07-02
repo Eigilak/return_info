@@ -1,9 +1,13 @@
 
-<?php $sitekey = get_option('wrm_options_recaptcha') ?>
-<script
-        src="https://www.google.com/recaptcha/api.js?render=<?=$sitekey?>"
-></script>
 
+
+<?php if(get_option('wrm_options_enable_recaptcha'))  : ?>
+    <?php $sitekey = get_option('wrm_options_recaptcha') ?>
+    <script
+            src="https://www.google.com/recaptcha/api.js?render=<?=$sitekey?>"
+    ></script>
+<?php endif ?>
+<!--6LeCKvgUAAAAANrj6FzsYqF9j6vpGCjmDgZJ6hGE -->
 
 <div class="woocommerce_return_manager">
     <div class="wrm_app">

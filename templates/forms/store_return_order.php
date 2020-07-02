@@ -48,7 +48,7 @@
                             ]">
                         <option :value="this.initVal" ><?php _e('Choose action','wrm'); ?>                              </option>
                         <option value="<?php _e('Money back','wrm') ?>"><?php _e('Money back','wrm') ?>             </option>
-                        <option :disabled="!order_product.attributes.pa_stoerrelse" value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?>                 </option>
+                        <option :disabled="!order_product.attributes.attribute1" value="<?php _e('New size','wrm') ?>"><?php _e('New size','wrm') ?>                 </option>
                         <option value="<?php _e('Another material','wrm') ?>"><?php _e('Another material','wrm') ?> </option>
                         <option value="<?php _e('Same product','wrm') ?>"><?php _e('Same product','wrm') ?> </option>
                         <option value="<?php _e('Voucher','wrm') ?>"><?php _e('Voucher','wrm') ?></option>
@@ -56,7 +56,9 @@
 
                     <select name="return_size" class="wrm-select " v-show="order_product.ShowSize" @change="order_product.return_size= $event.target.value" :required="order_product.ShowSize" >
                         <option  value=""> <?php _e('Choose size','wrm')?></option>
-                        <option :value="product_size" v-for="(product_size, index) in order_product.attributes.pa_stoerrelse" :key="index">{{product_size}}</option>
+                        <option :value="product_size" v-for="(product_size, index) in order_product.attributes[0].[0]" :key="index">
+                            {{product_size}}
+                        </option>
                     </select>
                     <input type="text" hidden v-model="order_product.return_size" >
 

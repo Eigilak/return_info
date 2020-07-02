@@ -62,9 +62,9 @@ class WRM_Admin{
 
         /*Scripts*/
         /*development*/
-           wp_enqueue_script('vue',WRM_URL.'/admin/assets/js/frameworks/vue.js','',WRM_VERSION,false);
+          // wp_enqueue_script('vue',WRM_URL.'/admin/assets/js/frameworks/vue.js','',WRM_VERSION,false);
         /*production*/
-        // wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
+         wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
 
         wp_enqueue_script('wrm-forms',WRM_URL.'/admin/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
         wp_enqueue_script('wrm-admin-js',WRM_URL.'/admin/assets/js/wrm-admin.js','',WRM_VERSION,true);

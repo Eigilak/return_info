@@ -80,7 +80,10 @@ class WRM_Public{
 		} catch (Exception $e){
 			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
-		if($customer_email != $order->get_billing_email()){
+
+		$lower_billing_email = strtolower($order->get_billing_email());
+
+		if($customer_email != $lower_billing_email){
 			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
 
@@ -94,6 +97,7 @@ class WRM_Public{
 			/*Vi henter produktets attributter*/
 			$attributes = $product->get_attributes();
 
+			$counter=0;
 
 			if ($product->is_type( 'variable' )){
 				/*For hver attribut loop*/
@@ -113,7 +117,6 @@ class WRM_Public{
 
 						$stock_status = $variation_obj->get_stock_quantity();
 
-
 						/*Vi henter variationen ud fra attribut*/
 						$meta = get_post_meta($variation['variation_id'], 'attribute_' . $taxonomy, true);
 						$variationsVariable = get_term_by('slug', $meta, $taxonomy);
@@ -131,7 +134,12 @@ class WRM_Public{
 						$variationArray[]=$name.' '.$stock_status_text;
 						$uniqieVariation =array_unique($variationArray);
 					}
-					$attributeArray[$taxonomy]=$uniqieVariation;
+
+					$counter++;
+
+					$attribute = 'attribute'.$counter;
+
+					$attributeArray[$attribute]=$uniqieVariation;
 				}
 
 				/*get settings array*/
