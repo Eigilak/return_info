@@ -139,7 +139,7 @@ class WRM_Public{
 
 					$attribute = 'attribute'.$counter;
 
-					$attributeArray[$attribute]=$uniqieVariation;
+					$attributeArray[$taxonomy]=$uniqieVariation;
 				}
 
 				/*get settings array*/
