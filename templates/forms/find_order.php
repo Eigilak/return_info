@@ -16,9 +16,9 @@
 
     <input type="text" hidden name="find_customer_nonce"  v-model="find_orderForm.nonce">
 
-    <span v-if="loading">Loading.... </span>
+    <span v-cloak v-if="loading">Loading.... </span>
     <button :disabled="disabled" type="submit">
-        <span v-if="disabled"> <?php _e('Too many attempts','wrm') ?> </span>
+        <span v-cloak v-if="disabled"> <?php _e('Too many attempts','wrm') ?> </span>
         <span v-if="!disabled"> <?php _e('Find my order','wrm'); ?> </span>
 
     </button>

@@ -17,6 +17,7 @@ function wrm_settings_init() {
     register_setting( 'wrm', 'wrm_options_shipmondo' );
     register_setting('wrm','wrm_options_free_return_period');
     register_setting('wrm','wrm_options_claim_period');
+
 }
 
 /**
