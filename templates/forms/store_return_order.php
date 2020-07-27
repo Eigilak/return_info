@@ -1,4 +1,3 @@
-
 <form  @submit.prevent="submit_return_order_form" @change="disabled = false" @keydown="find_orderForm.errors.clear('errors')" >
     <p><?php _e('Your order number','wrm') ?>: {{find_orderForm.order_id}}</p>
     <div class="input">
@@ -43,7 +42,7 @@
                     <select :required="order_product.enableReturn ? true : false" name="return_action" class="wrm-select" id="return_action"
                             v-model="order_product.return_action"
                             @change="[
-                            $event.target.selectedIndex == 2 ? order_product.ShowSize=true     : order_product.ShowSize=false,     order_product.return_size='' ,
+                            $event.target.selectedIndex == 2 ||$event.target.selectedIndex == 4 ? order_product.ShowSize=true     : order_product.ShowSize=false,     order_product.return_size='' ,
                             $event.target.selectedIndex == 3 ? order_product.ShowMaterial=true : order_product.ShowMaterial=false, order_product.return_material='',
                             ]">
                         <option :value="this.initVal" ><?php _e('Choose action','wrm'); ?>                              </option>

@@ -1,6 +1,17 @@
 .wrm_admin {
   padding-right: 1rem;
 }
+.wrm_admin .showDiv {
+  display: flex !important;
+}
+.wrm_admin .is_empty {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  width: 50%;
+  margin: 1rem auto;
+}
 .wrm_admin .hide {
   display: none;
 }
@@ -18,8 +29,22 @@
 .wrm_admin .controlPanel .search input {
   width: 100%;
 }
+.wrm_admin .header {
+  text-align: center;
+}
+.wrm_admin .header th {
+  text-align: center !important;
+}
 .wrm_admin .orderItem {
   position: relative;
+  text-align: center;
+}
+.wrm_admin .orderItem .delete_order {
+  position: relative;
+}
+.wrm_admin .orderItem .delete_order span {
+  display: flex;
+  position: absolute;
 }
 .wrm_admin .orderItem .products {
   background: white;
@@ -34,6 +59,7 @@
   padding-right: 1rem;
 }
 .wrm_admin .orderItem .products tr, .wrm_admin .orderItem .products td, .wrm_admin .orderItem .products th {
+  text-align: center !important;
   background: #f3f5f6;
   border-color: #007cba;
   color: #016087;
@@ -41,8 +67,21 @@
   outline: 2px solid transparent;
   outline-offset: 0;
 }
+.wrm_admin .orderItem .products th {
+  font-weight: 600;
+}
 .wrm_admin .orderItem .emptyField {
-  background: #007cba;
+  background: #007cba !important;
+}
+.wrm_admin .wrm_settings {
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */
 }
 .wrm_admin .pagination {
   display: flex;

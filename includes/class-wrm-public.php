@@ -80,8 +80,12 @@ class WRM_Public{
 		} catch (Exception $e){
 			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
 		}
-		if($customer_email != $order->get_billing_email()){
+		
+		$lower_billing_email = strtolower($order->get_billing_email());
+
+		if($customer_email != $lower_billing_email){
 			WRM_Core::error_404(__('Sorry, we cannot find an order that matches that email','wrm'));
+
 		}
 
 		/*Mit über loop hvor jeg kigger på produkterne kunde har købt*/
@@ -299,9 +303,9 @@ class WRM_Public{
 			wp_enqueue_script('vueforms',WRM_URL.'/assets/js/frameworks/vue_forms.js','',WRM_VERSION,true);
 			wp_enqueue_script('wrm-js',WRM_URL.'/assets/js/wrm.js','',WRM_VERSION,true);
 			/*development*/
-			wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
+			//wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue.js','',WRM_VERSION,false);
 			/*production*/
-			//wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
+			wp_enqueue_script('vue',WRM_URL.'/assets/js/frameworks/vue_production.min.js','',WRM_VERSION,false);
 
 			/*make pdf variables available in js*/
 			wp_localize_script( 'wrm-js', 'local',
